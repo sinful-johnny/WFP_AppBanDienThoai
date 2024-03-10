@@ -3,4 +3,4 @@
 #ignore .vs files
 **/HW4/.vs
 #ignore debug files
-**/HW4/HW4/obj/Debug/
+**/HW4/HW4/obj/
