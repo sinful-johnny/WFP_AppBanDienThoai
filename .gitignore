@@ -1,2 +1,6 @@
-./HW4/HW4/bin/*
-./HW4/.vs/*
+#ignore build files
+**/HW4/HW4/bin
+#ignore .vs files
+**/HW4/.vs
+#ignore debug files
+**/HW4/HW4/obj/Debug/
