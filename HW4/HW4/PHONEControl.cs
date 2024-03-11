@@ -14,7 +14,7 @@ namespace HW4
     {
         private string _ConnectionString { get; set; }
         public PHONEControl(string Username,string Password) {
-            _ConnectionString = $"""Server=DESKTOP-CDH2DEU\SQLSERVER;Database=QLDTHOAI;User ID= sa; Password= 123; TrustServerCertificate=True""";
+            _ConnectionString = $"""Server=DESKTOP-CDH2DEU\SQLSERVER;Database=QLDTHOAI;User ID= {Username}; Password= {Password}; TrustServerCertificate=True""";
         }
 
         public BindingList<PHONE> GetPHONEsByManufacturer(string manufacturer)
@@ -23,7 +23,7 @@ namespace HW4
             using (var connection = new SqlConnection(_ConnectionString))
             {
 
-                string sql = $"select * from PHONE where MANUFACTURER=@Manufacturer";
+                string sql = $"select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE from PHONE, MANUFACTURER as M where PHONE.MANUFACTURER_ID = M.ID and M.NAME=@Manufacturer";
                 connection.Open();
                 var command = new SqlCommand(sql, connection);
                 command.Parameters.Add("@Manufacturer", SqlDbType.Text).Value = manufacturer;
@@ -49,7 +49,6 @@ namespace HW4
         {
             using (var connection = new SqlConnection(_ConnectionString))
             {
-
                 string sql = $"select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE from PHONE, MANUFACTURER as M where PHONE.MANUFACTURER_ID = M.ID";
                 connection.Open();
                 var command = new SqlCommand(sql, connection);
@@ -66,7 +65,6 @@ namespace HW4
                         Thumbnail = (string)reader["THUMBNAIL"],
                         Price = (double)reader["PRICE"]
                     });
-                    
                 }
                 return phones;
             }
