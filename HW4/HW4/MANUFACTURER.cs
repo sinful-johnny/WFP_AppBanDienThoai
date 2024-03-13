@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HW4
 {
-    internal class MANUFACTURER : INotifyPropertyChanged,ICloneable
+    public class MANUFACTURER : INotifyPropertyChanged,ICloneable
     {
         public int ID { get; set; }
         public string Name { get; set; }

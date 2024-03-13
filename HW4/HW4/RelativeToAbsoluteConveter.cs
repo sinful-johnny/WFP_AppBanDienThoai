@@ -20,7 +20,10 @@ namespace HW4
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string absolute = (string)value;
+            string local = absolute.Split("\\./")[1];
+            string relative = $"./{local}";
+            return relative;
         }
     }
 }

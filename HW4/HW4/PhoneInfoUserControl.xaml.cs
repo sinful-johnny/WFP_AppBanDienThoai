@@ -23,6 +23,7 @@ namespace HW4
         public PhoneInfoUserControl()
         {
             InitializeComponent();
+
         }
     }
 }

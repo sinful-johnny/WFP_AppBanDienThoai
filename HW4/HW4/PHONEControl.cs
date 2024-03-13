@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace HW4
 {
-    internal class PHONEControl(SqlConnection connection)
+    public class PHONEControl(SqlConnection connection)
     {
         SqlConnection _connection = connection;
 
@@ -161,6 +163,56 @@ namespace HW4
             }
             var result = new Tuple<BindingList<PHONE>, int, int>(phones, totalItems, totalPages);
             return result;
+        }
+
+        public int InsertPHONE(string name, int ManufacturerID, string Thumbnail, double Price)
+        {
+            string query = """
+                Insert into PHONE(NAME,MANUFACTURER_ID,THUMBNAIL,PRICE)
+                values(@NAME,@MANUFACTURER_ID,@THUMBNAIL,@PRICE)
+                """;
+            int id;
+
+            using (var cmd = new SqlCommand(query, _connection))
+            {
+                cmd.Parameters.Add("@NAME",SqlDbType.VarChar).Value = name;
+                cmd.Parameters.Add("@MANUFACTURER_ID", SqlDbType.Int).Value = ManufacturerID;
+                cmd.Parameters.Add("@THUMBNAIL", SqlDbType.VarChar).Value = Thumbnail;
+                cmd.Parameters.Add("@PRICE", SqlDbType.Float).Value = Price;
+                
+                try
+                {
+                    id = (int)((decimal)cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    return -1;
+                }
+            }
+            return id;
+        }
+
+        public bool DeletePHONE(int ID)
+        {
+            string query = """
+                Delete from PHONE where ID=@ID
+                """;
+
+            using (var cmd = new SqlCommand(query, _connection))
+            {
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    return false;
+                }
+            }
+            return true;
         }
 
         //public Tuple<BindingList<PHONE>, int, int> GetByManufacturer(int page, int rowsPerPage, string keyword)

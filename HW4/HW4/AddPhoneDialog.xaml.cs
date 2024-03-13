@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,13 @@ namespace HW4
     public partial class AddPhoneDialog : Window
     {
         public PHONE NewPhone { get; set; }
-        public AddPhoneDialog()
+        private PHONEControl PhoneControl { get; set; }
+        private BindingList<MANUFACTURER> manufacturers { get; set; }
+        public AddPhoneDialog(PHONEControl phoneControl, BindingList<MANUFACTURER> manufacturers)
         {
             InitializeComponent();
+            PhoneControl = phoneControl;
+            this.manufacturers = manufacturers;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -32,12 +38,37 @@ namespace HW4
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            string PhoneName = PhoneUserControl.PhoneNameTextBox.Text;
+            string ManufacturerName = PhoneUserControl.PhoneManufacturerTextBox.Text;
+            string Thumbnail = PhoneUserControl.ImgPathTextBox.Text;
+            double Price = double.Parse(PhoneUserControl.PhonePriceTextBox.Text);
+
+            int Manufacturer_ID = -1;
+            try
+            {
+                MANUFACTURER Manufacturer = manufacturers.Single(x => x.Name == ManufacturerName);
+                Manufacturer_ID = Manufacturer.ID;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Manufacturer does not exist");
+            }
+
+            if(Manufacturer_ID == -1)
+            {
+                return;
+            }
+            
+            int PhoneID = PhoneControl.InsertPHONE(PhoneName, Manufacturer_ID,Thumbnail,Price);
+
             NewPhone = new PHONE() {
-                PhoneName = PhoneUserControl.PhoneNameTextBox.Text,
-                Manufacturer = PhoneUserControl.PhoneManufacturerTextBox.Text,
-                Thumbnail = "",
-                Price = double.Parse(PhoneUserControl.PhonePriceTextBox.Text),
+                ID = PhoneID,
+                PhoneName = PhoneName,
+                Manufacturer = ManufacturerName,
+                Thumbnail = Thumbnail,
+                Price = Price,
             };
+
             DialogResult = true;
         }
     }

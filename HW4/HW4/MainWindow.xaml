@@ -60,6 +60,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
             <Button x:Name="AddButton" Content="Add" Width="80" Height="40" Click="AddButton_Click"/>
         </StackPanel>
@@ -69,6 +70,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.Row="0">
             <Button x:Name="DeleteButton" Content="Delete" Width="80" Height="40" Click="DeleteButton_Click"/>
         </StackPanel>
+        
         <StackPanel Grid.Row="1" Grid.Column="0">
             <ComboBox x:Name="ManufacturerFilterComboBox" Height="25" SelectionChanged="ManufacturerFilterComboBox_SelectionChanged">
                 <ComboBox.ItemTemplate>
