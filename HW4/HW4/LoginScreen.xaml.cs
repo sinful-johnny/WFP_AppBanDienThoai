@@ -63,32 +63,42 @@ namespace HW4
                                               TrustServerCertificate=True
                                               """;
                 _connection = new SqlConnection(connectionString);
+            try
+            {
                 _connection.Open();
-                if(_connection.State == ConnectionState.Open)
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                this.Close();
+            }
+                
+            if(_connection.State == ConnectionState.Open)
+            {
+                MessageBox.Show("Good!", "Logged in successfully", MessageBoxButton.OK);
+                if (RemembermeCheckBox.IsChecked == true)
                 {
-                    MessageBox.Show("Good!", "Logged in successfully", MessageBoxButton.OK);
-                    if (RemembermeCheckBox.IsChecked == true)
-                    {
-                        Encrypt(password, username);
-                    }
-                    else
-                    {
-                        config.AppSettings.Settings["isPasswordRemmembered"].Value = "0";
-                        config.AppSettings.Settings["username"].Value = " ";
-                        config.AppSettings.Settings["password"].Value = " ";
-                        config.AppSettings.Settings["entropy"].Value = " ";
-                        config.Save(ConfigurationSaveMode.Minimal);
-                    }
-                    DialogResult = true;
-                }else
-                {
-                    MessageBox.Show("Wrong credential!", "Log in failed", MessageBoxButton.OK);
+                    Encrypt(password, username);
                 }
+                else
+                {
+                    config.AppSettings.Settings["isPasswordRemmembered"].Value = "0";
+                    config.AppSettings.Settings["username"].Value = " ";
+                    config.AppSettings.Settings["password"].Value = " ";
+                    config.AppSettings.Settings["entropy"].Value = " ";
+                    config.Save(ConfigurationSaveMode.Minimal);
+                }
+                DialogResult = true;
+            }else
+            {
+                MessageBox.Show("Wrong credential!", "Log in failed", MessageBoxButton.OK);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
             if (config.AppSettings.Settings["isPasswordRemmembered"].Value == "1")
             {
                 UsernameTextBox.Text = config.AppSettings.Settings["username"].Value;

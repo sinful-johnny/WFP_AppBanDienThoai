@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Linq;
 using System.Data.SqlClient;
+using System.ComponentModel;
 
 
 namespace HW4
@@ -23,12 +24,14 @@ namespace HW4
         string password = "123";  
         System.ComponentModel.BindingList<PHONE> _PhoneList;
         PHONEControl phoneControl;
+        MANUFACTURERControl maNUFACTURERControl;
         int _rowPerPage = 10;
         int _currentPage = 1;
         int _pageSize = 10;
         int totalPages = -1;
         int totalItems = -1;
         string _keyword = "";
+        string _manufacturerFilter = "";
         private SqlConnection _connection;
         private static System.ComponentModel.BindingList<PHONE> GetPhoneList()
         {
@@ -144,20 +147,39 @@ namespace HW4
             }
             this.Show();
             LoadData();
-            ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
+            maNUFACTURERControl = new MANUFACTURERControl(_connection);
+            ManufacturerFilterComboBox.ItemsSource = maNUFACTURERControl.GetMANUFACTURERs();
         }
         private void LoadData()
         {
             phoneControl = new PHONEControl(_connection);
+            
             try
             {
-                (_PhoneList, totalItems, totalPages) = phoneControl.GetAllPaging(_currentPage, _rowPerPage, _keyword);
+                (_PhoneList, totalItems, totalPages) = phoneControl.GetAllPaging(_currentPage, _rowPerPage, _keyword, _manufacturerFilter);
                 PhoneListView.ItemsSource = _PhoneList;
                 PhoneListView.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+            if(totalItems < _rowPerPage)
+            {
+                NextPageButton.IsEnabled = false;
+            }
+            else
+            {
+                NextPageButton.IsEnabled = true;
+            }
+
+            if(_currentPage == 1)
+            {
+                PreviousPageButton.IsEnabled = false;
+            }
+            else
+            {
+                PreviousPageButton.IsEnabled = true;
             }
         }
 
@@ -194,21 +216,17 @@ namespace HW4
 
         private void ManufacturerFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var filteredList = _PhoneList.Where(phone => phone.Manufacturer == (string)ManufacturerFilterComboBox.SelectedItem);
-            //var filteredList = from phone in _PhoneList
-            //                   where phone.Manufacturer == (string)ManufacturerFilterComboBox.SelectedItem
-            //                   select phone;
-            PhoneListView.ItemsSource = filteredList;
-            if (filteredList.Count() >= 1)
-            {
-                PhoneListView.SelectedIndex = 0;
-            }
+            var selected = (MANUFACTURER)ManufacturerFilterComboBox.SelectedItem;
+            _manufacturerFilter = selected.Name;
+            _currentPage = 1;
+            LoadData();
         }
 
         private void RefreshFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            PhoneListView.ItemsSource = _PhoneList;
-            PhoneListView.SelectedIndex = 0;
+            _manufacturerFilter = "";
+            _currentPage = 1;
+            LoadData();
         }
 
         private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
