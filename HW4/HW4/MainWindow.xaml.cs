@@ -120,13 +120,7 @@ namespace HW4
         };
         }
 
-        System.ComponentModel.BindingList<string> _ManufacturerList = new System.ComponentModel.BindingList<string>()
-        {
-            "Samsung",
-            "Apple",
-            "Xiaomi",
-            "LG"
-        };
+        public System.ComponentModel.BindingList<MANUFACTURER> _ManufacturerList { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -148,7 +142,8 @@ namespace HW4
             this.Show();
             LoadData();
             maNUFACTURERControl = new MANUFACTURERControl(_connection);
-            ManufacturerFilterComboBox.ItemsSource = maNUFACTURERControl.GetMANUFACTURERs();
+            _ManufacturerList = maNUFACTURERControl.GetMANUFACTURERs();
+            ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
         }
         private void LoadData()
         {
@@ -185,19 +180,30 @@ namespace HW4
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new AddPhoneDialog();
+            var dialog = new AddPhoneDialog(phoneControl,_ManufacturerList);
             if(dialog.ShowDialog() == true) {
-                _PhoneList.Add((PHONE)dialog.NewPhone.Clone());
+                PHONE newPhone = (PHONE)dialog.NewPhone.Clone();
+                _PhoneList.Add(newPhone);
+                MessageBox.Show($"Inserted {newPhone.PhoneName} with ID: {newPhone.ID}", "Insert", MessageBoxButton.OK);
             }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             PHONE SelectedPhone = (PHONE)PhoneListView.SelectedItem;
-            var Result = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if(Result == MessageBoxResult.Yes)
+            var choice = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (choice == MessageBoxResult.Yes)
             {
-                _PhoneList.Remove((PHONE)PhoneListView.SelectedItem);
+                var result = phoneControl.DeletePHONE(SelectedPhone.ID);
+                if (result == true)
+                {
+                    MessageBox.Show($"Deleted {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID}!", "Deleted", MessageBoxButton.OK);
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show($"Item {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID} has not been deleted!", "Delet Failed", MessageBoxButton.OK);
+                }
             }
         }
 
