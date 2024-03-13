@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW4"
         mc:Ignorable="d"
-        Title="Phone Shop" Height="450" Width="1000">
+        Title="Phone Shop" Height="450" Width="1000" Loaded="Window_Loaded">
     <Window.Resources>
         <local:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
         <local:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
@@ -14,6 +14,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,9 +24,11 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="4" Grid.RowSpan="2" VerticalAlignment="Center" DataContext="{Binding ElementName=PhoneListView, Path=SelectedItem}">
+        
+        <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" DataContext="{Binding ElementName=PhoneListView, Path=SelectedItem}">
             <local:PhoneInfoUserControl IsEnabled="False"/>
         </StackPanel>
+        
         <ListView Name="PhoneListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
             <ListView.Resources>
                 <ContextMenu x:Key="RightClickMenu">
@@ -47,10 +51,10 @@
                     <StackPanel Height="150" Width="200">
                         <Image Width="80" Height="100" Name="Thumbnail" Source="{Binding Thumbnail, Converter={StaticResource absoluteConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
                         <TextBlock HorizontalAlignment="Center">
-                    <Run Text="{Binding Manufacturer}" /> - <Run Text="{Binding PhoneName}"/>
+                            <Run Text="{Binding Manufacturer}" /> - <Run Text="{Binding PhoneName}"/>
                         </TextBlock>
                         <TextBlock HorizontalAlignment="Center">
-                    <Run Text="{Binding Price, Converter={StaticResource USDtoVNDConverter}}" Foreground="Red"/>
+                            <Run Text="{Binding Price, Converter={StaticResource USDtoVNDConverter}}" Foreground="Red"/>
                         </TextBlock>
                     </StackPanel>
                 </DataTemplate>
@@ -69,5 +73,22 @@
             <ComboBox x:Name="ManufacturerFilterComboBox" Height="25" SelectionChanged="ManufacturerFilterComboBox_SelectionChanged" />
             <Button x:Name="RefreshFilterButton" Content="Refresh" Height="30" Width="60" Margin="0,5,0,0" Click="RefreshFilterButton_Click"/>
         </StackPanel>
+        
+        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="PreviousPageButton" Content="Prev" Width="30" Height="30" Click="PreviousPageButton_Click"/>
+            <TextBlock x:Name="PageDisplayTextBlock">
+                <Run Text=" "/> _ <Run Text=" "/>
+            </TextBlock>
+            <Button x:Name="NextPageButton" Content="Next" Width="30" Height="30" Click="NextPageButton_Click"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0" Grid.Column="5" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBox x:Name="searchTextBox" Height="25" Width="300" />
+            <Button x:Name="searchButton" Content="Search" Width="50" Height="30" Margin="0,5,0,0" Click="searchButton_Click"/>
+        </StackPanel>
+        
+        <StatusBar Height="30" Grid.Row="4" Grid.ColumnSpan="6">
+            
+        </StatusBar>
     </Grid>
 </Window>

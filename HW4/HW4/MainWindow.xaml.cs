@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Linq;
+using System.Data.SqlClient;
+
 
 namespace HW4
 {
@@ -18,9 +20,16 @@ namespace HW4
     public partial class MainWindow : Window
     {
         string username = "sa";
-        string password = "password";  
+        string password = "123";  
         System.ComponentModel.BindingList<PHONE> _PhoneList;
         PHONEControl phoneControl;
+        int _rowPerPage = 10;
+        int _currentPage = 1;
+        int _pageSize = 10;
+        int totalPages = -1;
+        int totalItems = -1;
+        string _keyword = "";
+        private SqlConnection _connection;
         private static System.ComponentModel.BindingList<PHONE> GetPhoneList()
         {
             return new System.ComponentModel.BindingList<PHONE>()
@@ -118,18 +127,38 @@ namespace HW4
         public MainWindow()
         {
             InitializeComponent();
-            phoneControl = new PHONEControl(username, password);
+
+            searchTextBox.DataContext = _keyword;
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            LoginScreen loginScreen = new LoginScreen();
+            var result = loginScreen.ShowDialog();
+            if (result == true) {
+                _connection = loginScreen._connection;
+            }
+            else
+            {
+                this.Close();
+            }
+            this.Show();
+            LoadData();
+            ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
+        }
+        private void LoadData()
+        {
+            phoneControl = new PHONEControl(_connection);
             try
             {
-                _PhoneList = phoneControl.GetPHONEs();
-            }catch (Exception ex)
-            {
-                //MessageBox.Show(ex.ToString());
+                (_PhoneList, totalItems, totalPages) = phoneControl.GetAllPaging(_currentPage, _rowPerPage, _keyword);
+                PhoneListView.ItemsSource = _PhoneList;
+                PhoneListView.SelectedIndex = 0;
             }
-            
-            PhoneListView.ItemsSource = _PhoneList;
-            PhoneListView.SelectedIndex = 0;
-            ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -165,7 +194,10 @@ namespace HW4
 
         private void ManufacturerFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var filteredList = _PhoneList.Where<PHONE>(phone => phone.Manufacturer == (string)ManufacturerFilterComboBox.SelectedItem);
+            var filteredList = _PhoneList.Where(phone => phone.Manufacturer == (string)ManufacturerFilterComboBox.SelectedItem);
+            //var filteredList = from phone in _PhoneList
+            //                   where phone.Manufacturer == (string)ManufacturerFilterComboBox.SelectedItem
+            //                   select phone;
             PhoneListView.ItemsSource = filteredList;
             if (filteredList.Count() >= 1)
             {
@@ -178,5 +210,41 @@ namespace HW4
             PhoneListView.ItemsSource = _PhoneList;
             PhoneListView.SelectedIndex = 0;
         }
+
+        private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_currentPage > 1)
+            {
+                _currentPage--;
+                LoadData();
+            }
+        }
+
+        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_currentPage < totalPages) {
+                _currentPage++;
+                LoadData();
+            }
+        }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            _keyword = searchTextBox.Text;
+            _currentPage = 1;
+            LoadData();
+        }
+
+        void test()
+        {
+            var list = new List<string>{"sds adsada", "ecxhz uodsa" } ;
+            var filtered = from str in list
+                           let words = str.Split(' ')
+                           from word in words
+                           where word.StartsWith('a') || word.StartsWith("e") || word.StartsWith("u")
+                           select word;
+        }
+
+
     }
 }
