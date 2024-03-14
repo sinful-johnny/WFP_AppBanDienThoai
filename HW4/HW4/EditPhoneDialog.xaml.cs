@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,20 +21,26 @@ namespace HW4
     /// </summary>
     public partial class EditPhoneDialog : Window
     {
+        public PHONE OldPhone { get; set; }
         public PHONE NewPhone { get; set; }
-        public EditPhoneDialog(PHONE Phone)
+        public PHONEControl _control { get; set; }
+        public BindingList<MANUFACTURER> _manufacturers { get; set; }
+        public EditPhoneDialog(PHONE Phone, PHONEControl control, BindingList<MANUFACTURER> manufacturers)
         {
             InitializeComponent();
             if(Phone != null)
             {
-                NewPhone = Phone.Clone() as PHONE;
+                OldPhone = Phone.Clone() as PHONE;
+                _control = control;
+                _manufacturers = manufacturers;
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (NewPhone != null)
+            if (OldPhone != null)
             {
+                NewPhone = (PHONE)OldPhone.Clone();
                 DataContext = NewPhone;
             }
             else
@@ -49,6 +57,42 @@ namespace HW4
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            int ID = NewPhone.ID;
+            string PhoneName = NewPhone.PhoneName;
+            string ManufacturerName = NewPhone.Manufacturer;
+            string Thumbnail = NewPhone.Thumbnail;
+            double Price = NewPhone.Price;
+
+            int Manufacturer_ID = -1;
+            try
+            {
+                MANUFACTURER Manufacturer = _manufacturers.Single(x => x.Name == ManufacturerName);
+                Manufacturer_ID = Manufacturer.ID;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Manufacturer does not exist");
+            }
+
+            if (Manufacturer_ID == -1)
+            {
+                return;
+            }
+
+            bool result = false;
+            try
+            {
+                result = _control.UpdatePHONE(ID, PhoneName, Manufacturer_ID, Thumbnail, Price);
+            }
+            catch(Exception ex) { 
+                MessageBox.Show(ex.ToString());
+            }
+            
+            if (!result)
+            {
+                return;
+            }
+
             DialogResult = true;
         }
     }

@@ -210,7 +210,7 @@ namespace HW4
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             var SelectedPhone = (PHONE)PhoneListView.SelectedItem;
-            var dialog = new EditPhoneDialog(SelectedPhone);
+            var dialog = new EditPhoneDialog(SelectedPhone,phoneControl, _ManufacturerList);
             if (dialog.ShowDialog() == true)
             {
                 SelectedPhone.PhoneName = dialog.NewPhone.PhoneName;

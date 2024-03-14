@@ -215,71 +215,29 @@ namespace HW4
             return true;
         }
 
-        //public Tuple<BindingList<PHONE>, int, int> GetByManufacturer(int page, int rowsPerPage, string keyword)
-        //{
-        //    int totalItems = -1;
-        //    int totalPages = -1;
-        //    var phones = new BindingList<PHONE>();
-        //    int skip = (page - 1) * 10;
-        //    int take = rowsPerPage;
-        //    string sql = """
-        //                        select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
-        //                        from PHONE, MANUFACTURER as M 
-        //                        where   PHONE.MANUFACTURER_ID = M.ID
-        //                                and M.NAME = @Manufacturer 
-        //                                and contains(PHONE.NAME, @Keyword)
-        //                        order by PHONE.ID 
-        //                        offset @Skip rows 
-        //                        fetch next @Take rows only
-        //                        """;
-        //    if (keyword == null || keyword == " " || keyword == "")
-        //    {
-        //        sql = """
-        //                        select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
-        //                        from PHONE, MANUFACTURER as M 
-        //                        where   PHONE.MANUFACTURER_ID = M.ID
-        //                                and M.NAME = @Manufacturer
-        //                        order by PHONE.ID 
-        //                        offset @Skip rows 
-        //                        fetch next @Take rows only
-        //                        """;
-        //    }
+        public bool UpdatePHONE(int ID,string name, int ManufacturerID, string Thumbnail, double Price)
+        {
+            string query = """
+                Update PHONE set NAME=@Name, MANUFACTURER_ID=@ManufacturerID, THUMBNAIL=@Thumbnail, PRICE=@Price where ID=@ID
+                """;
 
-        //    using (var command = new SqlCommand(sql, _connection))
-        //    {
-        //        //_connection.Open();
-
-        //        command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
-        //        command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
-        //        command.Parameters.Add("@Manufacturer", SqlDbType.VarChar).Value = Manufacturer;
-        //        if (keyword != null || keyword != " " || keyword != "")
-        //        {
-        //            command.Parameters.Add("@Keyword", SqlDbType.NVarChar).Value = keyword;
-        //        }
-        //        var reader = command.ExecuteReader();
-
-        //        while (reader.Read())
-        //        {
-        //            if (totalItems == -1)
-        //            {
-        //                totalItems = (int)reader["TotalItems"];
-        //                totalPages = (totalItems / rowsPerPage);
-        //                if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
-        //                else totalPages = (int)(totalItems / rowsPerPage) + 1;
-        //            }
-        //            phones.Add(new PHONE()
-        //            {
-        //                ID = (int)reader["ID"],
-        //                PhoneName = (string)reader["NAME"],
-        //                Manufacturer = (string)reader["MANUFACTURER"],
-        //                Thumbnail = (string)reader["THUMBNAIL"],
-        //                Price = (double)reader["PRICE"]
-        //            });
-        //        }
-        //        reader.Close();
-        //    }
-        //    var result = new Tuple<BindingList<PHONE>, int, int>(phones, totalItems, totalPages);
-        //    return result;
-        //}
+            using (var cmd = new SqlCommand(query, _connection))
+            {
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+                cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
+                cmd.Parameters.Add("@ManufacturerID", SqlDbType.Int).Value = ManufacturerID;
+                cmd.Parameters.Add("@Thumbnail", SqlDbType.VarChar).Value = Thumbnail;
+                cmd.Parameters.Add("@Price", SqlDbType.Float).Value = Price;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
