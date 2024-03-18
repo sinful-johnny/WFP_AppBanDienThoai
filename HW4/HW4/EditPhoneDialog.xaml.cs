@@ -23,15 +23,15 @@ namespace HW4
     {
         public PHONE OldPhone { get; set; }
         public PHONE NewPhone { get; set; }
-        public PHONEControl _control { get; set; }
+        public SqlConnection _connection { get; set; }
         public BindingList<MANUFACTURER> _manufacturers { get; set; }
-        public EditPhoneDialog(PHONE Phone, PHONEControl control, BindingList<MANUFACTURER> manufacturers)
+        public EditPhoneDialog(PHONE Phone, SqlConnection connection, BindingList<MANUFACTURER> manufacturers)
         {
             InitializeComponent();
             if(Phone != null)
             {
                 OldPhone = Phone.Clone() as PHONE;
-                _control = control;
+                _connection = connection;
                 _manufacturers = manufacturers;
             }
         }
@@ -82,7 +82,7 @@ namespace HW4
             bool result = false;
             try
             {
-                result = _control.UpdatePHONE(ID, PhoneName, Manufacturer_ID, Thumbnail, Price);
+                result = PHONEControl.UpdatePHONE(_connection,ID, PhoneName, Manufacturer_ID, Thumbnail, Price);
             }
             catch(Exception ex) { 
                 MessageBox.Show(ex.ToString());
