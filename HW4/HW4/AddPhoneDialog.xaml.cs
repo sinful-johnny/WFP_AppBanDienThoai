@@ -22,12 +22,12 @@ namespace HW4
     public partial class AddPhoneDialog : Window
     {
         public PHONE NewPhone { get; set; }
-        private PHONEControl PhoneControl { get; set; }
+        public SqlConnection _connection { get; set; }  
         private BindingList<MANUFACTURER> manufacturers { get; set; }
-        public AddPhoneDialog(PHONEControl phoneControl, BindingList<MANUFACTURER> manufacturers)
+        public AddPhoneDialog(SqlConnection connection, BindingList<MANUFACTURER> manufacturers)
         {
             InitializeComponent();
-            PhoneControl = phoneControl;
+            _connection = connection;
             this.manufacturers = manufacturers;
         }
 
@@ -59,7 +59,7 @@ namespace HW4
                 return;
             }
             
-            int PhoneID = PhoneControl.InsertPHONE(PhoneName, Manufacturer_ID,Thumbnail,Price);
+            int PhoneID = PHONEControl.InsertPHONE(_connection,PhoneName, Manufacturer_ID,Thumbnail,Price);
 
             NewPhone = new PHONE() {
                 ID = PhoneID,

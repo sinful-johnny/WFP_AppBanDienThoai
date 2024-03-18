@@ -151,7 +151,7 @@ namespace HW4
             
             try
             {
-                (_PhoneList, totalItems, totalPages) = phoneControl.GetAllPaging(_currentPage, _rowPerPage, _keyword, _manufacturerFilter);
+                (_PhoneList, totalItems, totalPages) = PHONEControl.GetAllPaging(_connection,_currentPage, _rowPerPage, _keyword, _manufacturerFilter);
                 PhoneListView.ItemsSource = _PhoneList;
                 PhoneListView.SelectedIndex = 0;
             }
@@ -180,7 +180,7 @@ namespace HW4
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new AddPhoneDialog(phoneControl,_ManufacturerList);
+            var dialog = new AddPhoneDialog(_connection,_ManufacturerList);
             if(dialog.ShowDialog() == true) {
                 PHONE newPhone = (PHONE)dialog.NewPhone.Clone();
                 _PhoneList.Add(newPhone);
@@ -194,7 +194,7 @@ namespace HW4
             var choice = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (choice == MessageBoxResult.Yes)
             {
-                var result = phoneControl.DeletePHONE(SelectedPhone.ID);
+                var result = PHONEControl.DeletePHONE(_connection,SelectedPhone.ID);
                 if (result == true)
                 {
                     MessageBox.Show($"Deleted {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID}!", "Deleted", MessageBoxButton.OK);
@@ -210,7 +210,7 @@ namespace HW4
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             var SelectedPhone = (PHONE)PhoneListView.SelectedItem;
-            var dialog = new EditPhoneDialog(SelectedPhone,phoneControl, _ManufacturerList);
+            var dialog = new EditPhoneDialog(SelectedPhone,_connection, _ManufacturerList);
             if (dialog.ShowDialog() == true)
             {
                 SelectedPhone.PhoneName = dialog.NewPhone.PhoneName;

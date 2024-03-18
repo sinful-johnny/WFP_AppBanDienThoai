@@ -16,62 +16,8 @@ namespace HW4
 {
     public class PHONEControl(SqlConnection connection)
     {
-        SqlConnection _connection = connection;
 
-        //public BindingList<PHONE> GetPHONEsByManufacturer(string manufacturer)
-        //{
-
-        //    using (var connection = new SqlConnection(_ConnectionString))
-        //    {
-
-        //        string sql = $"select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE from PHONE, MANUFACTURER as M where PHONE.MANUFACTURER_ID = M.ID and M.NAME=@Manufacturer";
-        //        connection.Open();
-        //        var command = new SqlCommand(sql, connection);
-        //        command.Parameters.Add("@Manufacturer", SqlDbType.Text).Value = manufacturer;
-        //        var reader = command.ExecuteReader();
-
-        //        var phones = new BindingList<PHONE>();
-        //        while (reader.Read())
-        //        {
-        //            phones.Add(new PHONE()
-        //            {
-        //                ID = (int)reader["ID"],
-        //                PhoneName = (string)reader["NAME"],
-        //                Manufacturer = (string)reader["MANUFACTURER"],
-        //                Thumbnail = (string)reader["THUMBNAIL"],
-        //                Price = (int)reader["PRICE"]
-        //            });
-        //        }
-        //        return phones;
-        //    }     
-        //}
-
-        //public BindingList<PHONE> GetPHONEs()
-        //{
-        //    using (var connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        string sql = $"select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE from PHONE, MANUFACTURER as M where PHONE.MANUFACTURER_ID = M.ID";
-        //        connection.Open();
-        //        var command = new SqlCommand(sql, connection);
-        //        var reader = command.ExecuteReader();
-
-        //        var phones = new BindingList<PHONE>();
-        //        while (reader.Read())
-        //        {
-        //            phones.Add(new PHONE()
-        //            {
-        //                ID = (int)reader["ID"],
-        //                PhoneName = (string)reader["NAME"],
-        //                Manufacturer = (string)reader["MANUFACTURER"],
-        //                Thumbnail = (string)reader["THUMBNAIL"],
-        //                Price = (double)reader["PRICE"]
-        //            });
-        //        }
-        //        return phones;
-        //    }
-        //}
-
-        public Tuple<BindingList<PHONE>, int, int> GetAllPaging(int page, int rowsPerPage, string keyword, string Manufacturer)
+        static public Tuple<BindingList<PHONE>, int, int> GetAllPaging(SqlConnection connection,int page, int rowsPerPage, string keyword, string Manufacturer)
         {
             int totalItems = -1;
             int totalPages = -1;
@@ -125,7 +71,7 @@ namespace HW4
                                 """;
             }
 
-            using (var command = new SqlCommand(sql, _connection))
+            using (var command = new SqlCommand(sql, connection))
             {
                 //_connection.Open();
 
@@ -165,7 +111,7 @@ namespace HW4
             return result;
         }
 
-        public int InsertPHONE(string name, int ManufacturerID, string Thumbnail, double Price)
+        static public int InsertPHONE(SqlConnection connection,string name, int ManufacturerID, string Thumbnail, double Price)
         {
             string query = """
                 Insert into PHONE(NAME,MANUFACTURER_ID,THUMBNAIL,PRICE)
@@ -173,7 +119,7 @@ namespace HW4
                 """;
             int id;
 
-            using (var cmd = new SqlCommand(query, _connection))
+            using (var cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.Add("@NAME",SqlDbType.VarChar).Value = name;
                 cmd.Parameters.Add("@MANUFACTURER_ID", SqlDbType.Int).Value = ManufacturerID;
@@ -193,13 +139,13 @@ namespace HW4
             return id;
         }
 
-        public bool DeletePHONE(int ID)
+        static public bool DeletePHONE(SqlConnection connection,int ID)
         {
             string query = """
                 Delete from PHONE where ID=@ID
                 """;
 
-            using (var cmd = new SqlCommand(query, _connection))
+            using (var cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
                 try
@@ -215,13 +161,13 @@ namespace HW4
             return true;
         }
 
-        public bool UpdatePHONE(int ID,string name, int ManufacturerID, string Thumbnail, double Price)
+        static public bool UpdatePHONE(SqlConnection connection, int ID,string name, int ManufacturerID, string Thumbnail, double Price)
         {
             string query = """
                 Update PHONE set NAME=@Name, MANUFACTURER_ID=@ManufacturerID, THUMBNAIL=@Thumbnail, PRICE=@Price where ID=@ID
                 """;
 
-            using (var cmd = new SqlCommand(query, _connection))
+            using (var cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
