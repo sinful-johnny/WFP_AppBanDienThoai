@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using System.Linq;
 using System.Data.SqlClient;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 
 namespace HW4
@@ -18,12 +19,9 @@ namespace HW4
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Fluent.RibbonWindow
     {
-        string username = "sa";
-        string password = "123";  
-        System.ComponentModel.BindingList<PHONE> _PhoneList;
-        PHONEControl phoneControl;
+        BindingList<PHONE> _PhoneList;
         MANUFACTURERControl maNUFACTURERControl;
         int _rowPerPage = 10;
         int _currentPage = 1;
@@ -33,7 +31,7 @@ namespace HW4
         string _keyword = "";
         string _manufacturerFilter = "";
         private SqlConnection _connection;
-        private static System.ComponentModel.BindingList<PHONE> GetPhoneList()
+        private static BindingList<PHONE> GetPhoneList()
         {
             return new System.ComponentModel.BindingList<PHONE>()
         {
@@ -120,154 +118,166 @@ namespace HW4
         };
         }
 
-        public System.ComponentModel.BindingList<MANUFACTURER> _ManufacturerList { get; set; }
+        public BindingList<MANUFACTURER> _ManufacturerList { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-
-            searchTextBox.DataContext = _keyword;
+            
+            //searchTextBox.DataContext = _keyword;
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+
+
+        private void RibbonWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.Hide();
             LoginScreen loginScreen = new LoginScreen();
             var result = loginScreen.ShowDialog();
-            if (result == true) {
+            if (result == true)
+            {
                 _connection = loginScreen._connection;
             }
             else
             {
                 this.Close();
+                return;
             }
             this.Show();
-            LoadData();
-            maNUFACTURERControl = new MANUFACTURERControl(_connection);
-            _ManufacturerList = maNUFACTURERControl.GetMANUFACTURERs();
-            ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
-        }
-        private void LoadData()
-        {
-            phoneControl = new PHONEControl(_connection);
-            
-            try
-            {
-                (_PhoneList, totalItems, totalPages) = PHONEControl.GetAllPaging(_connection,_currentPage, _rowPerPage, _keyword, _manufacturerFilter);
-                PhoneListView.ItemsSource = _PhoneList;
-                PhoneListView.SelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            if(totalItems < _rowPerPage)
-            {
-                NextPageButton.IsEnabled = false;
-            }
-            else
-            {
-                NextPageButton.IsEnabled = true;
-            }
-
-            if(_currentPage == 1)
-            {
-                PreviousPageButton.IsEnabled = false;
-            }
-            else
-            {
-                PreviousPageButton.IsEnabled = true;
-            }
-        }
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new AddPhoneDialog(_connection,_ManufacturerList);
-            if(dialog.ShowDialog() == true) {
-                PHONE newPhone = (PHONE)dialog.NewPhone.Clone();
-                _PhoneList.Add(newPhone);
-                MessageBox.Show($"Inserted {newPhone.PhoneName} with ID: {newPhone.ID}", "Insert", MessageBoxButton.OK);
-            }
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            PHONE SelectedPhone = (PHONE)PhoneListView.SelectedItem;
-            var choice = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (choice == MessageBoxResult.Yes)
-            {
-                var result = PHONEControl.DeletePHONE(_connection,SelectedPhone.ID);
-                if (result == true)
+            //LoadData();
+            //maNUFACTURERControl = new MANUFACTURERControl(_connection);
+            //_ManufacturerList = maNUFACTURERControl.GetMANUFACTURERs();
+            var screens = new ObservableCollection<TabItem>()
                 {
-                    MessageBox.Show($"Deleted {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID}!", "Deleted", MessageBoxButton.OK);
-                    LoadData();
-                }
-                else
-                {
-                    MessageBox.Show($"Item {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID} has not been deleted!", "Delet Failed", MessageBoxButton.OK);
-                }
-            }
-        }
+                    new TabItem(),
+                    new TabItem() { Content = new ProductManagementScreen(_connection)},
+                    new TabItem()
+                };
+            tabs.ItemsSource = screens;
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            var SelectedPhone = (PHONE)PhoneListView.SelectedItem;
-            var dialog = new EditPhoneDialog(SelectedPhone,_connection, _ManufacturerList);
-            if (dialog.ShowDialog() == true)
-            {
-                SelectedPhone.PhoneName = dialog.NewPhone.PhoneName;
-                SelectedPhone.Manufacturer = dialog.NewPhone.Manufacturer;
-                SelectedPhone.Thumbnail = dialog.NewPhone.Thumbnail;
-                SelectedPhone.Price = dialog.NewPhone.Price;
-            }
+            //ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
         }
+        //private void LoadData()
+        //{
+        //    phoneControl = new PHONEControl(_connection);
 
-        private void ManufacturerFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selected = (MANUFACTURER)ManufacturerFilterComboBox.SelectedItem;
-            _manufacturerFilter = selected.Name;
-            _currentPage = 1;
-            LoadData();
-        }
+        //    try
+        //    {
+        //        (_PhoneList, totalItems, totalPages) = PHONEControl.GetAllPaging(_connection,_currentPage, _rowPerPage, _keyword, _manufacturerFilter);
+        //        PhoneListView.ItemsSource = _PhoneList;
+        //        PhoneListView.SelectedIndex = 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString());
+        //    }
+        //    if(totalItems < _rowPerPage)
+        //    {
+        //        NextPageButton.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        NextPageButton.IsEnabled = true;
+        //    }
 
-        private void RefreshFilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            _manufacturerFilter = "";
-            _currentPage = 1;
-            LoadData();
-        }
+        //    if(_currentPage == 1)
+        //    {
+        //        PreviousPageButton.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        PreviousPageButton.IsEnabled = true;
+        //    }
+        //}
 
-        private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(_currentPage > 1)
-            {
-                _currentPage--;
-                LoadData();
-            }
-        }
+        //private void AddButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var dialog = new AddPhoneDialog(_connection,_ManufacturerList);
+        //    if(dialog.ShowDialog() == true) {
+        //        PHONE newPhone = (PHONE)dialog.NewPhone.Clone();
+        //        _PhoneList.Add(newPhone);
+        //        MessageBox.Show($"Inserted {newPhone.PhoneName} with ID: {newPhone.ID}", "Insert", MessageBoxButton.OK);
+        //    }
+        //}
 
-        private void NextPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(_currentPage < totalPages) {
-                _currentPage++;
-                LoadData();
-            }
-        }
+        //private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    PHONE SelectedPhone = (PHONE)PhoneListView.SelectedItem;
+        //    var choice = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        //    if (choice == MessageBoxResult.Yes)
+        //    {
+        //        var result = PHONEControl.DeletePHONE(_connection,SelectedPhone.ID);
+        //        if (result == true)
+        //        {
+        //            MessageBox.Show($"Deleted {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID}!", "Deleted", MessageBoxButton.OK);
+        //            LoadData();
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show($"Item {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID} has not been deleted!", "Delet Failed", MessageBoxButton.OK);
+        //        }
+        //    }
+        //}
 
-        private void searchButton_Click(object sender, RoutedEventArgs e)
-        {
-            _keyword = searchTextBox.Text;
-            _currentPage = 1;
-            LoadData();
-        }
+        //private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var SelectedPhone = (PHONE)PhoneListView.SelectedItem;
+        //    var dialog = new EditPhoneDialog(SelectedPhone,_connection, _ManufacturerList);
+        //    if (dialog.ShowDialog() == true)
+        //    {
+        //        SelectedPhone.PhoneName = dialog.NewPhone.PhoneName;
+        //        SelectedPhone.Manufacturer = dialog.NewPhone.Manufacturer;
+        //        SelectedPhone.Thumbnail = dialog.NewPhone.Thumbnail;
+        //        SelectedPhone.Price = dialog.NewPhone.Price;
+        //    }
+        //}
 
-        void test()
-        {
-            var list = new List<string>{"sds adsada", "ecxhz uodsa" } ;
-            var filtered = from str in list
-                           let words = str.Split(' ')
-                           from word in words
-                           where word.StartsWith('a') || word.StartsWith("e") || word.StartsWith("u")
-                           select word;
-        }
+        //private void ManufacturerFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    var selected = (MANUFACTURER)ManufacturerFilterComboBox.SelectedItem;
+        //    _manufacturerFilter = selected.Name;
+        //    _currentPage = 1;
+        //    LoadData();
+        //}
+
+        //private void RefreshFilterButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _manufacturerFilter = "";
+        //    _currentPage = 1;
+        //    LoadData();
+        //}
+
+        //private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if(_currentPage > 1)
+        //    {
+        //        _currentPage--;
+        //        LoadData();
+        //    }
+        //}
+
+        //private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if(_currentPage < totalPages) {
+        //        _currentPage++;
+        //        LoadData();
+        //    }
+        //}
+
+        //private void searchButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _keyword = searchTextBox.Text;
+        //    _currentPage = 1;
+        //    LoadData();
+        //}
+
+        //void test()
+        //{
+        //    var list = new List<string>{"sds adsada", "ecxhz uodsa" } ;
+        //    var filtered = from str in list
+        //                   let words = str.Split(' ')
+        //                   from word in words
+        //                   where word.StartsWith('a') || word.StartsWith("e") || word.StartsWith("u")
+        //                   select word;
+        //}
 
 
     }
