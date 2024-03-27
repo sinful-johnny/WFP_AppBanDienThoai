@@ -97,6 +97,14 @@
                 <Fluent:RibbonGroupBox>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
+            <Fluent:RibbonTabItem Header="Customers">
+                <Fluent:RibbonGroupBox>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <Fluent:RibbonTabItem Header="Promotions">
+                <Fluent:RibbonGroupBox>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
         <TabControl Name="tabs" BorderThickness="0"
