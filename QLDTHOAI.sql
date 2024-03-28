@@ -70,6 +70,13 @@ create table PROMO_ORDERS(
 	CONSTRAINT PK_PROMO_ORDERS PRIMARY KEY(PROMO_ID,ORDER_ID)
 );
 
+create table PROMO_CUSTOMER(
+	PROMO_ID int foreign key references PROMOTIONS(PROMO_ID),
+	CUS_ID int foreign key references CUSTOMER(CUS_ID),
+	USAGE_STATUS nvarchar(20),
+
+	CONSTRAINT PK_PROMO_CUSTOMER PRIMARY KEY(PROMO_ID,CUS_ID)
+);
 
 alter table PHONE add constraint FK_PHONE_MANUFACTURER foreign key (MANUFACTURER_ID) references MANUFACTURER(ID);
 
