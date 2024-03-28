@@ -16,7 +16,13 @@
     <Compile Update="LoginScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="PhoneOrderInfo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="PhoneInfoUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PhoneOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -33,7 +39,13 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="PhoneOrderInfo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="PhoneInfoUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PhoneOrder.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
