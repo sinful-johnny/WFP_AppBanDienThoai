@@ -1,7 +1,7 @@
-﻿use master;
+﻿use master
 --drop database QLDTHOAI;
-create database QLDTHOAI;
-go;
+create database QLDTHOAI
+go
 
 use QLDTHOAI;
 
@@ -17,6 +17,65 @@ create table PHONE(
 create table MANUFACTURER(
 	ID int identity(1,1) PRIMARY KEY,
 	NAME varchar(50)
+);
+
+create table CUSTOMER(
+	CUS_ID int identity(1,1) PRIMARY KEY,
+	FIRSTNAME nvarchar(40),
+	LASTNAME nvarchar(40),
+	GENDER nvarchar(10),
+	PHONENUM nvarchar(12),
+	CUS_ADDRESS nvarchar(100),
+	DOB date,
+	CUS_IMAGE varchar(1000)
+);
+
+create table ORDERS(
+	ORDER_ID int identity(1,1) PRIMARY KEY,
+	CUSTOMER_ID int foreign key references CUSTOMER(CUS_ID),
+	CREATED_DATE datetime,
+	TOTAL FLOAT,
+	DISCOUNTS FLOAT
+);
+
+create table ORDERS_PHONE(
+	ORDER_ID int,
+	PHONE_ID int,
+	PHONE_COUNT int,
+	TOTAL float
+
+	CONSTRAINT ORDERS_PHONE_PK PRIMARY KEY (ORDER_ID,PHONE_ID),
+	CONSTRAINT ORDERS_PHONE_PK_FK1 foreign key (ORDER_ID) references ORDERS(ORDER_ID),
+	CONSTRAINT ORDERS_PHONE_PK_FK2 foreign key (PHONE_ID) references PHONE(ID)
+);
+
+create table PROMOTIONS(
+	PROMO_ID int identity(1,1) PRIMARY KEY,
+	PROMO_NAME nvarchar(100),
+	STARTDATE datetime,
+	ENDDATE datetime,
+	PROMO_MANUFACTURER_ID int,
+	PROMO_PHONE_ID int,
+	DISCOUNTS FLOAT,
+	PROMO_STATUS varchar(15)
+
+	constraint FK_PROMO_MANUFACTURER foreign key (PROMO_MANUFACTURER_ID) references MANUFACTURER(ID),
+	constraint FK_PROMO_PHONE foreign key (PROMO_PHONE_ID) references PHONE(ID),
+);
+
+create table PROMO_ORDERS(
+	PROMO_ID int foreign key references PROMOTIONS(PROMO_ID),
+	ORDER_ID int foreign key references ORDERS(ORDER_ID),
+
+	CONSTRAINT PK_PROMO_ORDERS PRIMARY KEY(PROMO_ID,ORDER_ID)
+);
+
+create table PROMO_CUSTOMER(
+	PROMO_ID int foreign key references PROMOTIONS(PROMO_ID),
+	CUS_ID int foreign key references CUSTOMER(CUS_ID),
+	USAGE_STATUS nvarchar(20),
+
+	CONSTRAINT PK_PROMO_CUSTOMER PRIMARY KEY(PROMO_ID,CUS_ID)
 );
 
 alter table PHONE add constraint FK_PHONE_MANUFACTURER foreign key (MANUFACTURER_ID) references MANUFACTURER(ID);

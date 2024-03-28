@@ -23,7 +23,7 @@ namespace HW4
 
             using (SqlCommand cmd = new SqlCommand(query, _connection))
             {
-                var reader = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     int ID = (int)reader["ID"];
