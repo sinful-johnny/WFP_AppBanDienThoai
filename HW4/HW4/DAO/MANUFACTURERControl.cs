@@ -10,9 +10,7 @@ namespace HW4
 {
     internal class MANUFACTURERControl(SqlConnection connection)
     {
-        SqlConnection _connection = connection;
-
-        public BindingList<MANUFACTURER> GetMANUFACTURERs()
+        static public BindingList<MANUFACTURER> GetMANUFACTURERs(SqlConnection connection)
         {
             string query = """
                 select *
@@ -20,8 +18,11 @@ namespace HW4
                 """;
 
             BindingList<MANUFACTURER> mANUFACTURERs = new BindingList<MANUFACTURER>();
-
-            using (SqlCommand cmd = new SqlCommand(query, _connection))
+            if(connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using (SqlCommand cmd = new SqlCommand(query, connection))
             {
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -32,6 +33,7 @@ namespace HW4
                     mANUFACTURERs.Add(new MANUFACTURER() { ID = ID, Name = NAME });
                 }
             }
+            connection.Close();
             return mANUFACTURERs;
         }
     }
