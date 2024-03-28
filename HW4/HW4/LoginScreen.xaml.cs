@@ -88,6 +88,7 @@ namespace HW4
                     config.AppSettings.Settings["entropy"].Value = " ";
                     config.Save(ConfigurationSaveMode.Minimal);
                 }
+                _connection.Close();
                 DialogResult = true;
             }else
             {

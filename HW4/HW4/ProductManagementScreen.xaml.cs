@@ -23,7 +23,6 @@ namespace HW4
     public partial class ProductManagementScreen : UserControl
     {
         BindingList<PHONE> _PhoneList;
-        MANUFACTURERControl maNUFACTURERControl;
         int _rowPerPage = 10;
         int _currentPage = 1;
         int _pageSize = 10;
@@ -32,7 +31,6 @@ namespace HW4
         string _keyword = "";
         string _manufacturerFilter = "";
         private SqlConnection _connection;
-        private PHONEControl phoneControl;
 
         public ProductManagementScreen(SqlConnection con)
         {
@@ -43,8 +41,6 @@ namespace HW4
         public BindingList<MANUFACTURER> _ManufacturerList { get; set; }
         private void LoadData()
         {
-            phoneControl = new PHONEControl(_connection);
-
             try
             {
                 (_PhoneList, totalItems, totalPages) = PHONEControl.GetAllPaging(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
@@ -157,20 +153,18 @@ namespace HW4
             LoadData();
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if(_connection.State == System.Data.ConnectionState.Closed) { _connection.Open();  }
             
             LoadData();
-            maNUFACTURERControl = new MANUFACTURERControl(_connection);
-            _ManufacturerList = maNUFACTURERControl.GetMANUFACTURERs();
-
+            _ManufacturerList = MANUFACTURERControl.GetMANUFACTURERs(_connection);
             ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            _connection.Close();
+            if(_connection.State == System.Data.ConnectionState.Open) { _connection.Close(); }
         }
     }
 }

@@ -70,7 +70,10 @@ namespace HW4
                                 fetch next @Take rows only
                                 """;
             }
-
+            if(connection.State == ConnectionState.Closed) {
+                connection.Open();
+            }
+            
             using (var command = new SqlCommand(sql, connection))
             {
                 //_connection.Open();
@@ -118,7 +121,7 @@ namespace HW4
                 values(@NAME,@MANUFACTURER_ID,@THUMBNAIL,@PRICE)
                 """;
             int id;
-
+            connection.Open();
             using (var cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.Add("@NAME",SqlDbType.VarChar).Value = name;
@@ -133,9 +136,11 @@ namespace HW4
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
+                    connection.Close();
                     return -1;
                 }
             }
+            connection.Close();
             return id;
         }
 
@@ -144,7 +149,7 @@ namespace HW4
             string query = """
                 Delete from PHONE where ID=@ID
                 """;
-
+            connection.Open();
             using (var cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
@@ -155,9 +160,11 @@ namespace HW4
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
+                    connection.Close();
                     return false;
                 }
             }
+            connection.Close();
             return true;
         }
 
@@ -166,7 +173,7 @@ namespace HW4
             string query = """
                 Update PHONE set NAME=@Name, MANUFACTURER_ID=@ManufacturerID, THUMBNAIL=@Thumbnail, PRICE=@Price where ID=@ID
                 """;
-
+            connection.Open();
             using (var cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
@@ -180,9 +187,11 @@ namespace HW4
                 }
                 catch (Exception ex)
                 {
+                    connection.Close();
                     return false;
                 }
             }
+            connection.Close();
             return true;
         }
     }
