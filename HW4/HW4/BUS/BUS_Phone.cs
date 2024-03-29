@@ -10,6 +10,20 @@ namespace HW4.BUS
 {
     class BUS_Phone
     {
+        static public Tuple<BindingList<PHONE>, int, int> GetByPrice(SqlConnection conn, int page, int rowsPerPage, int MinPrice, int MaxPrice)
+        {
+            if (MaxPrice <= 0 || MinPrice < 0 || MaxPrice <= MinPrice)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            else if (MaxPrice == 0) {
+                return PHONEControl.GetAllPagingWithMinPrice(conn, page, rowsPerPage, MinPrice);
+            }
+            else
+            {
+                return PHONEControl.GetAllPagingWithMinMaxPrice(conn,page, rowsPerPage, MinPrice, MaxPrice);
+            }
+        }
         static public Tuple<BindingList<PHONE>, int, int> GetPHONEs(SqlConnection connection, int page, int rowsPerPage, string keyword, string Manufacturer)
         {
             if((keyword != null && keyword != "" && keyword != " ") && (Manufacturer == null || Manufacturer == "" || Manufacturer == " "))

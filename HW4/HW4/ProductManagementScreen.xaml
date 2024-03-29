@@ -62,6 +62,7 @@
         </ListView>
 
         <StackPanel Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center">
+            <Label Content="Manufacturer"/>
             <ComboBox x:Name="ManufacturerFilterComboBox" Height="25" SelectionChanged="ManufacturerFilterComboBox_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -83,8 +84,33 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
+            <Label Content="Search phone:"/>
             <TextBox x:Name="searchTextBox" Height="25" />
             <Button x:Name="searchButton" Content="Search" Width="50" Height="30" Margin="0,5,0,0" Click="searchButton_Click"/>
+
+            <Label Content="Price :" Margin="0,20,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Label Content="Min" HorizontalAlignment="Center" FontSize="9"/>
+                    <TextBox x:Name="MinPriceTextBox" Width="50">
+                        <TextBox.Text>
+                            <Binding Path="Min" UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20,0,0,0" >
+                    <Label Content="Max" HorizontalAlignment="Center" FontSize="9"/>
+                    <TextBox x:Name="MaxPriceTextBox" Width="50">
+                        <TextBox.Text>
+                            <Binding Path="Max" UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </StackPanel>
+            <Button x:Name="PriceFilterButton" Content="Apply Price" Width="70" Height="20" Margin="0,5,0,0" Click="PriceFilterButton_Click"/>
         </StackPanel>
 
         <StatusBar Height="30" Grid.Row="4" Grid.ColumnSpan="6">

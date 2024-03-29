@@ -63,19 +63,6 @@
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                 </Fluent:RibbonGroupBox>
-                <Fluent:RibbonGroupBox Header="Category">
-                    <Fluent:Button Header="Add" >
-                        <Fluent:Button.LargeIcon>
-                            <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
-                    <Fluent:Button Header="Delete" >
-                        <Fluent:Button.LargeIcon>
-                            <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
-                    
-                </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Product">
                     <Fluent:Button Header="Add" x:Name="AddProductRibbonButton" Click="AddProductRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
@@ -90,6 +77,20 @@
                     <Fluent:Button Header="Delete" x:Name="DeleteProductRibbonButton" Click="DeleteProductRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/garbage.png"  RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <Fluent:RibbonTabItem Header="Manufacturer">
+                <Fluent:RibbonGroupBox Header="Manufacturer">
+                    <Fluent:Button Header="Add" >
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Delete" >
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                 </Fluent:RibbonGroupBox>

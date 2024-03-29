@@ -24,7 +24,7 @@ namespace HW4
     public partial class ProductManagementScreen : UserControl
     {
         BindingList<PHONE> _PhoneList;
-        int _rowPerPage = 10;
+        int _rowPerPage = 12;
         int _currentPage = 1;
         int _pageSize = 10;
         int totalPages = -1;
@@ -32,12 +32,19 @@ namespace HW4
         string _keyword = "";
         string _manufacturerFilter = "";
         private SqlConnection _connection;
+        PriceRange _priceRange = new PriceRange() { 
+            Min = 0,
+            Max = 99999,
+        };
+        string filter = "Manufacturer_Keyword";
 
         public ProductManagementScreen(SqlConnection con)
         {
             InitializeComponent();
             _connection = con;
             searchTextBox.DataContext = _keyword;
+            MinPriceTextBox.DataContext = _priceRange;
+            MaxPriceTextBox.DataContext = _priceRange;
         }
 
         public enum ProductManagementAction
@@ -70,7 +77,14 @@ namespace HW4
         {
             try
             {
-                (_PhoneList, totalItems, totalPages) = BUS_Phone.GetPHONEs(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
+                if(filter == "Manufacturer_Keyword")
+                {
+                    (_PhoneList, totalItems, totalPages) = BUS_Phone.GetPHONEs(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
+                }
+                if(filter == "Price")
+                {
+                    (_PhoneList, totalItems, totalPages) = BUS_Phone.GetByPrice(_connection, _currentPage, _rowPerPage, _priceRange.Min,_priceRange.Max);
+                }
                 PhoneListView.ItemsSource = _PhoneList;
                 PhoneListView.SelectedIndex = 0;
             }
@@ -157,6 +171,7 @@ namespace HW4
 
         private void ManufacturerFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            filter = "Manufacturer_Keyword";
             var selected = (MANUFACTURER)ManufacturerFilterComboBox.SelectedItem;
             _manufacturerFilter = selected.Name;
             _currentPage = 1;
@@ -190,6 +205,7 @@ namespace HW4
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
+            filter = "Manufacturer_Keyword";
             _keyword = searchTextBox.Text;
             _currentPage = 1;
             LoadData();
@@ -208,5 +224,18 @@ namespace HW4
         {
             if(_connection.State == System.Data.ConnectionState.Open) { _connection.Close(); }
         }
+
+        private void PriceFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            filter = "Price";
+            LoadData();
+        }
+    }
+    internal class PriceRange : INotifyPropertyChanged
+    {
+        public int Min { get; set; }
+        public int Max { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
