@@ -26,7 +26,7 @@
                     </Fluent:Button>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Category">
-                    <Fluent:Button Header="Add" >
+                    <Fluent:Button Header="Add" x:Name="AddManufacturerRibbonButton" Click="AddManufacturerRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>

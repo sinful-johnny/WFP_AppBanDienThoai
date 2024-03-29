@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
@@ -69,7 +70,7 @@ namespace HW4
         {
             try
             {
-                (_PhoneList, totalItems, totalPages) = PHONEControl.GetAllPaging(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
+                (_PhoneList, totalItems, totalPages) = BUS_Phone.GetPHONEs(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
                 PhoneListView.ItemsSource = _PhoneList;
                 PhoneListView.SelectedIndex = 0;
             }
@@ -123,7 +124,7 @@ namespace HW4
             var choice = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (choice == MessageBoxResult.Yes)
             {
-                var result = PHONEControl.DeletePHONE(_connection, SelectedPhone.ID);
+                var result = BUS_Phone.delete(_connection, SelectedPhone.ID);
                 if (result == true)
                 {
                     MessageBox.Show($"Deleted {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID}!", "Deleted", MessageBoxButton.OK);
@@ -199,7 +200,7 @@ namespace HW4
             if(_connection.State == System.Data.ConnectionState.Closed) { _connection.Open();  }
             
             LoadData();
-            _ManufacturerList = MANUFACTURERControl.GetMANUFACTURERs(_connection);
+            _ManufacturerList = BUS_Manufacturer.getAllManufacturers(_connection);
             ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
         }
 

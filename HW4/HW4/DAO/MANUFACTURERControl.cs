@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +37,61 @@ namespace HW4
             }
             connection.Close();
             return mANUFACTURERs;
+        }
+
+        static public bool delete(SqlConnection connection, string ManufacturerID) {
+            string query = """
+                Delete from MANUFACTURER where ID=@ID
+                """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using (var cmd = new SqlCommand(query, connection))
+            {
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ManufacturerID;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    connection.Close();
+                    return false;
+                }
+            }
+            connection.Close();
+            return true;
+        }
+
+        static public int insert(SqlConnection connection, string ManufacturerName)
+        {
+            string query = """
+                Insert into MANUFACTURER
+                values(@NAME)
+                """;
+            int id;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using (var cmd = new SqlCommand(query, connection))
+            {
+                cmd.Parameters.Add("@NAME", SqlDbType.VarChar).Value = ManufacturerName;
+                try
+                {
+                    id = (int)((decimal)cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    connection.Close();
+                    return -1;
+                }
+            }
+            connection.Close();
+            return id;
         }
     }
 }

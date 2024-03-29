@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
@@ -59,7 +60,7 @@ namespace HW4
                 return;
             }
             
-            int PhoneID = PHONEControl.InsertPHONE(_connection,PhoneName, Manufacturer_ID,Thumbnail,Price);
+            int PhoneID = BUS_Phone.insert(_connection,PhoneName, Manufacturer_ID,Thumbnail,Price);
 
             NewPhone = new PHONE() {
                 ID = PhoneID,

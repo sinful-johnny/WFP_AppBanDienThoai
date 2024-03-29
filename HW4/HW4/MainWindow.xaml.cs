@@ -22,7 +22,6 @@ namespace HW4
     public partial class MainWindow : Fluent.RibbonWindow
     {
         BindingList<PHONE> _PhoneList;
-        MANUFACTURERControl maNUFACTURERControl;
         int _rowPerPage = 10;
         int _currentPage = 1;
         int _pageSize = 10;
@@ -182,6 +181,11 @@ namespace HW4
             userControl.HandleParentEvent(
                 ProductManagementScreen.ProductManagementAction.DeleteProduct
             );
+        }
+
+        private void AddManufacturerRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         //private void LoadData()
         //{
