@@ -148,12 +148,40 @@ namespace HW4
             var screens = new ObservableCollection<TabItem>()
                 {
                     new TabItem(),
-                    new TabItem() { Content = new ProductManagementScreen(_connection)},
+                    new TabItem() { Content = new ProductManagementScreen(_connection), Header= "Products"},
                     new TabItem()
                 };
             tabs.ItemsSource = screens;
 
             //ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
+        }
+
+        private void AddProductRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ProductManagementScreen? userControl = (ProductManagementScreen) tabItem.Content;
+            userControl.HandleParentEvent(
+                ProductManagementScreen.ProductManagementAction.AddProduct
+            );
+
+        }
+
+        private void UpdateProductRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ProductManagementScreen? userControl = (ProductManagementScreen)tabItem.Content;
+            userControl.HandleParentEvent(
+                ProductManagementScreen.ProductManagementAction.EditProduct
+            );
+        }
+
+        private void DeleteProductRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ProductManagementScreen? userControl = (ProductManagementScreen)tabItem.Content;
+            userControl.HandleParentEvent(
+                ProductManagementScreen.ProductManagementAction.DeleteProduct
+            );
         }
         //private void LoadData()
         //{
@@ -278,7 +306,5 @@ namespace HW4
         //                   where word.StartsWith('a') || word.StartsWith("e") || word.StartsWith("u")
         //                   select word;
         //}
-
-
     }
 }

@@ -74,19 +74,20 @@
                             <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
+                    
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Product">
-                    <Fluent:Button Header="Add">
+                    <Fluent:Button Header="Add" x:Name="AddProductRibbonButton" Click="AddProductRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/plus_blue.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:Button Header="Update">
+                    <Fluent:Button Header="Update" x:Name="UpdateProductRibbonButton" Click="UpdateProductRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/pencil.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:Button Header="Delete" >
+                    <Fluent:Button Header="Delete" x:Name="DeleteProductRibbonButton" Click="DeleteProductRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/garbage.png"  RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>

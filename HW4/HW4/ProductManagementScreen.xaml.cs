@@ -38,6 +38,32 @@ namespace HW4
             _connection = con;
             searchTextBox.DataContext = _keyword;
         }
+
+        public enum ProductManagementAction
+        {
+            AddProduct,
+            DeleteProduct,
+            EditProduct,
+
+        }
+
+        public void HandleParentEvent(ProductManagementAction action)
+        {
+            switch(action)
+            {
+                case ProductManagementAction.AddProduct:
+                    AddProductHandler();
+                break;
+
+                case ProductManagementAction.DeleteProduct:
+                    DeleteProductHandler();
+                break;
+
+                case ProductManagementAction.EditProduct:
+                    UpdateProductHandler();
+                break;
+            }
+        }
         public BindingList<MANUFACTURER> _ManufacturerList { get; set; }
         private void LoadData()
         {
@@ -72,6 +98,11 @@ namespace HW4
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            AddProductHandler();
+        }
+
+        private void AddProductHandler()
+        {
             var dialog = new AddPhoneDialog(_connection, _ManufacturerList);
             if (dialog.ShowDialog() == true)
             {
@@ -82,6 +113,11 @@ namespace HW4
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteProductHandler();
+        }
+
+        private void DeleteProductHandler()
         {
             PHONE SelectedPhone = (PHONE)PhoneListView.SelectedItem;
             var choice = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -101,6 +137,11 @@ namespace HW4
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateProductHandler();
+        }
+
+        private void UpdateProductHandler()
         {
             var SelectedPhone = (PHONE)PhoneListView.SelectedItem;
             var dialog = new EditPhoneDialog(SelectedPhone, _connection, _ManufacturerList);
