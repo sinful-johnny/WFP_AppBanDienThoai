@@ -1,4 +1,4 @@
-﻿use master
+﻿﻿use master
 --drop database QLDTHOAI;
 create database QLDTHOAI
 go

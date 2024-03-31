@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
@@ -82,7 +83,7 @@ namespace HW4
             bool result = false;
             try
             {
-                result = PHONEControl.UpdatePHONE(_connection,ID, PhoneName, Manufacturer_ID, Thumbnail, Price);
+                result = BUS_Phone.update(_connection,ID, PhoneName, Manufacturer_ID, Thumbnail, Price);
             }
             catch(Exception ex) { 
                 MessageBox.Show(ex.ToString());

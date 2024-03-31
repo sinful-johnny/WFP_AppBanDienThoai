@@ -29,7 +29,7 @@
             <local:PhoneInfoUserControl IsEnabled="False"/>
         </StackPanel>
 
-        <ListView Name="PhoneListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+        <ListView Name="PhoneListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
             <ListView.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeleteButton_Click"/>
@@ -61,17 +61,8 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
-            <Button x:Name="AddButton" Content="Add" Width="80" Height="40" Click="AddButton_Click"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0">
-            <Button x:Name="UpdateButton" Content="Update" Width="80" Height="40" Click="UpdateButton_Click"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.Row="0">
-            <Button x:Name="DeleteButton" Content="Delete" Width="80" Height="40" Click="DeleteButton_Click"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" Grid.Column="0">
+        <StackPanel Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center">
+            <Label Content="Manufacturer"/>
             <ComboBox x:Name="ManufacturerFilterComboBox" Height="25" SelectionChanged="ManufacturerFilterComboBox_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -92,9 +83,34 @@
             <Button x:Name="NextPageButton" Content="Next" Width="30" Height="30" Click="NextPageButton_Click"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="5" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox x:Name="searchTextBox" Height="25" Width="300" />
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
+            <Label Content="Search phone:"/>
+            <TextBox x:Name="searchTextBox" Height="25" />
             <Button x:Name="searchButton" Content="Search" Width="50" Height="30" Margin="0,5,0,0" Click="searchButton_Click"/>
+
+            <Label Content="Price :" Margin="0,20,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Label Content="Min" HorizontalAlignment="Center" FontSize="9"/>
+                    <TextBox x:Name="MinPriceTextBox" Width="50">
+                        <TextBox.Text>
+                            <Binding Path="Min" UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20,0,0,0" >
+                    <Label Content="Max" HorizontalAlignment="Center" FontSize="9"/>
+                    <TextBox x:Name="MaxPriceTextBox" Width="50">
+                        <TextBox.Text>
+                            <Binding Path="Max" UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </StackPanel>
+            <Button x:Name="PriceFilterButton" Content="Apply Price" Width="70" Height="20" Margin="0,5,0,0" Click="PriceFilterButton_Click"/>
         </StackPanel>
 
         <StatusBar Height="30" Grid.Row="4" Grid.ColumnSpan="6">

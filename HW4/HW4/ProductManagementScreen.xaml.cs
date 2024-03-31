@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
@@ -23,7 +24,7 @@ namespace HW4
     public partial class ProductManagementScreen : UserControl
     {
         BindingList<PHONE> _PhoneList;
-        int _rowPerPage = 10;
+        int _rowPerPage = 12;
         int _currentPage = 1;
         int _pageSize = 10;
         int totalPages = -1;
@@ -31,19 +32,59 @@ namespace HW4
         string _keyword = "";
         string _manufacturerFilter = "";
         private SqlConnection _connection;
+        PriceRange _priceRange = new PriceRange() { 
+            Min = 0,
+            Max = 99999,
+        };
+        string filter = "Manufacturer_Keyword";
 
         public ProductManagementScreen(SqlConnection con)
         {
             InitializeComponent();
             _connection = con;
             searchTextBox.DataContext = _keyword;
+            MinPriceTextBox.DataContext = _priceRange;
+            MaxPriceTextBox.DataContext = _priceRange;
+        }
+
+        public enum ProductManagementAction
+        {
+            AddProduct,
+            DeleteProduct,
+            EditProduct,
+
+        }
+
+        public void HandleParentEvent(ProductManagementAction action)
+        {
+            switch(action)
+            {
+                case ProductManagementAction.AddProduct:
+                    AddProductHandler();
+                break;
+
+                case ProductManagementAction.DeleteProduct:
+                    DeleteProductHandler();
+                break;
+
+                case ProductManagementAction.EditProduct:
+                    UpdateProductHandler();
+                break;
+            }
         }
         public BindingList<MANUFACTURER> _ManufacturerList { get; set; }
         private void LoadData()
         {
             try
             {
-                (_PhoneList, totalItems, totalPages) = PHONEControl.GetAllPaging(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
+                if(filter == "Manufacturer_Keyword")
+                {
+                    (_PhoneList, totalItems, totalPages) = BUS_Phone.GetPHONEs(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
+                }
+                if(filter == "Price")
+                {
+                    (_PhoneList, totalItems, totalPages) = BUS_Phone.GetByPrice(_connection, _currentPage, _rowPerPage, _priceRange.Min,_priceRange.Max);
+                }
                 PhoneListView.ItemsSource = _PhoneList;
                 PhoneListView.SelectedIndex = 0;
             }
@@ -72,6 +113,11 @@ namespace HW4
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            AddProductHandler();
+        }
+
+        private void AddProductHandler()
+        {
             var dialog = new AddPhoneDialog(_connection, _ManufacturerList);
             if (dialog.ShowDialog() == true)
             {
@@ -83,11 +129,16 @@ namespace HW4
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            DeleteProductHandler();
+        }
+
+        private void DeleteProductHandler()
+        {
             PHONE SelectedPhone = (PHONE)PhoneListView.SelectedItem;
             var choice = MessageBox.Show($"Do you want to delete {SelectedPhone.PhoneName}?", "Delete it fr?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (choice == MessageBoxResult.Yes)
             {
-                var result = PHONEControl.DeletePHONE(_connection, SelectedPhone.ID);
+                var result = BUS_Phone.delete(_connection, SelectedPhone.ID);
                 if (result == true)
                 {
                     MessageBox.Show($"Deleted {SelectedPhone.PhoneName} with ID: {SelectedPhone.ID}!", "Deleted", MessageBoxButton.OK);
@@ -102,6 +153,11 @@ namespace HW4
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            UpdateProductHandler();
+        }
+
+        private void UpdateProductHandler()
+        {
             var SelectedPhone = (PHONE)PhoneListView.SelectedItem;
             var dialog = new EditPhoneDialog(SelectedPhone, _connection, _ManufacturerList);
             if (dialog.ShowDialog() == true)
@@ -115,6 +171,7 @@ namespace HW4
 
         private void ManufacturerFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            filter = "Manufacturer_Keyword";
             var selected = (MANUFACTURER)ManufacturerFilterComboBox.SelectedItem;
             _manufacturerFilter = selected.Name;
             _currentPage = 1;
@@ -148,6 +205,7 @@ namespace HW4
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
+            filter = "Manufacturer_Keyword";
             _keyword = searchTextBox.Text;
             _currentPage = 1;
             LoadData();
@@ -158,7 +216,7 @@ namespace HW4
             if(_connection.State == System.Data.ConnectionState.Closed) { _connection.Open();  }
             
             LoadData();
-            _ManufacturerList = MANUFACTURERControl.GetMANUFACTURERs(_connection);
+            _ManufacturerList = BUS_Manufacturer.getAllManufacturers(_connection);
             ManufacturerFilterComboBox.ItemsSource = _ManufacturerList;
         }
 
@@ -166,5 +224,18 @@ namespace HW4
         {
             if(_connection.State == System.Data.ConnectionState.Open) { _connection.Close(); }
         }
+
+        private void PriceFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            filter = "Price";
+            LoadData();
+        }
+    }
+    internal class PriceRange : INotifyPropertyChanged
+    {
+        public int Min { get; set; }
+        public int Max { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
