@@ -25,29 +25,6 @@ namespace HW4
             int skip = (page - 1 ) * 10;
             int take = rowsPerPage;
             string sql = """
-                             select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
-                             from PHONE, MANUFACTURER as M 
-                             where PHONE.MANUFACTURER_ID = M.ID
-                             order by PHONE.ID 
-                             offset @Skip rows 
-                             fetch next @Take rows only
-                             """;
-            if ((!string.IsNullOrEmpty(keyword)) && (Manufacturer == null || Manufacturer == " " || Manufacturer == ""))
-            {
-                sql = """
-                                select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
-                                from PHONE, MANUFACTURER as M 
-                                where PHONE.MANUFACTURER_ID = M.ID 
-                                and contains(PHONE.NAME, @Keyword)
-                                order by PHONE.ID 
-                                offset @Skip rows 
-                                fetch next @Take rows only
-                                """;
-                
-            }
-            else if((keyword != null && keyword != " " && keyword != "") && (Manufacturer != null && Manufacturer != " " && Manufacturer != ""))
-            {
-                sql = """
                                 select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
                                 from PHONE, MANUFACTURER as M 
                                 where   PHONE.MANUFACTURER_ID = M.ID

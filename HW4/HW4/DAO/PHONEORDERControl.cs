@@ -16,14 +16,14 @@ namespace HW4
 {
     public class PHONEORDERControl(SqlConnection connect)
     {
-        static public Tuple<BindingList<PHONE>, int, int> GetAllPaging(SqlConnection connection, int page, int rowsPerPage, string keyword, string Manufacturer)
-        {
-            int totalItems = -1;
-            int totalPages = -1;
-            var orders = new BindingList<PHONEORDER>();
-            int skip = (page - 1) * 10;
-            int take = rowsPerPage;
-            string sql = """select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME,  in """;
-        }
+        //static public Tuple<BindingList<PHONE>, int, int> GetAllPaging(SqlConnection connection, int page, int rowsPerPage, string keyword, string Manufacturer)
+        //{
+        //    int totalItems = -1;
+        //    int totalPages = -1;
+        //    var orders = new BindingList<PHONEORDER>();
+        //    int skip = (page - 1) * 10;
+        //    int take = rowsPerPage;
+        //    string sql = """select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME,  in """;
+        //}
     }
 }
