@@ -35,6 +35,7 @@ create table ORDERS(
 	CUSTOMER_ID int foreign key references CUSTOMER(CUS_ID),
 	CREATED_DATE datetime,
 	TOTAL FLOAT,
+	STATUS nvarchar(12),
 	DISCOUNTS FLOAT
 );
 

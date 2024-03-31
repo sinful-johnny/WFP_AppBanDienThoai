@@ -32,7 +32,7 @@ namespace HW4
                              offset @Skip rows 
                              fetch next @Take rows only
                              """;
-            if ((keyword != null && keyword != " " && keyword != "") && (Manufacturer == null || Manufacturer == " " || Manufacturer == ""))
+            if ((!string.IsNullOrEmpty(keyword)) && (Manufacturer == null || Manufacturer == " " || Manufacturer == ""))
             {
                 sql = """
                                 select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 

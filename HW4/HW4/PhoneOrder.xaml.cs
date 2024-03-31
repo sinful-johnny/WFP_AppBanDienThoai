@@ -37,5 +37,10 @@ namespace HW4
         {
 
         }
+
+        private void Page(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
