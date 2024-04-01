@@ -59,7 +59,10 @@ namespace HW4
                 {
                     new TabItem(),
                     new TabItem() { Content = new ProductManagementScreen(_connection), Header= "Products"},
-                    new TabItem()
+                    new TabItem(),
+                    new TabItem(),
+                    new TabItem(),
+                    new TabItem() {Content = new PromoManagementUserControl(_connection), Header = "Promotions"}
                 };
             tabs.ItemsSource = screens;
         }

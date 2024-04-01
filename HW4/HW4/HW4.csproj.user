@@ -22,6 +22,9 @@
     <Compile Update="PhoneOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="PromoManagementUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddPhoneDialog.xaml">
@@ -40,6 +43,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="PhoneOrder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PromoManagementUserControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
