@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace HW4
 {
-    internal class PHONEORDER
+    public class ORDER
     {
-        public string OrderID { get; set; }
+        public int OrderID { get; set; }
         public string CustomerName { get; set; }
         public DateOnly OrderDate {  get; set; }
-        public Tuple<BindingList<PHONE>, int> OrderedPhone { get; set; }
-        public float totalPrice { get; set; }
+        public BindingList<ORDEREDPHONE> OrderedPhone { get; set; }
+        public BindingList<string> Promo_List { get; set; }
+        public float TotalPrice { get; set; }
         public string status { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
 

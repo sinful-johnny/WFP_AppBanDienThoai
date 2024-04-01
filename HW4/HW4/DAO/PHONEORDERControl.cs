@@ -16,14 +16,84 @@ namespace HW4
 {
     public class PHONEORDERControl(SqlConnection connect)
     {
-        //static public Tuple<BindingList<PHONE>, int, int> GetAllPaging(SqlConnection connection, int page, int rowsPerPage, string keyword, string Manufacturer)
-        //{
-        //    int totalItems = -1;
-        //    int totalPages = -1;
-        //    var orders = new BindingList<PHONEORDER>();
-        //    int skip = (page - 1) * 10;
-        //    int take = rowsPerPage;
-        //    string sql = """select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME,  in """;
-        //}
+        static public Tuple<BindingList<ORDER>, int, int> GetAllPaging(SqlConnection connection, int page, int rowsPerPage)
+        {
+            int totalItems = -1;
+            int totalPages = -1;
+            var orders = new BindingList<ORDER>();
+            int skip = (page - 1) * 10;
+            int take = rowsPerPage;
+            string sql = """
+                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
+                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID
+                              ORDER BY ORDERS.ORDER_ID
+                              OFFSET @Skip ROWS
+                              fetch next @Take rows only
+                         """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            using (var command = new SqlCommand(sql, connection))
+            {
+                //_connection.Open();
+
+                command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
+                command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (totalItems == -1)
+                    {
+                        totalItems = (int)reader["TotalItems"];
+                        totalPages = (totalItems / rowsPerPage);
+                        if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
+                        else totalPages = (int)(totalItems / rowsPerPage) + 1;
+                    }
+
+                    int OrderID = (int)reader["ORDER_ID"];
+                    string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
+                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
+                    string sql2 = """
+                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
+                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              ORDER BY PHONE.ID
+                         """;
+                    BindingList<ORDEREDPHONE> OrderedPhones = [];
+                    using (var command2 = new SqlCommand(sql2, connection)) 
+                    {
+                        command2.Parameters.Add("@Id", SqlDbType.Int).Value = OrderID;
+                        var reader2 = command.ExecuteReader();
+                        while (reader2.Read()) 
+                        {
+                            OrderedPhones.Add(new ORDEREDPHONE()
+                            {
+                                boughtPhone = (string)reader2["NAME"],
+                                quantity = (int)reader2["PHONE_COUNT"]
+                            });
+                        }
+                    }
+
+                    BindingList<String> Promo_List = [];
+                    string sql3 = """
+                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
+                              WHERE ORDERS_PHONE.ORDER_ID = @Id
+                              ORDER BY PHONE.ID
+                         """;
+                    orders.Add(new ORDER()
+                    {
+                        OrderID = OrderID,
+                        CustomerName = FullName,
+                        OrderDate = OrderDate,
+                        OrderedPhone = OrderedPhones
+                    });
+                }
+            }
+
+            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages);
+            return result;
+        }
     }
 }
