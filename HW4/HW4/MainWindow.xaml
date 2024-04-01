@@ -105,6 +105,21 @@
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Promotions">
                 <Fluent:RibbonGroupBox>
+                    <Fluent:Button Header="Add" >
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Delete" >
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="See Available Promos">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/search.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
