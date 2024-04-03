@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <local:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
         <local:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
+        <local:StatusColorConverter x:Key="StatusColorConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -54,11 +55,11 @@
             <Button Margin="0, 10, 0, 0" Content="Refresh" Width="54"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="3" Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Column="2" Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Click="Page" Content="Prev" Margin="0, 0, 5, 0" Width="37" Height="23"/>
             <Button Click="Page" Content="Next" Margin="10, 0, 0, 0" Width="35" Height="23"/>
         </StackPanel>
-        <DataGrid Name="OrderView" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4">
+        <DataGrid Name="OrderView" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeleteOrder"/>
@@ -66,63 +67,15 @@
                 </ContextMenu>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="90"/>
+                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="80"/>
                 <DataGridTextColumn Header="Customer" Binding="{Binding Customer}" Width="110"/>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="70"/>
-                <DataGridTemplateColumn Header="Phones"  Width="120">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding Phone}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Number"  Width="60">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding Phone}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="60"/>
-                <DataGridTextColumn Header="Promo Code" Binding="{Binding PromoCode}" Width="80"/>
-                <DataGridTemplateColumn Header="Status" Width="80">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock HorizontalAlignment="Center">
-                                <Run Text="{Binding Status}"/>
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type Run}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Status}" Value="Pending">
-                                                <Setter Property="Foreground" Value="Yellow"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Status}" Value="Complete">
-                                                <Setter Property="Foreground" Value="Green"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Status}" Value="Cancelled">
-                                                <Setter Property="Foreground" Value="Red"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
+                <DataGridTextColumn Header="Total" Binding="{Binding Date}" Width="70"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Date}" Width="70"/>
+             </DataGrid.Columns>
+
+            
+            
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>

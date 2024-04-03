@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HW4
 {
-    internal class CUSTOMER
+    public class CUSTOMER
     {
         public string Cus_ID {  get; set; }
         public string FirstName { get; set; }
