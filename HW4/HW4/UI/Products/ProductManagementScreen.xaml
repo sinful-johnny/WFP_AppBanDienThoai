@@ -4,11 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HW4"
+             xmlns:converter="clr-namespace:HW4.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
     <UserControl.Resources>
-        <local:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
-        <local:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
+        <converter:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
+        <converter:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>

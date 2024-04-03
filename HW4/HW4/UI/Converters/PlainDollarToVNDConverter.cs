@@ -9,7 +9,7 @@ using System.Globalization;
 
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HW4
+namespace HW4.UI.Converters
 {
     internal class PlainDollarToVNDConverter : IValueConverter
     {

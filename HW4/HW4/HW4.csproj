@@ -95,4 +95,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UI\Dashboard\" />
+    <Folder Include="UI\Customers\" />
+  </ItemGroup>
+
 </Project>

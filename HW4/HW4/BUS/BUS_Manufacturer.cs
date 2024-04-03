@@ -14,6 +14,10 @@ namespace HW4.BUS
         {
             return MANUFACTURERControl.GetMANUFACTURERs(sqlConnection);
         }
+        static public BindingList<MANUFACTURER> getAllManufacturersByKeyword(SqlConnection sqlConnection, string keyWord)
+        {
+            return MANUFACTURERControl.getByKeyWord(sqlConnection, keyWord);
+        }
         static public bool deleteManufacturer(SqlConnection sqlConnection, string ManufacturerID)
         {
             return MANUFACTURERControl.delete(sqlConnection, ManufacturerID);
@@ -21,6 +25,10 @@ namespace HW4.BUS
         static public int insertManufacturer(SqlConnection sqlConnection, string ManufacturerName)
         {
             return MANUFACTURERControl.insert(sqlConnection,ManufacturerName);
+        }
+        static public bool updateManufacturer(SqlConnection connection,string ManufacturerID, string ManufacturerName)
+        {
+            return MANUFACTURERControl.update(connection, ManufacturerID, ManufacturerName);
         }
     }
 }
