@@ -785,11 +785,12 @@ namespace HW4
                     command2.Parameters.Add("@Id", SqlDbType.Int).Value = id;
                     command2.ExecuteNonQuery();
 
-                    foreach (var promoID in PromoIDS)
+                    foreach (var product in OrderedPhone)
                     {
-                        foreach (var product in OrderedPhone)
+                        float price = product.Price * product.quantity;
+                        foreach (var promoID in PromoIDS)
                         {
-                            float price;
+                            
                             string query1 = """
                                 SELECT PROMOTIONS.DISCOUNT
                                 FROM PHONE JOIN PROMOTIONS ON PROMOTIONS.PROMO_PHONE_ID = PHONE.ID
@@ -802,23 +803,23 @@ namespace HW4
                             var reader3 = tempComm.ExecuteReader();
                             while (reader3.Read())
                             {
-                               float discount = (float)reader3["DISCOUNT"];
-                               price = product.Price * discount * product.quantity;
-                               total += price; 
+                                float discount = (float)reader3["DISCOUNT"];
+                                price *= (float)(1 - (discount));
                             }
+                        }
 
-                            string query2 = """
+                        total += price;
+                        string query2 = """
                                 INSERT INTO ORDERS_PHONE (ORDER_ID, PHONE_ID, PHONE_COUNT, TOTAL)
                                 VALUES (@OrderID, @PhoneID, @count, @total)
                                 """;
-                            using var tempComm2 = new SqlCommand(query2, connection);
-                            tempComm2.Parameters.Add("@OrderID", SqlDbType.Int).Value = id;
-                            tempComm2.Parameters.Add("@PhoneID", SqlDbType.Int).Value = product.PhoneID;
-                            tempComm2.Parameters.Add("@count", SqlDbType.Int).Value = product.quantity;
-                            tempComm2.Parameters.Add("@total", SqlDbType.Float).Value = total;
+                        using var tempComm2 = new SqlCommand(query2, connection);
+                        tempComm2.Parameters.Add("@OrderID", SqlDbType.Int).Value = id;
+                        tempComm2.Parameters.Add("@PhoneID", SqlDbType.Int).Value = product.PhoneID;
+                        tempComm2.Parameters.Add("@count", SqlDbType.Int).Value = product.quantity;
+                        tempComm2.Parameters.Add("@total", SqlDbType.Float).Value = total;
 
-                            tempComm2.ExecuteNonQuery();
-                        }
+                        tempComm2.ExecuteNonQuery();
                     }
 
                     string sqlFinal = """
@@ -842,6 +843,171 @@ namespace HW4
 
             connection.Close();
             return id;
+        }
+        static public bool DeleteOrder(SqlConnection connection, int OrderID)
+        {
+            string sql1 = """
+                DELETE FROM PROMO_ORDERS WHERE ORDER_ID = @OrderId
+                """;
+            string sql2 = """
+                DELETE FROM ORDERS_PHONE WHERE ORDER_ID = @OrderId
+                """;
+            string sql3 = """
+                DELETE FROM ORDERS WHERE ORDER_ID = @OrderId
+                """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            using (var command1 = new SqlCommand(sql1, connection))
+            {
+                command1.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                try
+                {
+                    command1.ExecuteNonQuery();
+                }
+                catch (Exception ex1)
+                {
+                    connection.Close();
+                    return false;
+                }
+            }
+
+            using (var command2 = new SqlCommand(sql2, connection))
+            {
+                command2.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                try
+                {
+                    command2.ExecuteNonQuery();
+                }
+                catch (Exception ex2)
+                {
+                    connection.Close();
+                    return false;
+                }
+            }
+            using (var command3 = new SqlCommand(sql3, connection))
+            {
+                command3.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                try
+                {
+                    command3.ExecuteNonQuery();
+                }
+                catch (Exception ex2)
+                {
+                    connection.Close();
+                    return false;
+                }
+            }
+            return true;
+        }
+        static public bool UpDateStatus(SqlConnection connection, string status, int OrderID)
+        {
+            string sql = """
+                    UPDATE ORDERS
+                    SET STATUS = @status
+                    WHERE ORDERS.ORDER_ID = @OrderID
+                """;
+
+            if (connection.State == ConnectionState.Closed) 
+            {
+                connection.Open();
+            }
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@status", SqlDbType.Text).Value = status;
+                command.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    connection.Close();
+                    return false;
+                }
+            }
+            return true;
+        }
+        static public bool NewPhoneInOrder(SqlConnection connection, BindingList<ORDEREDPHONE> Ordered, int OrderID)
+        {
+            string validation = """
+                IF EXISTS(SELECT 1 FROM ORDERS_PHONE WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID)
+                    SELECT 1; -- Returns 1 if exists
+                ELSE
+                    SELECT 0; -- Returns 0 if not exists
+                """;
+
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using SqlCommand validCommand = new SqlCommand(validation, connection);
+            foreach (var Phone in Ordered) 
+            {
+                validCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
+                validCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+
+                int exist = (int)validCommand.ExecuteScalar();
+
+                float price = Phone.quantity * Phone.Price;
+                
+                string getPromo = """
+                        SELECT PROMOTIONS.DISCOUNT
+                        FROM PROMO_ORDERS JOIN PROMOTIONS ON PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
+                        WHERE PROMOTIONS.PROMO_PHONE_ID = @PhoneId AND PROMO_ORDERS = @OrderID
+                    """;
+
+                using var discCommand = new SqlCommand(getPromo, connection);
+                discCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
+                discCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                var readingDiscount = discCommand.ExecuteReader();
+                while (readingDiscount.Read()) 
+                {
+                    float discount = (float)readingDiscount["DISCOUNT"];
+                    price *= (float)(1 - (discount));
+                }
+
+                if (exist == 0)
+                {
+                    string sql = """
+                        UPDATE ORDERS_PHONE
+                        SET PHONE_COUNT = PHONE_COUNT + @count, TOTAL = TOTAL + @price
+                        WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
+                    """;
+                    using var UpdCommand = new SqlCommand(sql, connection);
+                    UpdCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
+                    UpdCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                    UpdCommand.Parameters.Add("@count", SqlDbType.Int).Value = Phone.quantity;
+                    UpdCommand.Parameters.Add("@price", SqlDbType.Float).Value = price;
+                    UpdCommand.ExecuteNonQuery();
+                }
+                else
+                {
+                    string sql = """
+                        INSERT INTO ORDERS_PHONE(ORDER_ID, PHONE_ID, PHONE_COUNT, TOTAL)
+                        VALUES (@OrderID, @PhoneID, @count, @price)
+                    """;
+                    using var UpdCommand = new SqlCommand(sql, connection);
+                    UpdCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
+                    UpdCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                    UpdCommand.Parameters.Add("@count", SqlDbType.Int).Value = Phone.quantity;
+                    UpdCommand.Parameters.Add("@price", SqlDbType.Float).Value = price;
+                    UpdCommand.ExecuteNonQuery();
+                }
+
+                string updateOrder = """
+                        UPDATE ORDERS
+                        SET TOTAL = TOTAL + @price
+                        WHERE ORDER_ID = @OrderID
+                    """;
+                using var orderCommand = new SqlCommand(updateOrder, connection);
+                orderCommand.Parameters.Add("@price", SqlDbType.Float).Value = price;
+                orderCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+            }
+
+            return true;
         }
     }
 }
