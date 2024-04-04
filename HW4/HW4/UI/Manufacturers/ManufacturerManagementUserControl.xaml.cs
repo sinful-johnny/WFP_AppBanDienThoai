@@ -114,9 +114,9 @@ namespace HW4
 
         private async void UpdateManufacturers()
         {
-            DataRowView row = (DataRowView)ManufacturerDataGrid.SelectedItems[0];
-            string ManufacturerID = (string)row.Row.ItemArray[0];
-            string ManufacturerName = (string)row.Row.ItemArray[1];
+            DataRowView row = (DataRowView)ManufacturerDataGrid.SelectedItems[0]!;
+            string ManufacturerID = (string)row.Row.ItemArray[0]!;
+            string ManufacturerName = (string)row.Row.ItemArray[1]!;
 
             var screen = new ManufacturerNameInputScreen();
             var result = screen.ShowDialog();

@@ -45,7 +45,7 @@
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Products">
                 <Fluent:RibbonGroupBox Header="Import">
-                    <Fluent:Button Header="Excel" >
+                    <Fluent:Button Header="Excel" x:Name="ExcelImportRibbonButton" Click="ExcelImportRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="./Images/excel.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>

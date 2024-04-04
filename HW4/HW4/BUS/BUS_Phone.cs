@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,26 @@ namespace HW4.BUS
         static public bool delete(SqlConnection connection, int ID)
         {
             return PHONEControl.DeletePHONE(connection, ID);
+        }
+
+        static public bool insertMany(SqlConnection connection, DataTable data)
+        {
+            try
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    string PhoneName = (string)row.ItemArray[0]!;
+                    int ManufacturerID = int.Parse((string)row.ItemArray[1]!);
+                    string Thumbnail = (string)row.ItemArray[2]!;
+                    double Price = double.Parse((string)row.ItemArray[3]!);
+
+                    PHONEControl.InsertPHONE(connection, PhoneName, ManufacturerID, Thumbnail, Price);
+                }
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            return true;
         }
 
         static public int insert(SqlConnection connection, string name, int ManufacturerID, string Thumbnail, double Price)

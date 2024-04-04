@@ -16,7 +16,6 @@ namespace HW4
 {
     public class PHONEControl(SqlConnection connection)
     {
-
         static public Tuple<BindingList<PHONE>, int, int> GetAllPagingWithKeywordAndManufacturer(SqlConnection connection,int page, int rowsPerPage, string keyword, string Manufacturer)
         {
             int totalItems = -1;

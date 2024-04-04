@@ -25,6 +25,9 @@
     <Compile Update="UI\Orders\OrderInfo.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UI\Products\ExcelImportDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Products\PhoneInfoUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Orders\OrderInfo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Products\ExcelImportDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Products\PhoneInfoUserControl.xaml">

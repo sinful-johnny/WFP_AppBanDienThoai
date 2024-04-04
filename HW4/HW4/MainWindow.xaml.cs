@@ -121,5 +121,14 @@ namespace HW4
                 ManufacturerManagementUserControl.ManufacturerManagementAction.DeleteManufacturer
             );
         }
+
+        private void ExcelImportRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ProductManagementScreen? userControl = (ProductManagementScreen)tabItem.Content;
+            userControl.HandleParentEvent(
+                ProductManagementScreen.ProductManagementAction.ExcelImport
+            );
+        }
     }
 }
