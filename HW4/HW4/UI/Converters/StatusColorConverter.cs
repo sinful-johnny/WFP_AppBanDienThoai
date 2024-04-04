@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace HW4
+namespace HW4.UI.Converters
 {
     internal class StatusColorConverter : IValueConverter
     {
@@ -19,13 +19,13 @@ namespace HW4
             }
             if (value != null && value.ToString().Contains("Complete"))
             {
-                return Brushes.Green; 
+                return Brushes.Green;
             }
             if (value != null && value.ToString().Contains("Cancelled"))
             {
-                return Brushes.Red; 
+                return Brushes.Red;
             }
-            return Brushes.Black; 
+            return Brushes.Black;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

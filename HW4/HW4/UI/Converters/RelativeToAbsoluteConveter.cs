@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace HW4
+namespace HW4.UI.Converters
 {
     internal class RelativeToAbsoluteConveter : IValueConverter
     {

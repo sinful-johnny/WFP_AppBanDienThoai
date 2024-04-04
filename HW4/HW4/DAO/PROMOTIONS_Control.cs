@@ -19,7 +19,7 @@ namespace HW4
             int skip = (page - 1) * 10;
             int take = rowsPerPage;
             string sql = """
-                             select PR.PROMO_ID, PR.PROMO_NAME, PR.STARTDATE, PR.ENDDATE, M.NAME, PR.DISCOUNTS, PR.PROMO_STATUS, count(*) over() as TotalItems 
+                             select PR.PROMO_ID, PR.PROMO_NAME, PR.STARTDATE, PR.ENDDATE, M.NAME as APPLIED_MANUFACTURER, PR.DISCOUNTS, PR.PROMO_STATUS, count(*) over() as TotalItems 
                              from MANUFACTURER as M, PROMOTIONS as PR 
                              where M.ID = PR.PROMO_MANUFACTURER_ID
                              order by PR.PROMO_ID

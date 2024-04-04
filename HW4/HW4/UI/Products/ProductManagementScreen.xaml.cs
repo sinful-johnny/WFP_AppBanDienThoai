@@ -1,4 +1,5 @@
 ﻿using HW4.BUS;
+using HW4.UI.Products;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,7 +53,7 @@ namespace HW4
             AddProduct,
             DeleteProduct,
             EditProduct,
-
+            ExcelImport
         }
 
         public void HandleParentEvent(ProductManagementAction action)
@@ -69,6 +70,9 @@ namespace HW4
 
                 case ProductManagementAction.EditProduct:
                     UpdateProductHandler();
+                break;
+                case ProductManagementAction.ExcelImport:
+                    ImportProduct();
                 break;
             }
         }
@@ -167,6 +171,13 @@ namespace HW4
                 SelectedPhone.Thumbnail = dialog.NewPhone.Thumbnail;
                 SelectedPhone.Price = dialog.NewPhone.Price;
             }
+        }
+
+        private void ImportProduct()
+        {
+            var screen = new ExcelImportDialog(_connection);
+            var result = screen.ShowDialog();
+            LoadData();
         }
 
         private void ManufacturerFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

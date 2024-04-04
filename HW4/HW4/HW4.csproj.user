@@ -7,51 +7,69 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="AddPhoneDialog.xaml.cs">
+    <Compile Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="EditPhoneDialog.xaml.cs">
+    <Compile Update="UI\Products\AddPhoneDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="LoginScreen.xaml.cs">
+    <Compile Update="UI\Products\EditPhoneDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="OrderInfo.xaml.cs">
+    <Compile Update="UI\LoginScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="PhoneInfoUserControl.xaml.cs">
+    <Compile Update="UI\Manufacturers\ManufacturerManagementUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="PhoneOrder.xaml.cs">
+    <Compile Update="UI\Orders\OrderInfo.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="PromoManagementUserControl.xaml.cs">
+    <Compile Update="UI\Products\ExcelImportDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Products\PhoneInfoUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Orders\PhoneOrder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Promotions\PromoManagementUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="AddPhoneDialog.xaml">
+    <Page Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="EditPhoneDialog.xaml">
+    <Page Update="UI\Products\AddPhoneDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="LoginScreen.xaml">
+    <Page Update="UI\Products\EditPhoneDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\LoginScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="OrderInfo.xaml">
+    <Page Update="UI\Manufacturers\ManufacturerManagementUserControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PhoneInfoUserControl.xaml">
+    <Page Update="UI\Orders\OrderInfo.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PhoneOrder.xaml">
+    <Page Update="UI\Products\ExcelImportDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PromoManagementUserControl.xaml">
+    <Page Update="UI\Products\PhoneInfoUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Orders\PhoneOrder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Promotions\PromoManagementUserControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

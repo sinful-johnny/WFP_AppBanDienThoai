@@ -59,7 +59,7 @@ namespace HW4
                 {
                     new TabItem(),
                     new TabItem() { Content = new ProductManagementScreen(_connection), Header= "Products"},
-                    new TabItem(),
+                    new TabItem() {Content = new ManufacturerManagementUserControl(_connection), Header = "Manufacturer"},
                     new TabItem(),
                     new TabItem(),
                     new TabItem() {Content = new PromoManagementUserControl(_connection), Header = "Promotions"}
@@ -97,7 +97,38 @@ namespace HW4
 
         private void AddManufacturerRibbonButton_Click(object sender, RoutedEventArgs e)
         {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ManufacturerManagementUserControl? userControl = (ManufacturerManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                ManufacturerManagementUserControl.ManufacturerManagementAction.AddManufacturer
+            );
+        }
 
+        private void UpdateManufacturerRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ManufacturerManagementUserControl? userControl = (ManufacturerManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                ManufacturerManagementUserControl.ManufacturerManagementAction.UpdateManufacturer
+            );
+        }
+
+        private void DeleteManufacturerRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ManufacturerManagementUserControl? userControl = (ManufacturerManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                ManufacturerManagementUserControl.ManufacturerManagementAction.DeleteManufacturer
+            );
+        }
+
+        private void ExcelImportRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            ProductManagementScreen? userControl = (ProductManagementScreen)tabItem.Content;
+            userControl.HandleParentEvent(
+                ProductManagementScreen.ProductManagementAction.ExcelImport
+            );
         }
     }
 }
