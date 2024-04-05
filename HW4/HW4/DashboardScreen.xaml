@@ -7,9 +7,14 @@
         xmlns:local="clr-namespace:HW4" Width="400" Height="135"
         mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" 
         Loaded="Dashboard_Loaded" Unloaded="Dashboard_Unloaded" Background="Transparent">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVisConv"/>
+    </UserControl.Resources>
+    
     <Border CornerRadius="25" Padding="20" Background="#f7f6f4" 
             MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-        <Grid>
+        <Grid Margin="-2,0,2,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.2*"/>
                 <ColumnDefinition Width="4*"/>
@@ -63,9 +68,52 @@
             </Border>
             
             <!--Search Section-->
-            <Border Grid.Column="1" Margin="20 0 20 20">
-                
+            <Border Grid.Column="1" Margin="20 0 20 20" Style="{StaticResource whiteBorder}">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Border Width="50" Height="50" CornerRadius="10" Margin="5 0 20 0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#fb7456" Offset="0"/>
+                                    <GradientStop Color="#fa5654" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            
+                            <Image Width="40" Height="40" Source="/Images/Search.png"/>
+                        </Border>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Hello, Team" FontSize="26" FontWeight="Bold" Style="{StaticResource titleText1}"/>
+                            <TextBlock Text="Have a good day!!!" Foreground="#6c879a" Margin="0 3 0 0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <!--Search TextBox-->
+                    <Grid Width="300" HorizontalAlignment="Right">
+                        <TextBlock Margin="15 0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1"
+                                   Text="Search here ..." IsHitTestVisible="False"
+                                   Visibility="{Binding ElementName=textBoxSearch, Path=Text.IsEmpty, 
+                                                        Converter={StaticResource boolToVisConv}}"/>
+                        <TextBox x:Name="textBoxSearch" Style="{StaticResource searchTextBox}"/>
+
+                        <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" Foreground="#ff6d46"
+                                               Margin="0 0 15 0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    </Grid>
+                </Grid>
             </Border>
+
+            <!--Infor Card-->
+            <Grid Grid.Column="1" Grid.Row="1" Margin="10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--Card-->
+                
+            </Grid>
         </Grid>
     </Border>
 </UserControl>
