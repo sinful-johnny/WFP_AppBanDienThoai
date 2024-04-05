@@ -130,5 +130,41 @@ namespace HW4
                 ProductManagementScreen.ProductManagementAction.ExcelImport
             );
         }
+
+        private void AddPromotionRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PromoManagementUserControl? userControl = (PromoManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                PromoManagementUserControl.PromotionManagementActions.AddPromo
+            );
+        }
+
+        private void UpdatePromotionRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PromoManagementUserControl? userControl = (PromoManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                PromoManagementUserControl.PromotionManagementActions.EditPromo
+            );
+        }
+
+        private void DeletePromotionRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PromoManagementUserControl? userControl = (PromoManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                PromoManagementUserControl.PromotionManagementActions.DeletePromo
+            );
+        }
+
+        private void AvailablePromosRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PromoManagementUserControl? userControl = (PromoManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                PromoManagementUserControl.PromotionManagementActions.SeeAvailablePromo
+            );
+        }
     }
 }

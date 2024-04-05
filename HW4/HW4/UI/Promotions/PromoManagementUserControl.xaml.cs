@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.UI.Promotions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -34,12 +35,39 @@ namespace HW4
             InitializeComponent();
             _con = connection;
         }
+
+        public enum PromotionManagementActions
+        {
+            AddPromo,
+            EditPromo,
+            DeletePromo,
+            SeeAvailablePromo
+        }
+        public void HandleParentEvent(PromotionManagementActions action)
+        {
+            switch (action)
+            {
+                case PromotionManagementActions.AddPromo:
+                    AddPromotion();
+                    break;
+                case PromotionManagementActions.EditPromo:
+                    EditPromotion();
+                    break;
+                case PromotionManagementActions.DeletePromo:
+                    break;
+                case PromotionManagementActions.SeeAvailablePromo:
+                    break;
+            }
+        }
+
         void LoadData()
         {
             try
             {
                 (_promos, totalItems, totalPages) = PROMOTIONS_Control.GetAllPaging(_con, _currentPage, _rowPerPage);
-            }catch (Exception ex)
+                PromoDataGrid.ItemsSource = _promos.DefaultView;
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
@@ -48,8 +76,6 @@ namespace HW4
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             LoadData();
-
-            PromoDataGrid.ItemsSource = _promos.DefaultView;
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -58,6 +84,28 @@ namespace HW4
             {
                 _con.Close();
             }
+        }
+
+        private void AddPromotion()
+        {
+            var screen = new PromoInfoDialog(_con);
+            screen.ShowDialog();
+        }
+
+        private void EditPromotion()
+        {
+            if(PromoDataGrid.SelectedItems.Count != 0)
+            {
+                var selectRow = (DataRowView)PromoDataGrid.SelectedItems[0]!;
+                var screen = new PromoInfoDialog(_con, selectRow);
+                screen.ShowDialog();
+                LoadData();
+            }
+            else
+            {
+                MessageBox.Show("Choose an item to edit!","Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
     }
 }

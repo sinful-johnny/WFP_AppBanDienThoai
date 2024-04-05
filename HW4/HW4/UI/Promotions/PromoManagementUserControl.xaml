@@ -24,18 +24,6 @@
                 <TextBox x:Name="SearchTextBox"/>
                 <Button x:Name="SeachButton" Content="Search" Width="50" Margin="0,5,0,0"/>
             </StackPanel>
-            <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                <Label Content="Manufacturer Filter"/>
-                <ComboBox x:Name="ManufactererFilterComboBox"/>
-                <Button x:Name="ManufacturerFilterButton" Content="Apply" Width="50" Margin="0,5,0,0"/>
-            </StackPanel>
-            <StackPanel Grid.Row="2" Grid.RowSpan="2">
-                <Label Content="Start Date"/>
-                <DatePicker Name="StartDatePicker"/>
-                <Label Content="End Date"/>
-                <DatePicker Name="EndDatePicker"/>
-                <Button x:Name="Apply" Content="Apply" Width="50" Margin="0,5,0,0"/>
-            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

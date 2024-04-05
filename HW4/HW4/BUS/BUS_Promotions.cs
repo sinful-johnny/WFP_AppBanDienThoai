@@ -14,5 +14,9 @@ namespace HW4.BUS
         {
             return PROMOTIONS_Control.GetAllPaging(connection, page, rowsPerPage);
         }
+        static public bool updatePromotion(SqlConnection connection, int ID, string PromoName, DateTime StartDate, DateTime EndDate, int ManufacturerID, int PhoneID, double Discount, string Status)
+        {
+            return PROMOTIONS_Control.Update(connection, ID, PromoName, StartDate, EndDate, ManufacturerID, PhoneID, Discount, Status);
+        }
     }
 }

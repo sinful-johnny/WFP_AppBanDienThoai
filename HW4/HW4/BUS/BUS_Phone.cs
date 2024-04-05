@@ -44,6 +44,26 @@ namespace HW4.BUS
                 return PHONEControl.GetAllPaging(connection, page, rowsPerPage);
             }
         }
+        static public Tuple<DataTable,int,int> GetPhoneToDataTable(SqlConnection connection, int page, int rowsPerPage)
+        {
+            int totalItems;
+            int totalPage;
+            BindingList<PHONE> list;
+            (list,totalItems,totalPage) = PHONEControl.GetAllPaging(connection,page,rowsPerPage);
+
+            DataTable phoneDataTable = new DataTable();
+            phoneDataTable.Columns.Add("ID",typeof(int));
+            phoneDataTable.Columns.Add("PhoneName", typeof(string));
+            phoneDataTable.Columns.Add("Price", typeof(string));
+            phoneDataTable.Columns.Add("Thumbnail", typeof(string));
+            phoneDataTable.Columns.Add("Manufacturer", typeof(string));
+
+            foreach (PHONE phone in list) { 
+                phoneDataTable.Rows.Add(phone.ID,phone.PhoneName,phone.Price,phone.Thumbnail,phone.Manufacturer);
+            }
+
+            return new Tuple<DataTable, int, int>(phoneDataTable,totalItems,totalPage);
+        }
         static public bool delete(SqlConnection connection, int ID)
         {
             return PHONEControl.DeletePHONE(connection, ID);
