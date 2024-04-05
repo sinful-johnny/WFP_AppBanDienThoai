@@ -88,25 +88,28 @@ namespace HW4.UI.Promotions
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if(_mode == Mode.Insert)
+            MANUFACTURER selectedManufacturer = (MANUFACTURER)ManufacturerComboBox.SelectedItem;
+            _Name = PromotionNameTextBox.Text;
+            _startDate = DateTime.Parse(StartDatePicker.Text);
+            _endDate = DateTime.Parse(EndDatePicker.Text);
+            _discount = double.Parse(DiscountTextBox.Text);
+            _status = StatusTextBox.Text;
+            int phoneId;
+            if (_selectedPhone != null)
             {
+                phoneId = _selectedPhone.ID;
+            }
+            else
+            {
+                phoneId = -1;
+            }
 
+            if (_mode == Mode.Insert)
+            {
+                BUS_Promotions.insertPromotion(_conn, _ID, _Name, _startDate, _endDate, selectedManufacturer.ID, phoneId, _discount, _status);
             }else if(_mode == Mode.Update)
             {
-                MANUFACTURER selectedManufacturer = (MANUFACTURER)ManufacturerComboBox.SelectedItem;
-                _Name = PromotionNameTextBox.Text;
-                _startDate = DateTime.Parse(StartDatePicker.Text);
-                _endDate = DateTime.Parse(EndDatePicker.Text);
-                _discount = double.Parse(DiscountTextBox.Text);
-                _status = StatusTextBox.Text;
-                if(_selectedPhone != null)
-                {
-                    var result = BUS_Promotions.updatePromotion(_conn, _ID, _Name, _startDate, _endDate, selectedManufacturer.ID, _selectedPhone.ID, _discount, _status);
-                }
-                else
-                {
-                    var result = BUS_Promotions.updatePromotion(_conn, _ID, _Name, _startDate, _endDate, selectedManufacturer.ID, -1, _discount, _status);
-                }
+                var result = BUS_Promotions.updatePromotion(_conn, _ID, _Name, _startDate, _endDate, selectedManufacturer.ID, phoneId, _discount, _status);
             }
             DialogResult= true;
         }

@@ -10,10 +10,13 @@
     <Compile Update="DashboardScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UI\Customers\CustomerManagementUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UI\Manufacturers\PickAPhoneDialog.xaml.cs">
+    <Compile Update="UI\Promotions\PickAPhoneDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Products\AddPhoneDialog.xaml.cs">
@@ -51,10 +54,13 @@
     <Page Update="DashboardScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="UI\Customers\CustomerManagementUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UI\Manufacturers\PickAPhoneDialog.xaml">
+    <Page Update="UI\Promotions\PickAPhoneDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Products\AddPhoneDialog.xaml">

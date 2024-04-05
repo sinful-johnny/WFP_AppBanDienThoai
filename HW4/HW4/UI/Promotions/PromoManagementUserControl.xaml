@@ -11,6 +11,10 @@
             <ColumnDefinition Width="0.5*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
         <DataGrid x:Name="PromoDataGrid" Grid.Column="1"/>
         <Grid>
             <Grid.RowDefinitions>
@@ -25,5 +29,20 @@
                 <Button x:Name="SeachButton" Content="Search" Width="50" Margin="0,5,0,0"/>
             </StackPanel>
         </Grid>
+
+        <StatusBar Grid.Row="1" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="PrevButton" Content="Prev" Width="40" Height="20" Margin="0,0,10,0" Click="PrevButton_Click"/>
+            <ComboBox x:Name="PageSelectComboBox" Width="100" Height="20" SelectionChanged="PageSelectComboBox_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Run Text="{Binding _pageNo}"/>/<Run Text="{Binding _totalPages}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="NextButton" Content="Next" Width="40" Height="20" Margin="10,0,0,0" Click="NextButton_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>
