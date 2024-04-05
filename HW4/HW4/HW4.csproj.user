@@ -7,6 +7,15 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="DashboardScreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Customers\CustomerInfoDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Customers\CustomerManagementUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,11 +49,23 @@
     <Compile Update="UI\Orders\PhoneOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UI\Promotions\PromoInfoDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Promotions\PromoManagementUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="DashboardScreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Customers\CustomerInfoDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Customers\CustomerManagementUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -79,6 +100,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Orders\PhoneOrder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Promotions\PromoInfoDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Promotions\PromoManagementUserControl.xaml">

@@ -14,5 +14,21 @@ namespace HW4.BUS
         {
             return PROMOTIONS_Control.GetAllPaging(connection, page, rowsPerPage);
         }
+        static public Tuple<DataTable, int, int> getOpenPromos(SqlConnection connection, int page, int rowsPerPage)
+        {
+            return PROMOTIONS_Control.getOpenPromos(connection, page, rowsPerPage);
+        }
+        static public bool updatePromotion(SqlConnection connection, int ID, string PromoName, DateTime StartDate, DateTime EndDate, int ManufacturerID, int PhoneID, double Discount, string Status)
+        {
+            return PROMOTIONS_Control.Update(connection, ID, PromoName, StartDate, EndDate, ManufacturerID, PhoneID, Discount, Status);
+        }
+        static public int insertPromotion(SqlConnection connection, int ID, string PromoName, DateTime StartDate, DateTime EndDate, int ManufacturerID, int PhoneID, double Discount, string Status)
+        {
+            return PROMOTIONS_Control.Insert(connection, ID, PromoName, StartDate, EndDate, ManufacturerID, PhoneID, Discount, Status);
+        }
+        static public bool deletePromotion(SqlConnection connection, int ID)
+        {
+            return PROMOTIONS_Control.Delete(connection, ID);
+        }
     }
 }

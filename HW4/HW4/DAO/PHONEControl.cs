@@ -21,7 +21,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var phones = new BindingList<PHONE>();
-            int skip = (page - 1 ) * 10;
+            int skip = (page - 1 ) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                                 select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
@@ -82,7 +82,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var phones = new BindingList<PHONE>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string    sql = """
                                 select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
@@ -136,7 +136,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var phones = new BindingList<PHONE>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                                 select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
@@ -190,7 +190,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var phones = new BindingList<PHONE>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                              select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
@@ -242,7 +242,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var phones = new BindingList<PHONE>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                              select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
@@ -298,7 +298,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var phones = new BindingList<PHONE>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                              select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 

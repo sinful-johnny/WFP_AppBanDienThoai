@@ -1,11 +1,10 @@
-﻿using HW4.BUS;
-using HW4.UI.Promotions;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using HW4.BUS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,13 +17,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static HW4.PromoManagementUserControl;
 
-namespace HW4
+namespace HW4.UI.Customers
 {
+
     /// <summary>
-    /// Interaction logic for PromoManagementUserControl.xaml
+    /// Interaction logic for CustomerManagementUserControl.xaml
     /// </summary>
-    public partial class PromoManagementUserControl : UserControl
+    public partial class CustomerManagementUserControl : UserControl
     {
         SqlConnection _con;
         int _rowPerPage = 32;
@@ -32,37 +33,32 @@ namespace HW4
         int _pageSize = 10;
         int totalPages = -1;
         int totalItems = -1;
-        DataTable _promos;
-        int mode = Mode.Default;
+        BindingList<CUSTOMER> _customers;
         BindingList<Page> PageOptions = new BindingList<Page>();
-        public PromoManagementUserControl(SqlConnection connection)
+        public CustomerManagementUserControl(SqlConnection connection)
         {
             InitializeComponent();
             _con = connection;
         }
-
-        public enum PromotionManagementActions
+        public enum CustomerManagementActions
         {
-            AddPromo,
-            EditPromo,
-            DeletePromo,
-            SeeAvailablePromo
+            AddCustomer,
+            EditCustomer,
+            DeleteCustomer,
         }
-        public void HandleParentEvent(PromotionManagementActions action)
+
+        public void HandleParentEvent(CustomerManagementActions action)
         {
             switch (action)
             {
-                case PromotionManagementActions.AddPromo:
-                    AddPromotion();
+                case CustomerManagementActions.AddCustomer:
+                    AddCustomer();
                     break;
-                case PromotionManagementActions.EditPromo:
-                    EditPromotion();
+                case CustomerManagementActions.EditCustomer:
+                    EditCustomer();
                     break;
-                case PromotionManagementActions.DeletePromo:
-                    DeletePromotion();
-                    break;
-                case PromotionManagementActions.SeeAvailablePromo:
-                    SeeOpenPromos();
+                case CustomerManagementActions.DeleteCustomer:
+                    DeleteCustomer();
                     break;
             }
         }
@@ -72,13 +68,8 @@ namespace HW4
             try
             {
                 int oldTotalPages = totalPages;
-                if (mode == Mode.Default)
-                {
-                    (_promos, totalItems, totalPages) = PROMOTIONS_Control.GetAllPaging(_con, _currentPage, _rowPerPage);
-                }else if(mode == Mode.OpenOnly) {
-                    (_promos, totalItems, totalPages) = PROMOTIONS_Control.getOpenPromos(_con, _currentPage, _rowPerPage); 
-                }
-                PromoDataGrid.ItemsSource = _promos.DefaultView;
+                (_customers, totalItems, totalPages) = BUS_Customer.GetCustomerByPaging(_con,_currentPage,_rowPerPage);
+                CustomerDataGrid.ItemsSource = _customers;
                 if (oldTotalPages != totalPages)
                 {
                     PageOptions.Clear();
@@ -117,7 +108,12 @@ namespace HW4
                 MessageBox.Show(ex.ToString());
             }
         }
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadData();
 
+            PageSelectComboBox.SelectedIndex = 0;
+        }
         private void PageSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (PageSelectComboBox.SelectedItem != null && _currentPage != ((Page)PageSelectComboBox.SelectedItem)._pageNo)
@@ -137,13 +133,6 @@ namespace HW4
             PageSelectComboBox.SelectedItem = PageOptions.FirstOrDefault(x => x._pageNo == _currentPage + 1);
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadData();
-            
-            PageSelectComboBox.SelectedIndex = 0;
-        }
-
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             if(_con.State == ConnectionState.Open)
@@ -152,68 +141,52 @@ namespace HW4
             }
         }
 
-        private void AddPromotion()
+        private void AddCustomer()
         {
-            var screen = new PromoInfoDialog(_con);
-            screen.ShowDialog();
-        }
-
-        private void EditPromotion()
-        {
-            if(PromoDataGrid.SelectedItems.Count != 0)
+            var screen = new CustomerInfoDialog(_con);
+            var result = screen.ShowDialog();
+            if (result == true)
             {
-                var selectRow = (DataRowView)PromoDataGrid.SelectedItems[0]!;
-                var screen = new PromoInfoDialog(_con, selectRow);
-                screen.ShowDialog();
-                LoadData();
+                MessageBox.Show($"Customer created!", "Success", MessageBoxButton.OK);
             }
             else
             {
-                MessageBox.Show("Choose an item to edit!","Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Cannot create customer!", "Failed", MessageBoxButton.OK);
+            }
+            LoadData();
+        }
+        private void EditCustomer()
+        {
+            var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
+            var screen = new CustomerInfoDialog(_con, selectedCustomer);
+            var result = screen.ShowDialog();
+            if (result == true)
+            {
+                LoadData();
             }
         }
-        private void DeletePromotion()
+
+        private void DeleteCustomer()
         {
-            if (PromoDataGrid.SelectedItems.Count != 0)
+            var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
+            int id = int.Parse(selectedCustomer.Cus_ID);
+            try
             {
-                var selectedRow = (DataRowView)PromoDataGrid.SelectedItems[0]!;
-                int id = (int)selectedRow.Row.ItemArray[0]!;
-                var result = BUS_Promotions.deletePromotion(_con, id);
-                LoadData();
+                var result = BUS_Customer.Delete(_con, id);
                 if (result == true)
                 {
-                    MessageBox.Show($"Promotion with ID: {id} has been deleted!", "Success", MessageBoxButton.OK);
+                    MessageBox.Show($"Customer with ID: {id} has been deleted!", "Success", MessageBoxButton.OK);
                 }
                 else
                 {
-                    MessageBox.Show($"Cannot delete promotion with ID: {id}", "Failed", MessageBoxButton.OK);
+                    MessageBox.Show($"Cannot delete customer with ID: {id}", "Failed", MessageBoxButton.OK);
                 }
-            }
-            else
+                LoadData();
+            }catch (Exception ex)
             {
-                MessageBox.Show("Choose an item to edit!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(),"Error",MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void SeeOpenPromos()
-        {
-            if(mode != Mode.OpenOnly)
-            {
-                mode = Mode.OpenOnly;
-            }
-            else
-            {
-                mode = Mode.Default;
-            }
-            
-            LoadData();
-        }
-    }
-    internal class Mode
-    {
-        static public int Default { get { return 0; } }
-        static public int OpenOnly { get { return 1; } }
-        static public int KeyWord { get { return 2; } }
     }
     internal class Page
     {

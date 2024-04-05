@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HW4
 {
-    public class CUSTOMER
+    public class CUSTOMER : INotifyPropertyChanged
     {
         public int Cus_ID {  get; set; }
         public string Name { get; set; }

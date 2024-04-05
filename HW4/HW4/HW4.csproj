@@ -26,6 +26,7 @@
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.2" />
     <PackageReference Include="Fluent.Ribbon" Version="10.0.4" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -58,7 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Images\CUSTOMER_PIC\blank-pfp.png">
+    <None Update="Images\blank-pfp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Images\Phone00.jpg">
@@ -100,8 +101,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Images\CUSTOMER_PIC\" />
     <Folder Include="UI\Dashboard\" />
-    <Folder Include="UI\Customers\" />
   </ItemGroup>
 
 </Project>

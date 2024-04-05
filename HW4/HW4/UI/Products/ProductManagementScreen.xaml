@@ -15,7 +15,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -76,12 +75,18 @@
             <Button x:Name="RefreshFilterButton" Content="Refresh" Height="30" Width="60" Margin="0,5,0,0" Click="RefreshFilterButton_Click"/>
         </StackPanel>
 
+        <StatusBar Height="30" Grid.Row="2" Grid.ColumnSpan="6">
+
+        </StatusBar>
         <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="PreviousPageButton" Content="Prev" Width="30" Height="30" Click="PreviousPageButton_Click"/>
-            <TextBlock x:Name="PageDisplayTextBlock">
-            <Run Text=" "/> _ <Run Text=" "/>
+            <Button x:Name="PreviousPageButton" Content="Prev" Width="40" Height="20" Click="PreviousPageButton_Click"/>
+            <TextBlock x:Name="PageDisplayTextBlock" VerticalAlignment="Center">
+            <Run Text=" "/> - <Run Text=" "/>
             </TextBlock>
-            <Button x:Name="NextPageButton" Content="Next" Width="30" Height="30" Click="NextPageButton_Click"/>
+            <Button x:Name="NextPageButton" Content="Next" Width="40" Height="20" Click="NextPageButton_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <ComboBox Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ItemPerPageComboBox" SelectedIndex="1" SelectionChanged="ItemPerPageComboBox_SelectionChanged"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
@@ -89,7 +94,7 @@
             <TextBox x:Name="searchTextBox" Height="25" />
             <Button x:Name="searchButton" Content="Search" Width="50" Height="30" Margin="0,5,0,0" Click="searchButton_Click"/>
 
-            <Label Content="Price :" Margin="0,20,0,0"/>
+            <Label Content="Price($US):" Margin="0,20,0,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Label Content="Min" HorizontalAlignment="Center" FontSize="9"/>
@@ -114,8 +119,6 @@
             <Button x:Name="PriceFilterButton" Content="Apply Price" Width="70" Height="20" Margin="0,5,0,0" Click="PriceFilterButton_Click"/>
         </StackPanel>
 
-        <StatusBar Height="30" Grid.Row="4" Grid.ColumnSpan="6">
-
-        </StatusBar>
+        
     </Grid>
 </UserControl>

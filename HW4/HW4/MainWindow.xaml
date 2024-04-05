@@ -18,7 +18,7 @@
             </Fluent:Ribbon.Menu>
 
             <Fluent:RibbonTabItem Header="Dashboard">
-                <Fluent:RibbonGroupBox Header="Import">
+                <!--<Fluent:RibbonGroupBox Header="Import">
                     <Fluent:Button Header="Excel" >
                         <Fluent:Button.LargeIcon>
                             <Image Source="./Images/excel.png" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -41,7 +41,7 @@
                             <Image Source="Images/garbage.png"  RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                </Fluent:RibbonGroupBox>
+                </Fluent:RibbonGroupBox>-->
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Products">
                 <Fluent:RibbonGroupBox Header="Import">
@@ -115,22 +115,44 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Customers">
-                <Fluent:RibbonGroupBox>
-                </Fluent:RibbonGroupBox>
-            </Fluent:RibbonTabItem>
-            <Fluent:RibbonTabItem Header="Promotions">
-                <Fluent:RibbonGroupBox>
-                    <Fluent:Button Header="Add" >
+                <Fluent:RibbonGroupBox Header="Utilities">
+                    <Fluent:Button Header="Add" x:Name="AddCustomerRibbonButton" Click="AddCustomerRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:Button Header="Delete" >
+                    <Fluent:Button Header="Update" x:Name="UpdateCustomerRibbonButton" Click="UpdateCustomerRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/pencil.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Delete" x:Name="DeleteCustomerRibbonButton" Click="DeleteCustomerRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:Button Header="See Available Promos">
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <Fluent:RibbonTabItem Header="Promotions">
+                <Fluent:RibbonGroupBox Header="Utilities">
+                    <Fluent:Button Header="Add" x:Name="AddPromotionRibbonButton" Click="AddPromotionRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Update" x:Name="UpdatePromotionRibbonButton" Click="UpdatePromotionRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/pencil.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Delete" x:Name="DeletePromotionRibbonButton" Click="DeletePromotionRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="View">
+                    <Fluent:Button Header="See Available Promos" x:Name="AvailablePromosRibbonButton" Click="AvailablePromosRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/search.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>

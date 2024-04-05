@@ -39,6 +39,11 @@ namespace HW4
         };
         string filter = "Manufacturer_Keyword";
 
+        List<int> ItemPerPageOptions = new List<int>()
+        {
+            4,16,32,64,128,512,1024
+        };
+
         public ProductManagementScreen(SqlConnection con)
         {
             InitializeComponent();
@@ -46,6 +51,7 @@ namespace HW4
             searchTextBox.DataContext = _keyword;
             MinPriceTextBox.DataContext = _priceRange;
             MaxPriceTextBox.DataContext = _priceRange;
+            ItemPerPageComboBox.ItemsSource = ItemPerPageOptions;
         }
 
         public enum ProductManagementAction
@@ -96,7 +102,7 @@ namespace HW4
             {
                 MessageBox.Show(ex.ToString());
             }
-            if (totalItems < _rowPerPage)
+            if (_currentPage == totalPages)
             {
                 NextPageButton.IsEnabled = false;
             }
@@ -242,6 +248,11 @@ namespace HW4
             LoadData();
         }
 
+        private void ItemPerPageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _rowPerPage = (int)ItemPerPageComboBox.SelectedItem;
+            LoadData();
+        }
     }
     internal class PriceRange : INotifyPropertyChanged
     {
