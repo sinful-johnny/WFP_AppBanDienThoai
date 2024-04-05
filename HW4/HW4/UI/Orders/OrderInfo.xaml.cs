@@ -20,9 +20,11 @@ namespace HW4
     /// </summary>
     public partial class OrderInfo : UserControl
     {
+        ORDER getOrder;
         public OrderInfo()
         {
             InitializeComponent();
+            getOrder = (ORDER)DataContext;
         }
 
         private void UpdatePhoneCount(object sender, RoutedEventArgs e)
@@ -30,6 +32,21 @@ namespace HW4
 
         }
         private void DeletePhone(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddPhone(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void AddPromo(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeletePromo(object sender, RoutedEventArgs e)
         {
 
         }

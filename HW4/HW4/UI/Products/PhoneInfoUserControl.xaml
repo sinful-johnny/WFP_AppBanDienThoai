@@ -26,7 +26,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox x:Name="ImgPathTextBox" d:Text="it's there" Grid.Row="0" Grid.Column="1" Text="{Binding Thumbnail, Converter = {StaticResource absoluteConverter}}"/>
-        <Image x:Name="PhoneImageDisplay" RenderOptions.BitmapScalingMode="HighQuality" Grid.Row="1" Grid.Column="1" Grid.RowSpan="6" d:Source="./Images/Phone00.jpg" Source="{Binding Thumbnail, Converter= {StaticResource absoluteConverter}}" OpacityMask="Black"/>
+        <Image x:Name="PhoneImageDisplay" RenderOptions.BitmapScalingMode="HighQuality" Grid.Row="1" Grid.Column="1" Grid.RowSpan="6" d:Source="../../Images/Phone00.jpg" Source="{Binding Thumbnail, Converter= {StaticResource absoluteConverter}}" OpacityMask="Black"/>
         <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
             <TextBlock Text="Name:"/>
         </StackPanel>

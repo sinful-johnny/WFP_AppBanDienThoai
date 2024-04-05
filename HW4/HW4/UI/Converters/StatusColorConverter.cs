@@ -16,7 +16,7 @@ namespace HW4.UI.Converters
             {
                 return Brushes.Yellow;
             }
-            if (value != null && value.ToString().Contains("Complete"))
+            if (value != null && value.ToString().Contains("Delivered"))
             {
                 return Brushes.Green;
             }
