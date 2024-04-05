@@ -30,7 +30,7 @@ namespace HW4.UI.Customers
             _mode = Mode.Insert;
             _con = conn;
             _customer = new CUSTOMER() {
-                Cus_ID = "NEW CUSTOMER",
+                Cus_ID = -1,
                 DOB = DateTime.Now,
                 Pfp = "./Images/blank-pfp.png"
             };

@@ -119,6 +119,32 @@ namespace HW4
             var result = new Tuple<DataTable, int, int>(dataTable, totalItems, totalPages);
             return result;
         }
+
+        static public System.Data.DataTable getCustomerPromos(SqlConnection connection, int CUS_ID)
+        {
+            string query = """
+                select PC.USAGE_STATUS ,PR.*
+                from PROMOTIONS as PR
+                	inner join PROMO_CUSTOMER as PC on PC.PROMO_ID = PR.PROMO_ID
+                	inner join CUSTOMER as C on C.CUS_ID = PC.CUS_ID
+                where C.CUS_ID = @CUS_ID
+                """;
+
+            DataTable data = new DataTable();
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using (SqlCommand cmd = new SqlCommand(query, connection))
+            {
+                cmd.Parameters.Add("@CUS_ID", SqlDbType.Int).Value = CUS_ID;
+                SqlDataReader reader = cmd.ExecuteReader();
+                data.Load(reader);
+            }
+            connection.Close();
+            return data;
+        }
+
         static public bool Update(SqlConnection connection, int ID, string PromoName, DateTime StartDate, DateTime EndDate, int ManufacturerID, int PhoneID, double Discount, string Status) {
             string query = """
                 Update PROMOTIONS 

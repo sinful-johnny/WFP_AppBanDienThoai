@@ -28,5 +28,12 @@ namespace HW4.BUS
         {
             return CUSTOMERControl.Delete(connection, ID);
         }
+        static public DataTable getCustomerOders(SqlConnection connection, int ID) { 
+            return ORDERControl.getCustomerOrder(connection, ID);
+        }
+        static public DataTable getCustomerPromos(SqlConnection connection, int ID)
+        {
+            return PROMOTIONS_Control.getCustomerPromos(connection, ID);
+        }
     }
 }

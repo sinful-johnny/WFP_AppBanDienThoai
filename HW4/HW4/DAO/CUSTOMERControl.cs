@@ -48,7 +48,7 @@ namespace HW4.DAO
                     TotalItems = (int)reader[8];
                     list.Add(new CUSTOMER()
                     {
-                        Cus_ID = ((int)reader[0]).ToString(),
+                        Cus_ID = (int)reader[0],
                         FirstName = (string)reader[1],
                         LastName = (string)reader[2],
                         Gender = (string)reader[3],
@@ -90,7 +90,7 @@ namespace HW4.DAO
             }
             using (var cmd = new SqlCommand(query, connection))
             {
-                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = int.Parse(info.Cus_ID);
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = info.Cus_ID;
                 cmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = info.FirstName;
                 cmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = info.LastName;
                 cmd.Parameters.Add("@gender", SqlDbType.VarChar).Value = info.Gender;

@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using HW4.BUS;
+using HW4.UI.Promotions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,6 +46,9 @@ namespace HW4.UI.Customers
             AddCustomer,
             EditCustomer,
             DeleteCustomer,
+            ViewCustomerOrders,
+            ViewCustomerPromos,
+            GrantPromo
         }
 
         public void HandleParentEvent(CustomerManagementActions action)
@@ -59,6 +63,14 @@ namespace HW4.UI.Customers
                     break;
                 case CustomerManagementActions.DeleteCustomer:
                     DeleteCustomer();
+                    break;
+                case CustomerManagementActions.ViewCustomerOrders:
+                    ViewCustomerOrders(); 
+                    break;
+                case CustomerManagementActions.ViewCustomerPromos:
+                    ViewCustomerPromos();
+                    break; 
+                case CustomerManagementActions.GrantPromo:
                     break;
             }
         }
@@ -169,7 +181,7 @@ namespace HW4.UI.Customers
         private void DeleteCustomer()
         {
             var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
-            int id = int.Parse(selectedCustomer.Cus_ID);
+            int id = selectedCustomer.Cus_ID;
             try
             {
                 var result = BUS_Customer.Delete(_con, id);
@@ -185,6 +197,38 @@ namespace HW4.UI.Customers
             }catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(),"Error",MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ViewCustomerOrders()
+        {
+            if (CustomerDataGrid.SelectedItems.Count != 0)
+            {
+                var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
+                int id = selectedCustomer.Cus_ID;
+                DataTable orders = BUS_Customer.getCustomerOders(_con, id);
+                var screen = new DataViewDialog(orders);
+                screen.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Choose an item to edit!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
+        }
+        private void ViewCustomerPromos()
+        {
+            if (CustomerDataGrid.SelectedItems.Count != 0)
+            {
+                var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
+                int id = selectedCustomer.Cus_ID;
+                DataTable promos = BUS_Customer.getCustomerPromos(_con, id);
+                var screen = new DataViewDialog(promos);
+                screen.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Choose an item to edit!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
