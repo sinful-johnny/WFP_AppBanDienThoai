@@ -4,9 +4,8 @@
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HW4"
-        mc:Ignorable="d" 
-        d:DesignHeight="450" d:DesignWidth="800" 
+        xmlns:local="clr-namespace:HW4" Width="400" Height="135"
+        mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" 
         Loaded="Dashboard_Loaded" Unloaded="Dashboard_Unloaded" Background="Transparent">
     <Border CornerRadius="25" Padding="20" Background="#f7f6f4" 
             MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
@@ -51,8 +50,21 @@
                                 </Icon:PackIconMaterial>
                             </Border>
                         </Grid>
+
+                        <!--Title Text-->
+                        <TextBlock Text="Data" Foreground="#ffffff"
+                                   FontSize="30" Margin="10 0 0 3">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="10" Opacity="0.3"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
                     </StackPanel>
                 </StackPanel>
+            </Border>
+            
+            <!--Search Section-->
+            <Border Grid.Column="1" Margin="20 0 20 20">
+                
             </Border>
         </Grid>
     </Border>

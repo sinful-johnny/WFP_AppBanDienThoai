@@ -10,10 +10,14 @@
     <Compile Update="DashboardScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+<<<<<<< Updated upstream
     <Compile Update="UI\Customers\CustomerInfoDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Customers\CustomerManagementUserControl.xaml.cs">
+=======
+    <Compile Update="InfoCard.xaml.cs">
+>>>>>>> Stashed changes
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml.cs">
@@ -57,10 +61,14 @@
     <Page Update="DashboardScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
+<<<<<<< Updated upstream
     <Page Update="UI\Customers\CustomerInfoDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Customers\CustomerManagementUserControl.xaml">
+=======
+    <Page Update="InfoCard.xaml">
+>>>>>>> Stashed changes
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml">

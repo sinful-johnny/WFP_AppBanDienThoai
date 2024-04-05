@@ -18,7 +18,7 @@
             </Fluent:Ribbon.Menu>
 
             <Fluent:RibbonTabItem Header="Dashboard">
-                <Fluent:RibbonGroupBox Header="Import">
+                <!--<Fluent:RibbonGroupBox Header="Import">
                     <Fluent:Button Header="Excel" >
                         <Fluent:Button.LargeIcon>
                             <Image Source="./Images/excel.png" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -41,7 +41,7 @@
                             <Image Source="Images/garbage.png"  RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                </Fluent:RibbonGroupBox>
+                </Fluent:RibbonGroupBox>-->
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Products">
                 <Fluent:RibbonGroupBox Header="Import">

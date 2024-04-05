@@ -17,13 +17,22 @@ namespace HW4
     /// <summary>
     /// Interaction logic for DashboardScreen.xaml
     /// </summary>
-    public partial class DashboardScreen : Window
+    public partial class DashboardScreen : UserControl
     {
         public DashboardScreen()
         {
             InitializeComponent();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+
+        private void Dashboard_Loaded(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+        private void Dashboard_Unloaded(object sender, RoutedEventArgs e)
         {
             //
         }
@@ -56,5 +65,6 @@ namespace HW4
                 }
             }
         }
+
     }
 }
