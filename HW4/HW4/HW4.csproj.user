@@ -19,6 +19,9 @@
     <Compile Update="UI\Customers\DataViewDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UI\Customers\GrantPromoDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,6 +73,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Customers\DataViewDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Customers\GrantPromoDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml">

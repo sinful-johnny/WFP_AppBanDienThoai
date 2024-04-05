@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="Result" Height="450" Width="800">
     <Grid>
-        <DataGrid x:Name="DataGridView" IsReadOnly="True"/>
+        <DataGrid x:Name="DataGridView" IsReadOnly="True">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Revoke promotion" x:Name="RevokePromoMenuClick" Click="RevokePromoMenuClick_Click"/>
+                    <MenuItem Header="Renew promotion" x:Name="RenewPromoMenuClick" Click="RenewPromoMenuClick_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
     </Grid>
 </Window>

@@ -35,5 +35,20 @@ namespace HW4.BUS
         {
             return PROMOTIONS_Control.getCustomerPromos(connection, ID);
         }
+
+        static public int addCustomerPromo(SqlConnection connection, int cusID, int promoID)
+        {
+            return CUSTOMERControl.InsertCustomerPromo(connection, cusID, promoID);
+        }
+
+        static public bool revokeCustomerPromo(SqlConnection connection, int cusID, int promoID)
+        {
+            return CUSTOMERControl.DeleteCustomerPromo(connection,cusID, promoID);
+        }
+
+        static public bool renewCustomerPromo(SqlConnection connection, int cusID, int promoID)
+        {
+            return CUSTOMERControl.updatePromoUsageStatus(connection,cusID, promoID,"Available");
+        }
     }
 }

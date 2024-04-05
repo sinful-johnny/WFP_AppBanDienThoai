@@ -71,6 +71,7 @@ namespace HW4.UI.Customers
                     ViewCustomerPromos();
                     break; 
                 case CustomerManagementActions.GrantPromo:
+                    GrantPromo();
                     break;
             }
         }
@@ -206,8 +207,7 @@ namespace HW4.UI.Customers
             {
                 var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
                 int id = selectedCustomer.Cus_ID;
-                DataTable orders = BUS_Customer.getCustomerOders(_con, id);
-                var screen = new DataViewDialog(orders);
+                var screen = new DataViewDialog(_con,id,1);
                 screen.ShowDialog();
             }
             else
@@ -222,8 +222,22 @@ namespace HW4.UI.Customers
             {
                 var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
                 int id = selectedCustomer.Cus_ID;
-                DataTable promos = BUS_Customer.getCustomerPromos(_con, id);
-                var screen = new DataViewDialog(promos);
+                var screen = new DataViewDialog(_con,id,2);
+                screen.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Choose an item to edit!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void GrantPromo()
+        {
+            if (CustomerDataGrid.SelectedItems.Count != 0)
+            {
+                var selectedCustomer = (CUSTOMER)CustomerDataGrid.SelectedItem;
+                int id = selectedCustomer.Cus_ID;
+                var screen = new GrantPromoDialog(_con, id);
                 screen.ShowDialog();
             }
             else
