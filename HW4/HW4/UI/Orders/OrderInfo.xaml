@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HW4"
+             d:DataContext="{d:DesignInstance Type=local:ORDER}"
              mc:Ignorable="d" 
              d:DesignHeight="430.4" d:DesignWidth="391.2">
     <Grid >
@@ -23,7 +24,7 @@
             <TextBlock Text="Order's Promotion" FontSize="15"/>
         </StackPanel>
 
-        <DataGrid Name="OrderPhones" Grid.Row="1" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <DataGrid Name="OrderPhones" Grid.Row="1" ItemsSource="{Binding OrderedPhone}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeletePhone"/>
@@ -49,7 +50,7 @@
             <Button Click="UpdatePhoneCount" Content="Update" Margin="10, 0, 0, 0" Width="60" Height="32"/>
         </StackPanel>
 
-        <DataGrid Name="OrderPromos" Grid.Row="4" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <DataGrid Name="OrderPromos" Grid.Row="4" ItemsSource="{Binding PromoList}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeletePhone"/>

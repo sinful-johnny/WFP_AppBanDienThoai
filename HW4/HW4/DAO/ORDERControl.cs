@@ -527,7 +527,7 @@ namespace HW4
                 Insert into ORDERS(CUSTOMER_ID, CREATED_DATE, STATUS)
                 values(@CustomerID, @Today, 'Pending')
                 """;
-            int id;
+            int id = -1;
             if (connection.State == ConnectionState.Closed) 
             {
                 connection.Open();

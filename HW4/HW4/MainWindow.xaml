@@ -89,7 +89,29 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Orders">
-                <Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Order Control">
+                    <Fluent:Button Header="Add" x:Name="AddOrderRibbonButton" Click="AddOrderRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Delete" x:Name="DeleteOrderRibbonButton" Click="DeleteOrderRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/garbage.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Order Staus">
+                    <Fluent:Button Header="Deliver" x:Name="DeliverButton" Click="DeliverRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Cancel" x:Name="CancelButton" Click="CancelRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Customers">
