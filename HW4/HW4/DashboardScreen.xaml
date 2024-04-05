@@ -92,7 +92,7 @@
                     <Grid Width="300" HorizontalAlignment="Right">
                         <TextBlock Margin="15 0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1"
                                    Text="Search here ..." IsHitTestVisible="False"
-                                   Visibility="{Binding ElementName=textBoxSearch, Path=Text.IsEmpty, 
+                                   Visibility="{Binding ElementName=textBoxSearch, Path=Text.IsEmpty,
                                                         Converter={StaticResource boolToVisConv}}"/>
                         <TextBox x:Name="textBoxSearch" Style="{StaticResource searchTextBox}"/>
 

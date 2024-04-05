@@ -9,6 +9,59 @@
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
+            <Style x:Key="whiteBorder" TargetType="Border">
+                <Setter Property="Background" Value="#ffffff"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="Padding" Value="20"/>
+            </Style>
+
+            
+            
+            <Style x:Key="titleText1" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="#083353"/>
+            </Style>
+
+
+            <Style x:Key="titleText2" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Margin" Value="0 5"/>
+                <Setter Property="Foreground" Value="#b7b7b7"/>
+            </Style>
+
+            <Style x:Key="searchTextBox" TargetType="TextBox">
+                <Setter Property="Background" Value="#f7f6f4"/>
+                <Setter Property="Foreground" Value="#a0a0a0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Padding" Value="15 13 40 13"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBoxBase">
+                            <Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True">
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="False" 
+                                              HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderBrush" TargetName="border" Value="#d9d9d9"/>
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="BorderBrush" TargetName="border" Value="#d9d9d9"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <!--#region Slider Style-->
             <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -38,20 +91,6 @@
                 <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
                     <Path x:Name="grip" Data="M 0,0 C0,0 11,0 11,0 11,0 11,18 11,18 11,18 0,18 0,18 0,18 0,0 0,0 z" Fill="{StaticResource SliderThumb.Static.Background}" Stroke="{StaticResource SliderThumb.Static.Border}" SnapsToDevicePixels="True" Stretch="Fill" StrokeThickness="1" UseLayoutRounding="True" VerticalAlignment="Center"/>
                 </Grid>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsDragging" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="false">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
             </ControlTemplate>
             <ControlTemplate x:Key="SliderThumbHorizontalTop" TargetType="{x:Type Thumb}">
                 <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
@@ -142,177 +181,16 @@
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
-            <ControlTemplate x:Key="SliderThumbVerticalDefault" TargetType="{x:Type Thumb}">
-                <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
-                    <Path x:Name="grip" Data="M0.5,0.5 L18.5,0.5 18.5,11.5 0.5,11.5z" Fill="{StaticResource SliderThumb.Static.Background}" Stroke="{StaticResource SliderThumb.Static.Border}" Stretch="Fill"/>
-                </Grid>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsDragging" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="false">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-            <ControlTemplate x:Key="SliderThumbVerticalLeft" TargetType="{x:Type Thumb}">
-                <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
-                    <Path x:Name="grip" Data="M 6,11 C6,11 0,5.5 0,5.5 0,5.5 6,0 6,0 6,0 18,0 18,0 18,0 18,11 18,11 18,11 6,11 6,11 z" Fill="{StaticResource SliderThumb.Static.Background}" Stroke="{StaticResource SliderThumb.Static.Border}" Stretch="Fill"/>
-                </Grid>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsDragging" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="false">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-            <ControlTemplate x:Key="SliderThumbVerticalRight" TargetType="{x:Type Thumb}">
-                <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
-                    <Path x:Name="grip" Data="M 12,11 C12,11 18,5.5 18,5.5 18,5.5 12,0 12,0 12,0 0,0 0,0 0,0 0,11 0,11 0,11 12,11 12,11 z" Fill="{StaticResource SliderThumb.Static.Background}" Stroke="{StaticResource SliderThumb.Static.Border}" Stretch="Fill"/>
-                </Grid>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsDragging" Value="true">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="false">
-                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
-                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-            <ControlTemplate x:Key="SliderVertical" TargetType="{x:Type Slider}">
-                <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition MinWidth="{TemplateBinding MinWidth}" Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TickBar x:Name="TopTick" Grid.Column="0" Fill="{TemplateBinding Foreground}" Margin="0,0,2,0" Placement="Left" Visibility="Collapsed" Width="4"/>
-                        <TickBar x:Name="BottomTick" Grid.Column="2" Fill="{TemplateBinding Foreground}" Margin="2,0,0,0" Placement="Right" Visibility="Collapsed" Width="4"/>
-                        <Border x:Name="TrackBackground" Background="{StaticResource SliderThumb.Track.Background}" BorderBrush="{StaticResource SliderThumb.Track.Border}" BorderThickness="1" Grid.Column="1" HorizontalAlignment="center" Margin="0,5" Width="4.0">
-                            <Canvas Margin="-1,-6">
-                                <Rectangle x:Name="PART_SelectionRange" Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Visibility="Hidden" Width="4.0"/>
-                            </Canvas>
-                        </Border>
-                        <Track x:Name="PART_Track" Grid.Column="1">
-                            <Track.DecreaseRepeatButton>
-                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
-                            </Track.DecreaseRepeatButton>
-                            <Track.IncreaseRepeatButton>
-                                <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
-                            </Track.IncreaseRepeatButton>
-                            <Track.Thumb>
-                                <Thumb x:Name="Thumb" Focusable="False" Height="11" OverridesDefaultStyle="True" Template="{StaticResource SliderThumbVerticalDefault}" VerticalAlignment="Top" Width="18"/>
-                            </Track.Thumb>
-                        </Track>
-                    </Grid>
-                </Border>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="TickPlacement" Value="TopLeft">
-                        <Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
-                        <Setter Property="Template" TargetName="Thumb" Value="{StaticResource SliderThumbVerticalLeft}"/>
-                        <Setter Property="Margin" TargetName="TrackBackground" Value="2,5,0,5"/>
-                    </Trigger>
-                    <Trigger Property="TickPlacement" Value="BottomRight">
-                        <Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
-                        <Setter Property="Template" TargetName="Thumb" Value="{StaticResource SliderThumbVerticalRight}"/>
-                        <Setter Property="Margin" TargetName="TrackBackground" Value="0,5,2,5"/>
-                    </Trigger>
-                    <Trigger Property="TickPlacement" Value="Both">
-                        <Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
-                        <Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
-                    </Trigger>
-                    <Trigger Property="IsSelectionRangeEnabled" Value="true">
-                        <Setter Property="Visibility" TargetName="PART_SelectionRange" Value="Visible"/>
-                    </Trigger>
-                    <Trigger Property="IsKeyboardFocused" Value="true">
-                        <Setter Property="Foreground" TargetName="Thumb" Value="Blue"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
+            
             <Style x:Key="SliderStyle1" TargetType="{x:Type Slider}">
                 <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Foreground" Value="{StaticResource SliderThumb.Static.Foreground}"/>
                 <Setter Property="Template" Value="{StaticResource SliderHorizontal}"/>
-                <Style.Triggers>
-                    <Trigger Property="Orientation" Value="Vertical">
-                        <Setter Property="Template" Value="{StaticResource SliderVertical}"/>
-                    </Trigger>
-                </Style.Triggers>
             </Style>
-            <Style x:Key="whiteBorder" TargetType="Border">
-                <Setter Property="Background" Value="#ffffff"/>
-                <Setter Property="CornerRadius" Value="15"/>
-                <Setter Property="Padding" Value="20"/>
-            </Style>
-
-            
-            
-            <Style x:Key="titleText1" TargetType="TextBlock">
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="Foreground" Value="#083353"/>
-            </Style>
-
-
-            <Style x:Key="titleText2" TargetType="TextBlock">
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="Margin" Value="0 5"/>
-                <Setter Property="Foreground" Value="#b7b7b7"/>
-            </Style>
-
-            <Style x:Key="searchTextBox" TargetType="TextBox">
-                <Setter Property="Background" Value="#f7f6f4"/>
-                <Setter Property="Foreground" Value="#a0a0a0"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="Padding" Value="15 13 40 13"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="TextBoxBase">
-                            <Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}"
-                                    BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding Background}"
-                                    SnapsToDevicePixels="True">
-                                <ScrollViewer x:Name="PART_ContentHost" Focusable="False" 
-                                              HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                            </Border>
-
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="BorderBrush" TargetName="border" Value="#d9d9d9"/>
-                                </Trigger>
-                                <Trigger Property="IsKeyboardFocused" Value="True">
-                                    <Setter Property="BorderBrush" TargetName="border" Value="#d9d9d9"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            
+            <!--#endregion-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
