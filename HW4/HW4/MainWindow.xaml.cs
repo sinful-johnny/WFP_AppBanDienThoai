@@ -12,6 +12,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using HW4.UI.Customers;
 
 
 namespace HW4
@@ -60,8 +61,8 @@ namespace HW4
                     new TabItem() { Content = new DashboardScreen(), Header= "Dashboard"},
                     new TabItem() { Content = new ProductManagementScreen(_connection), Header= "Products"},
                     new TabItem() {Content = new ManufacturerManagementUserControl(_connection), Header = "Manufacturer"},
-                    new TabItem(),
-                    new TabItem(),
+                    new TabItem() {Header = "Orders"},
+                    new TabItem() {Content = new CustomerManagementUserControl(_connection), Header = "Customers"},
                     new TabItem() {Content = new PromoManagementUserControl(_connection), Header = "Promotions"}
                 };
             tabs.ItemsSource = screens;
@@ -164,6 +165,33 @@ namespace HW4
             PromoManagementUserControl? userControl = (PromoManagementUserControl)tabItem.Content;
             userControl.HandleParentEvent(
                 PromoManagementUserControl.PromotionManagementActions.SeeAvailablePromo
+            );
+        }
+
+        private void AddCustomerRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            CustomerManagementUserControl? userControl = (CustomerManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                CustomerManagementUserControl.CustomerManagementActions.AddCustomer
+            );
+        }
+
+        private void UpdateCustomerRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            CustomerManagementUserControl? userControl = (CustomerManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                CustomerManagementUserControl.CustomerManagementActions.EditCustomer
+            );
+        }
+
+        private void DeleteCustomerRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            CustomerManagementUserControl? userControl = (CustomerManagementUserControl)tabItem.Content;
+            userControl.HandleParentEvent(
+                CustomerManagementUserControl.CustomerManagementActions.DeleteCustomer
             );
         }
     }

@@ -10,6 +10,9 @@
     <Compile Update="DashboardScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UI\Customers\CustomerInfoDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Customers\CustomerManagementUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="DashboardScreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Customers\CustomerInfoDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Customers\CustomerManagementUserControl.xaml">

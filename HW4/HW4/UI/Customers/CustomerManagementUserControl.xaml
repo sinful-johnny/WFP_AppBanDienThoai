@@ -4,9 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HW4.UI.Customers"
+             xmlns:converter="clr-namespace:HW4.UI.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
+    <UserControl.Resources>
+        <converter:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="CustomerDataGrid" Grid.Column="1" Background="LightGray" RowBackground="LightYellow" AlternatingRowBackground="LightBlue" >
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Pfp, Converter={StaticResource absoluteConverter}}" Width="60" Height="80" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+
+        <StatusBar Grid.Row="1" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="PrevButton" Content="Prev" Width="40" Height="20" Margin="0,0,10,0" Click="PrevButton_Click"/>
+            <ComboBox x:Name="PageSelectComboBox" Width="100" Height="20" SelectionChanged="PageSelectComboBox_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Run Text="{Binding _pageNo}"/>/<Run Text="{Binding _totalPages}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="NextButton" Content="Next" Width="40" Height="20" Margin="10,0,0,0" Click="NextButton_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>

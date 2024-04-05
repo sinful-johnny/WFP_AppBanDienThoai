@@ -93,7 +93,22 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Customers">
-                <Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Utilities">
+                    <Fluent:Button Header="Add" x:Name="AddCustomerRibbonButton" Click="AddCustomerRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Update" x:Name="UpdateCustomerRibbonButton" Click="UpdateCustomerRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/pencil.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Delete" x:Name="DeleteCustomerRibbonButton" Click="DeleteCustomerRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Promotions">

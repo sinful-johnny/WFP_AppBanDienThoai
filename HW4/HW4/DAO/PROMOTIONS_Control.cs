@@ -19,7 +19,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             //var phones = new BindingList<PHONE>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                              select PR.PROMO_ID, PR.PROMO_NAME, PR.STARTDATE, PR.ENDDATE, M.NAME as APPLIED_MANUFACTURER, P.NAME as APPLIED_PHONE, PR.DISCOUNTS, PR.PROMO_STATUS, count(*) over() as TotalItems 
@@ -81,7 +81,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             //var phones = new BindingList<PHONE>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                              select PR.PROMO_ID, PR.PROMO_NAME, PR.STARTDATE, PR.ENDDATE, M.NAME as APPLIED_MANUFACTURER, P.NAME as APPLIED_PHONE, PR.DISCOUNTS, PR.PROMO_STATUS, count(*) over() as TotalItems 
