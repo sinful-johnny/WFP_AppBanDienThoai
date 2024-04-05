@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
-
 namespace HW4.UI.Converters
 {
     internal class StatusColorConverter : IValueConverter

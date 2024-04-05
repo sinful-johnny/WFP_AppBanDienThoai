@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.InkML;
+using HW4.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace HW4
@@ -55,10 +59,10 @@ namespace HW4
 
                     int OrderID = (int)reader["ORDER_ID"];
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
+                    DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     string sql2 = """
-                              select PHONE., PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              select PHONE.ID, PHONE.NAME, ORDERS_PHONE.PHONE_COUNT, ORDERS_PHONE.TOTAL from ORDERS, ORDERS_PHONE JOIN PHONE ON PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              WHERE ORDERS_PHONE.ORDER_ID = @Id 
                               ORDER BY PHONE.ID
                          """;
                     BindingList<ORDEREDPHONE> OrderedPhones = [];
@@ -70,17 +74,20 @@ namespace HW4
                         {
                             OrderedPhones.Add(new ORDEREDPHONE()
                             {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
+                                PhoneID = (int)reader2["ID"],
+                                PhoneName = (string)reader2["NAME"],
+                                quantity = (int)reader2["PHONE_COUNT"],
+                                Price = (float)reader2["TOTAL"]
                             });
                         }
                     }
 
-                    BindingList<String> Promo_List = [];
+                    BindingList<PROMOTIONSINORDER> Promo_List = [];
                     string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
+                              select PROMOTIONS.PROMO_NAME, PROMOTIONS.PROMO_ID, PHONE.NAME AS PHONE_NAME, PROMOTIONS.DISCOUNT from PROMOTIONS 
+                              JOIN PHONE ON PHONE.ID = PROMOTIONS.PROMO_PHONE_ID
+                              , PROMO_ORDERS
                               WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
                          """;
                     using (var command3 = new SqlCommand(sql3, connection))
                     {
@@ -88,7 +95,13 @@ namespace HW4
                         var reader3 = command.ExecuteReader();
                         while (reader3.Read())
                         {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
+                            Promo_List.Add(new PROMOTIONSINORDER()
+                            {
+                                PromoID = (int)reader3["PROMO_ID"],
+                                PromoName = (string)reader3["PROMO_NAME"],
+                                forPhone = (string)reader3["PHONE_NAME"],
+                                Discount = (float)reader3["DISCOUNT"]
+                            });
                         }
                     }
                     orders.Add(new ORDER()
@@ -97,7 +110,7 @@ namespace HW4
                         CustomerName = FullName,
                         OrderDate = OrderDate,
                         OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
+                        PromoList = Promo_List
                     });
                 }
             }
@@ -146,10 +159,10 @@ namespace HW4
 
                     int OrderID = (int)reader["ORDER_ID"];
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
+                    DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     string sql2 = """
-                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              select PHONE.ID, PHONE.NAME, ORDERS_PHONE.PHONE_COUNT, ORDERS_PHONE.TOTAL from ORDERS, ORDERS_PHONE JOIN PHONE ON PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              WHERE ORDERS_PHONE.ORDER_ID = @Id 
                               ORDER BY PHONE.ID
                          """;
                     BindingList<ORDEREDPHONE> OrderedPhones = [];
@@ -161,17 +174,20 @@ namespace HW4
                         {
                             OrderedPhones.Add(new ORDEREDPHONE()
                             {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
+                                PhoneID = (int)reader2["ID"],
+                                PhoneName = (string)reader2["NAME"],
+                                quantity = (int)reader2["PHONE_COUNT"],
+                                Price = (float)reader2["TOTAL"]
                             });
                         }
                     }
 
-                    BindingList<String> Promo_List = [];
+                    BindingList<PROMOTIONSINORDER> Promo_List = [];
                     string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
+                              select PROMOTIONS.PROMO_NAME, PROMOTIONS.PROMO_ID, PHONE.NAME AS PHONE_NAME, PROMOTIONS.DISCOUNT from PROMOTIONS 
+                              JOIN PHONE ON PHONE.ID = PROMOTIONS.PROMO_PHONE_ID
+                              , PROMO_ORDERS
                               WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
                          """;
                     using (var command3 = new SqlCommand(sql3, connection))
                     {
@@ -179,7 +195,13 @@ namespace HW4
                         var reader3 = command.ExecuteReader();
                         while (reader3.Read())
                         {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
+                            Promo_List.Add(new PROMOTIONSINORDER()
+                            {
+                                PromoID = (int)reader3["PROMO_ID"],
+                                PromoName = (string)reader3["PROMO_NAME"],
+                                forPhone = (string)reader3["PHONE_NAME"],
+                                Discount = (float)reader3["DISCOUNT"]
+                            });
                         }
                     }
                     orders.Add(new ORDER()
@@ -188,7 +210,7 @@ namespace HW4
                         CustomerName = FullName,
                         OrderDate = OrderDate,
                         OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
+                        PromoList = Promo_List
                     });
                 }
             }
@@ -238,10 +260,10 @@ namespace HW4
 
                     int OrderID = (int)reader["ORDER_ID"];
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
+                    DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     string sql2 = """
-                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              select PHONE.ID, PHONE.NAME, ORDERS_PHONE.PHONE_COUNT, ORDERS_PHONE.TOTAL from ORDERS, ORDERS_PHONE JOIN PHONE ON PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              WHERE ORDERS_PHONE.ORDER_ID = @Id 
                               ORDER BY PHONE.ID
                          """;
                     BindingList<ORDEREDPHONE> OrderedPhones = [];
@@ -253,17 +275,20 @@ namespace HW4
                         {
                             OrderedPhones.Add(new ORDEREDPHONE()
                             {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
+                                PhoneID = (int)reader2["ID"],
+                                PhoneName = (string)reader2["NAME"],
+                                quantity = (int)reader2["PHONE_COUNT"],
+                                Price = (float)reader2["TOTAL"]
                             });
                         }
                     }
 
-                    BindingList<String> Promo_List = [];
+                    BindingList<PROMOTIONSINORDER> Promo_List = [];
                     string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
+                              select PROMOTIONS.PROMO_NAME, PROMOTIONS.PROMO_ID, PHONE.NAME AS PHONE_NAME, PROMOTIONS.DISCOUNT from PROMOTIONS 
+                              JOIN PHONE ON PHONE.ID = PROMOTIONS.PROMO_PHONE_ID
+                              , PROMO_ORDERS
                               WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
                          """;
                     using (var command3 = new SqlCommand(sql3, connection))
                     {
@@ -271,7 +296,13 @@ namespace HW4
                         var reader3 = command.ExecuteReader();
                         while (reader3.Read())
                         {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
+                            Promo_List.Add(new PROMOTIONSINORDER()
+                            {
+                                PromoID = (int)reader3["PROMO_ID"],
+                                PromoName = (string)reader3["PROMO_NAME"],
+                                forPhone = (string)reader3["PHONE_NAME"],
+                                Discount = (float)reader3["DISCOUNT"]
+                            });
                         }
                     }
                     orders.Add(new ORDER()
@@ -280,7 +311,7 @@ namespace HW4
                         CustomerName = FullName,
                         OrderDate = OrderDate,
                         OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
+                        PromoList = Promo_List
                     });
                 }
             }
@@ -329,10 +360,10 @@ namespace HW4
 
                     int OrderID = (int)reader["ORDER_ID"];
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
+                    DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     string sql2 = """
-                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              select PHONE.ID, PHONE.NAME, ORDERS_PHONE.PHONE_COUNT, ORDERS_PHONE.TOTAL from ORDERS, ORDERS_PHONE JOIN PHONE ON PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              WHERE ORDERS_PHONE.ORDER_ID = @Id 
                               ORDER BY PHONE.ID
                          """;
                     BindingList<ORDEREDPHONE> OrderedPhones = [];
@@ -344,17 +375,20 @@ namespace HW4
                         {
                             OrderedPhones.Add(new ORDEREDPHONE()
                             {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
+                                PhoneID = (int)reader2["ID"],
+                                PhoneName = (string)reader2["NAME"],
+                                quantity = (int)reader2["PHONE_COUNT"],
+                                Price = (float)reader2["TOTAL"]
                             });
                         }
                     }
 
-                    BindingList<String> Promo_List = [];
+                    BindingList<PROMOTIONSINORDER> Promo_List = [];
                     string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
+                              select PROMOTIONS.PROMO_NAME, PROMOTIONS.PROMO_ID, PHONE.NAME AS PHONE_NAME, PROMOTIONS.DISCOUNT from PROMOTIONS 
+                              JOIN PHONE ON PHONE.ID = PROMOTIONS.PROMO_PHONE_ID
+                              , PROMO_ORDERS
                               WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
                          """;
                     using (var command3 = new SqlCommand(sql3, connection))
                     {
@@ -362,7 +396,13 @@ namespace HW4
                         var reader3 = command.ExecuteReader();
                         while (reader3.Read())
                         {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
+                            Promo_List.Add(new PROMOTIONSINORDER()
+                            {
+                                PromoID = (int)reader3["PROMO_ID"],
+                                PromoName = (string)reader3["PROMO_NAME"],
+                                forPhone = (string)reader3["PHONE_NAME"],
+                                Discount = (float)reader3["DISCOUNT"]
+                            });
                         }
                     }
                     orders.Add(new ORDER()
@@ -371,7 +411,7 @@ namespace HW4
                         CustomerName = FullName,
                         OrderDate = OrderDate,
                         OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
+                        PromoList = Promo_List
                     });
                 }
             }
@@ -380,7 +420,7 @@ namespace HW4
             var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages);
             return result;
         }
-        static public Tuple<BindingList<ORDER>, int, int> GetKeyWordPaging(SqlConnection connection, int page, int rowsPerPage, string keyword)
+        static public Tuple<BindingList<ORDER>, int, int> FromDateToDate(SqlConnection connection, int page, int rowsPerPage, DateTime begin, DateTime end)
         {
             int totalItems = -1;
             int totalPages = -1;
@@ -389,7 +429,7 @@ namespace HW4
             int take = rowsPerPage;
             string sql = """
                               select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
-                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND (CUSTOMER.FIRSTNAME LIKE '%' + @keyword + '%' OR CUSTOMER.LASTNAME LIKE '%' + @keyword + '%')
+                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND ORDERS.CREATED_DATE BETWEEN @StartDate AND @EndDate
                               ORDER BY ORDERS.ORDER_ID
                               OFFSET @Skip ROWS
                               fetch next @Take rows only
@@ -405,7 +445,8 @@ namespace HW4
 
                 command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
                 command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
-                command.Parameters.Add("@keyword", SqlDbType.Text).Value = keyword;
+                command.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = begin;
+                command.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = end;
                 var reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -420,10 +461,10 @@ namespace HW4
 
                     int OrderID = (int)reader["ORDER_ID"];
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
+                    DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     string sql2 = """
-                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              select PHONE.ID, PHONE.NAME, ORDERS_PHONE.PHONE_COUNT, ORDERS_PHONE.TOTAL from ORDERS, ORDERS_PHONE JOIN PHONE ON PHONE.ID = ORDERS_PHONE.PHONE_ID
+                              WHERE ORDERS_PHONE.ORDER_ID = @Id 
                               ORDER BY PHONE.ID
                          """;
                     BindingList<ORDEREDPHONE> OrderedPhones = [];
@@ -435,17 +476,20 @@ namespace HW4
                         {
                             OrderedPhones.Add(new ORDEREDPHONE()
                             {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
+                                PhoneID = (int)reader2["ID"],
+                                PhoneName = (string)reader2["NAME"],
+                                quantity = (int)reader2["PHONE_COUNT"],
+                                Price = (float)reader2["TOTAL"]
                             });
                         }
                     }
 
-                    BindingList<String> Promo_List = [];
+                    BindingList<PROMOTIONSINORDER> Promo_List = [];
                     string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
+                              select PROMOTIONS.PROMO_NAME, PROMOTIONS.PROMO_ID, PHONE.NAME AS PHONE_NAME, PROMOTIONS.DISCOUNT from PROMOTIONS 
+                              JOIN PHONE ON PHONE.ID = PROMOTIONS.PROMO_PHONE_ID
+                              , PROMO_ORDERS
                               WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
                          """;
                     using (var command3 = new SqlCommand(sql3, connection))
                     {
@@ -453,100 +497,13 @@ namespace HW4
                         var reader3 = command.ExecuteReader();
                         while (reader3.Read())
                         {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
-                        }
-                    }
-                    orders.Add(new ORDER()
-                    {
-                        OrderID = OrderID,
-                        CustomerName = FullName,
-                        OrderDate = OrderDate,
-                        OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
-                    });
-                } 
-            }
-
-            connection.Close();
-            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages);
-            return result;
-        }
-        static public Tuple<BindingList<ORDER>, int, int> GetKeyWordTodayPaging(SqlConnection connection, int page, int rowsPerPage, string keyword)
-        {
-            int totalItems = -1;
-            int totalPages = -1;
-            var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
-            int take = rowsPerPage;
-            string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
-                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND CONVERT(DATE, ORDERS.CREATED_DATE) = @Today 
-                              AND (CUSTOMER.FIRSTNAME LIKE '%' + @keyword + '%' OR CUSTOMER.LASTNAME LIKE '%' + @keyword + '%')
-                              ORDER BY ORDERS.ORDER_ID
-                              OFFSET @Skip ROWS
-                              fetch next @Take rows only
-                         """;
-            if (connection.State == ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-            using (var command = new SqlCommand(sql, connection))
-            {
-                //_connection.Open();
-
-                command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
-                command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
-                command.Parameters.Add("@Today", SqlDbType.DateTime).Value = DateTime.Today;
-                command.Parameters.Add("@keyword", SqlDbType.Text).Value = keyword;
-                var reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    if (totalItems == -1)
-                    {
-                        totalItems = (int)reader["TotalItems"];
-                        totalPages = (totalItems / rowsPerPage);
-                        if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
-                        else totalPages = (int)(totalItems / rowsPerPage) + 1;
-                    }
-
-                    int OrderID = (int)reader["ORDER_ID"];
-                    string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
-                    string sql2 = """
-                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
-                              ORDER BY PHONE.ID
-                         """;
-                    BindingList<ORDEREDPHONE> OrderedPhones = [];
-                    using (var command2 = new SqlCommand(sql2, connection))
-                    {
-                        command2.Parameters.Add("@Id", SqlDbType.Int).Value = OrderID;
-                        var reader2 = command.ExecuteReader();
-                        while (reader2.Read())
-                        {
-                            OrderedPhones.Add(new ORDEREDPHONE()
+                            Promo_List.Add(new PROMOTIONSINORDER()
                             {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
+                                PromoID = (int)reader3["PROMO_ID"],
+                                PromoName = (string)reader3["PROMO_NAME"],
+                                forPhone = (string)reader3["PHONE_NAME"],
+                                Discount = (float)reader3["DISCOUNT"]
                             });
-                        }
-                    }
-
-                    BindingList<String> Promo_List = [];
-                    string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
-                              WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
-                         """;
-                    using (var command3 = new SqlCommand(sql3, connection))
-                    {
-                        command3.Parameters.Add("@Id", SqlDbType.Int).Value = OrderID;
-                        var reader3 = command.ExecuteReader();
-                        while (reader3.Read())
-                        {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
                         }
                     }
                     orders.Add(new ORDER()
@@ -555,197 +512,7 @@ namespace HW4
                         CustomerName = FullName,
                         OrderDate = OrderDate,
                         OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
-                    });
-                }
-
-                
-            }
-
-            connection.Close();
-            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages);
-            return result;
-        }
-        static public Tuple<BindingList<ORDER>, int, int> GetKeyWordWeekPaging(SqlConnection connection, int page, int rowsPerPage, string keyword)
-        {
-            int totalItems = -1;
-            int totalPages = -1;
-            var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
-            int take = rowsPerPage;
-            string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
-                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID 
-                              AND DATEPART(ISO_WEEK, ORDERS.CREATED_DATE) = DATEPART(ISO_WEEK, @Today) AND YEAR(ORDERS.CREATED_DATE) = YEAR(@Today)
-                              AND (CUSTOMER.FIRSTNAME LIKE '%' + @keyword + '%' OR CUSTOMER.LASTNAME LIKE '%' + @keyword + '%')
-                              ORDER BY ORDERS.ORDER_ID
-                              OFFSET @Skip ROWS
-                              fetch next @Take rows only
-                         """;
-            if (connection.State == ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-            using (var command = new SqlCommand(sql, connection))
-            {
-                //_connection.Open();
-
-                command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
-                command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
-                command.Parameters.Add("@Today", SqlDbType.DateTime).Value = DateTime.Today;
-                command.Parameters.Add("@keyword", SqlDbType.Time).Value = keyword;
-                var reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    if (totalItems == -1)
-                    {
-                        totalItems = (int)reader["TotalItems"];
-                        totalPages = (totalItems / rowsPerPage);
-                        if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
-                        else totalPages = (int)(totalItems / rowsPerPage) + 1;
-                    }
-
-                    int OrderID = (int)reader["ORDER_ID"];
-                    string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
-                    string sql2 = """
-                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
-                              ORDER BY PHONE.ID
-                         """;
-                    BindingList<ORDEREDPHONE> OrderedPhones = [];
-                    using (var command2 = new SqlCommand(sql2, connection))
-                    {
-                        command2.Parameters.Add("@Id", SqlDbType.Int).Value = OrderID;
-                        var reader2 = command.ExecuteReader();
-                        while (reader2.Read())
-                        {
-                            OrderedPhones.Add(new ORDEREDPHONE()
-                            {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
-                            });
-                        }
-                    }
-
-                    BindingList<String> Promo_List = [];
-                    string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
-                              WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
-                         """;
-                    using (var command3 = new SqlCommand(sql3, connection))
-                    {
-                        command3.Parameters.Add("@Id", SqlDbType.Int).Value = OrderID;
-                        var reader3 = command.ExecuteReader();
-                        while (reader3.Read())
-                        {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
-                        }
-                    }
-                    orders.Add(new ORDER()
-                    {
-                        OrderID = OrderID,
-                        CustomerName = FullName,
-                        OrderDate = OrderDate,
-                        OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
-                    });
-                }
-
-                
-            }
-
-            connection.Close();
-            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages);
-            return result;
-        }
-        static public Tuple<BindingList<ORDER>, int, int> GetKeyWordMonthPaging(SqlConnection connection, int page, int rowsPerPage)
-        {
-            int totalItems = -1;
-            int totalPages = -1;
-            var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
-            int take = rowsPerPage;
-            string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
-                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND MONTH(ORDERS.CREATED_DATE) = MONTH(@Today) AND YEAR(ORDERS.CREATED_DATE) = YEAR(@Today)
-                              AND (CUSTOMER.FIRSTNAME LIKE '%' + @keyword + '%' OR CUSTOMER.LASTNAME LIKE '%' + @keyword + '%')
-                              ORDER BY ORDERS.ORDER_ID
-                              OFFSET @Skip ROWS
-                              fetch next @Take rows only
-                         """;
-            if (connection.State == ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-            using (var command = new SqlCommand(sql, connection))
-            {
-                //_connection.Open();
-
-                command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
-                command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
-                command.Parameters.Add("@Today", SqlDbType.DateTime).Value = DateTime.Today;
-                var reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    if (totalItems == -1)
-                    {
-                        totalItems = (int)reader["TotalItems"];
-                        totalPages = (totalItems / rowsPerPage);
-                        if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
-                        else totalPages = (int)(totalItems / rowsPerPage) + 1;
-                    }
-
-                    int OrderID = (int)reader["ORDER_ID"];
-                    string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
-                    DateOnly OrderDate = (DateOnly)reader["CREATED_DATE"];
-                    string sql2 = """
-                              select PHONE.NAME, ORDERS_PHONE.PHONE_COUNT from ORDERS, ORDERS_PHONE
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id AND PHONE.ID = ORDERS_PHONE.PHONE_ID
-                              ORDER BY PHONE.ID
-                         """;
-                    BindingList<ORDEREDPHONE> OrderedPhones = [];
-                    using (var command2 = new SqlCommand(sql2, connection))
-                    {
-                        command2.Parameters.Add("@Id", SqlDbType.Int).Value = OrderID;
-                        var reader2 = command.ExecuteReader();
-                        while (reader2.Read())
-                        {
-                            OrderedPhones.Add(new ORDEREDPHONE()
-                            {
-                                boughtPhone = (string)reader2["NAME"],
-                                quantity = (int)reader2["PHONE_COUNT"]
-                            });
-                        }
-                    }
-
-                    BindingList<String> Promo_List = [];
-                    string sql3 = """
-                              select PROMOTIONS.PROMO_NAME from PROMOTIONS, PROMO_ORDERS
-                              WHERE PROMO_ORDERS.ORDER_ID = @Id AND PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                              ORDER BY PHONE.ID
-                         """;
-                    using (var command3 = new SqlCommand(sql3, connection))
-                    {
-                        command3.Parameters.Add("@Id", SqlDbType.Int).Value = OrderID;
-                        var reader3 = command.ExecuteReader();
-                        while (reader3.Read())
-                        {
-                            Promo_List.Add((string)reader3["PROMO_NAME"]);
-                        }
-                    }
-                    orders.Add(new ORDER()
-                    {
-                        OrderID = OrderID,
-                        CustomerName = FullName,
-                        OrderDate = OrderDate,
-                        OrderedPhone = OrderedPhones,
-                        Promo_List = Promo_List
+                        PromoList = Promo_List
                     });
                 }
             }
@@ -930,7 +697,7 @@ namespace HW4
             }
             return true;
         }
-        static public bool NewPhoneInOrder(SqlConnection connection, BindingList<ORDEREDPHONE> Ordered, int OrderID)
+        static public bool NewPhoneInOrder(SqlConnection connection, ORDEREDPHONE Phone, int OrderID)
         {
             string validation = """
                 IF EXISTS(SELECT 1 FROM ORDERS_PHONE WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID)
@@ -944,11 +711,10 @@ namespace HW4
                 connection.Open();
             }
             using SqlCommand validCommand = new SqlCommand(validation, connection);
-            foreach (var Phone in Ordered) 
+            validCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
+            validCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+            try
             {
-                validCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
-                validCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
-
                 int exist = (int)validCommand.ExecuteScalar();
 
                 float price = Phone.quantity * Phone.Price;
@@ -962,8 +728,9 @@ namespace HW4
                 using var discCommand = new SqlCommand(getPromo, connection);
                 discCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
                 discCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+        
                 var readingDiscount = discCommand.ExecuteReader();
-                while (readingDiscount.Read()) 
+                while (readingDiscount.Read())
                 {
                     float discount = (float)readingDiscount["DISCOUNT"];
                     price *= (float)(1 - (discount));
@@ -1005,8 +772,233 @@ namespace HW4
                 using var orderCommand = new SqlCommand(updateOrder, connection);
                 orderCommand.Parameters.Add("@price", SqlDbType.Float).Value = price;
                 orderCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                orderCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                connection.Close();
+                return false;
             }
 
+            connection.Close();
+            return true;
+        }
+        static public bool DeletePhoneInOrder(SqlConnection connection, int PhoneID, int OrderID)
+        {
+            string deletePhone = """
+                DELETE FROM ORDERS_PHONE
+                OUTPUT TOTAL
+                WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
+                """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using SqlCommand DeleteCommand = new SqlCommand(deletePhone, connection);
+            DeleteCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = PhoneID;
+            DeleteCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+
+            try
+            {
+                float price = 0;
+                var reader = DeleteCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    price = (float)reader["TOTAL"]; 
+                }
+
+                string updateOrder = """
+                        UPDATE ORDERS
+                        SET TOTAL = TOTAL - @price
+                        WHERE ORDER_ID = @OrderID
+                    """;
+                using var orderCommand = new SqlCommand(updateOrder, connection);
+                orderCommand.Parameters.Add("@price", SqlDbType.Float).Value = price;
+                orderCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                orderCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                connection.Close();
+                return false;
+            }
+            return true;
+        }
+        static public bool ChangePhoneCount(SqlConnection connection, ORDEREDPHONE Phone, int OrderID)
+        {
+            string sql = """
+                        UPDATE ORDERS_PHONE
+                        SET PHONE_COUNT = @count, TOTAL = @price
+                        OUTPUT TOTAL
+                        WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
+                    """;
+            string getPromo = """
+                        SELECT PROMOTIONS.DISCOUNT
+                        FROM PROMO_ORDERS JOIN PROMOTIONS ON PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
+                        WHERE PROMOTIONS.PROMO_PHONE_ID = @PhoneId AND PROMO_ORDERS = @OrderID
+                    """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            float price = Phone.Price * Phone.quantity;
+            float oldPrice = 0;
+            using var discCommand = new SqlCommand(getPromo, connection);
+            discCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
+            discCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+            try
+            {
+                var readingDiscount = discCommand.ExecuteReader();
+                while (readingDiscount.Read())
+                {
+                    float discount = (float)readingDiscount["DISCOUNT"];
+                    price *= (float)(1 - (discount));
+                }
+
+                using SqlCommand UpdateCommand = new SqlCommand(sql, connection);
+                UpdateCommand.Parameters.Add("@PhoneID", SqlDbType.Int).Value = Phone.PhoneID;
+                UpdateCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                UpdateCommand.Parameters.Add("@count", SqlDbType.Int).Value = Phone.quantity;
+                UpdateCommand.Parameters.Add("@price", SqlDbType.Int).Value = price;
+
+                var updateReader = UpdateCommand.ExecuteReader();
+                while (updateReader.Read())
+                {
+                    oldPrice += (float)updateReader["TOTAL"];
+                }
+
+                string updateOrder = """
+                        UPDATE ORDERS
+                        SET TOTAL = TOTAL - @oldPrice + @price
+                        WHERE ORDER_ID = @OrderID
+                    """;
+                using var orderCommand = new SqlCommand(updateOrder, connection);
+                orderCommand.Parameters.Add("@price", SqlDbType.Float).Value = price;
+                orderCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                orderCommand.Parameters.Add("@oldPrice", SqlDbType.Int).Value = oldPrice;
+                orderCommand.ExecuteNonQuery();
+            }
+
+            catch (Exception ex)
+            {
+                connection.Close();
+                return false;
+            }
+ 
+
+
+            return true;
+        }
+        static public bool AddPromo(SqlConnection connection, int promoID, int OrderID)
+        {
+            string sql = """
+                        INSERT INTO PROMO_ORDERS (ORDER_ID, PROMO_ID)
+                        VALUES (@OrderID, @promoID)
+                    """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            using var addPromo = new SqlCommand(sql, connection);
+            addPromo.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
+            addPromo.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+            try
+            {
+                addPromo.ExecuteNonQuery();
+                string getSQL = """
+                    UPDATE ORDERS_PHONE
+                    SET TOTAL = TOTAL * (1 - PROMOTION.DISCOUNT)
+                    OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
+                    FROM ORDERS_PHONE, PROMOTIONS
+                    WHERE ORDERS_PHONE.PHONE_ID = PROMOTIONS.PROMO_PHONE_ID AND PROMOTIONS.PROMO_ID = @promoID AND ORDERS_PHONE.ORDER_ID = @OrderID
+                    """;
+
+                using var updatePrice = new SqlCommand(getSQL, connection);
+                updatePrice.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
+                updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                float oldPrice = 0;
+                float newPrice = 0;
+                var reader = updatePrice.ExecuteReader();
+                while (reader.Read())
+                {
+                    oldPrice = (float)reader["OldPrice"];
+                    newPrice = (float)reader["NewPrice"];
+                }
+
+                string updateOrder = """
+                    UPDATE ORDERS
+                    SET TOTAL = TOTAL - @OldPrice + @NewPrice
+                    WHERE ORDER_ID = @OrderID
+                    """;
+
+                using var orderCommand = new SqlCommand(updateOrder, connection);
+                orderCommand.Parameters.Add("@OldPrice", SqlDbType.Float).Value = oldPrice;
+                orderCommand.Parameters.Add("@NewPrice", SqlDbType.Float).Value = newPrice;
+                orderCommand.ExecuteNonQuery();
+            }
+
+            catch (Exception ex)
+            {
+                connection.Close();
+                return false;
+            }
+            return true;
+        }
+        static public bool DeletePromo(SqlConnection connection, int promoID, int OrderID)
+        {
+            string sql = """
+                        DELETE FROM PROMO_ORDERS
+                        WHERE PROMO_ID = @promoID AND ORDER_ID = @OrderID
+                    """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            using var deletePromo = new SqlCommand(sql, connection);
+            deletePromo.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
+            deletePromo.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+            try
+            {
+                deletePromo.ExecuteNonQuery();
+                string getSQL = """
+                    UPDATE ORDERS_PHONE
+                    SET TOTAL = TOTAL * (1 + PROMOTION.DISCOUNT)
+                    OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
+                    FROM ORDERS_PHONE, PROMOTIONS
+                    WHERE ORDERS_PHONE.PHONE_ID = PROMOTIONS.PROMO_PHONE_ID AND PROMOTIONS.PROMO_ID = @promoID AND ORDERS_PHONE.ORDER_ID = @OrderID
+                    """;
+
+                using var updatePrice = new SqlCommand(getSQL, connection);
+                updatePrice.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
+                updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                float oldPrice = 0;
+                float newPrice = 0;
+                var reader = updatePrice.ExecuteReader();
+                while (reader.Read())
+                {
+                    oldPrice = (float)reader["OldPrice"];
+                    newPrice = (float)reader["NewPrice"];
+                }
+
+                string updateOrder = """
+                    UPDATE ORDERS
+                    SET TOTAL = TOTAL - @OldPrice + @NewPrice
+                    WHERE ORDER_ID = @OrderID
+                    """;
+
+                using var orderCommand = new SqlCommand(updateOrder, connection);
+                orderCommand.Parameters.Add("@OldPrice", SqlDbType.Float).Value = oldPrice;
+                orderCommand.Parameters.Add("@NewPrice", SqlDbType.Float).Value = newPrice;
+                orderCommand.ExecuteNonQuery();
+            }
+
+            catch (Exception ex)
+            {
+                connection.Close();
+                return false;
+            }
             return true;
         }
     }

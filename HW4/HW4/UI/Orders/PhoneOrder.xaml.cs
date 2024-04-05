@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +21,26 @@ namespace HW4
     /// </summary>
     public partial class PhoneOrder : UserControl
     {
-        public PhoneOrder()
+        BindingList<ORDER> _OrderList;
+        int _rowPerPage = 12;
+        int _currentPage = 1;
+        int _pageSize = 10;
+        int totalPages = -1;
+        int totalItems = -1;
+        private SqlConnection _connection;
+        public PhoneOrder(SqlConnection con)
         {
             InitializeComponent();
+            _connection = con;
+            startDatePicker.SelectedDate = DateTime.Now;
+            endDatePicker.SelectedDate = DateTime.Now;
         }
 
+        public enum OrderManagementAction
+        {
+            AddOrder,
+            DeleteOrder
+        }
         private void AddOrder(object sender, RoutedEventArgs e)
         {
 

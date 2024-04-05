@@ -12,9 +12,9 @@ namespace HW4
     {
         public int OrderID { get; set; }
         public string CustomerName { get; set; }
-        public DateOnly OrderDate {  get; set; }
+        public DateTime OrderDate {  get; set; }
         public BindingList<ORDEREDPHONE> OrderedPhone { get; set; }
-        public BindingList<string> Promo_List { get; set; }
+        public BindingList<PROMOTIONSINORDER> PromoList { get; set; }
         public float TotalPrice { get; set; }
         public string status { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -5,13 +5,72 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HW4"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="600">
-    <Grid>
+             d:DesignHeight="430.4" d:DesignWidth="391.2">
+    <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <TextBlock Text="Order's Phone" FontSize="15"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <TextBlock Text="Order's Promotion" FontSize="15"/>
+        </StackPanel>
+
+        <DataGrid Name="OrderPhones" Grid.Row="1" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <DataGrid.Resources>
+                <ContextMenu x:Key="RightClickMenu">
+                    <MenuItem Header="Delete" Click="DeletePhone"/>
+                    <MenuItem Header="Edit" Click="UpdatePhoneCount"/>
+                </ContextMenu>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Phone ID" Binding="{Binding PhoneID}" Width="100"/>
+                <DataGridTextColumn Header="Phone Name" Binding="{Binding PhoneName}" Width="130"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}" Width="80"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Click="AddPhone" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
+            <Button Click="DeletePhone" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="32"/>
+            <Button Click="UpdatePhoneCount" Content="Update" Margin="10, 0, 0, 0" Width="60" Height="32"/>
+        </StackPanel>
+
+        <DataGrid Name="OrderPromos" Grid.Row="4" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <DataGrid.Resources>
+                <ContextMenu x:Key="RightClickMenu">
+                    <MenuItem Header="Delete" Click="DeletePhone"/>
+                    <MenuItem Header="Edit" Click="UpdatePhoneCount"/>
+                </ContextMenu>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Promo ID" Binding="{Binding PromoID}" Width="80"/>
+                <DataGridTextColumn Header="Promo Name" Binding="{Binding PromoName}" Width="110"/>
+                <DataGridTextColumn Header="For Phone" Binding="{Binding forPhone}" Width="130"/>
+                <DataGridTextColumn Header="Discount" Binding="{Binding Discount}" Width="70"/>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+        </DataGrid>
+        <StackPanel Grid.Row="5" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Click="AddPromo" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
+            <Button Click="DeletePromo" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="32"/>
+        </StackPanel>
     </Grid>
 </UserControl>

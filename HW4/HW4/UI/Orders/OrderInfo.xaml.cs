@@ -24,5 +24,14 @@ namespace HW4
         {
             InitializeComponent();
         }
+
+        private void UpdatePhoneCount(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeletePhone(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

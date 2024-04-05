@@ -6,43 +6,40 @@
         xmlns:local="clr-namespace:HW4"
         xmlns:converter="clr-namespace:HW4.UI.Converters"
         mc:Ignorable="d"
-        Height="450" Width="800">
+        Height="500" Width="1200">
     <UserControl.Resources>
         <converter:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
         <converter:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
         <converter:StatusColorConverter x:Key="StatusColorConverter"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid Height="500" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="420"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top">
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button FontSize="12" Content="Add" Click="AddOrder" Width="80" Height="40"/>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button FontSize="12" Content="Update" Click="UpdateOrder" Width="80" Height="40"/>
-        </StackPanel>
-        <StackPanel Grid.Column="3" Grid.Row="0" Grid.RowSpan="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button FontSize="12" Content="Delete" Click="DeleteOrder" Width="80" Height="40"/>
-        </StackPanel>
 
-        <StackPanel Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox x:Name="SearchOrder" Width="200" Height="25"/>
-            <Button Margin="0, 7, 0, 0" Width="50" Height="30" Content="Search"/>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Search Date" Margin="0,0,0,5" Width="220" TextAlignment="Center"/>
+            <StackPanel Orientation="Horizontal">
+                <DatePicker Name="startDatePicker" />
+                <TextBlock Text="-" Margin="5,0"/>
+                <DatePicker Name="endDatePicker"/>
+            </StackPanel>
+            <Button Content="Search" Name="Search" HorizontalAlignment="Center" Margin="0,5"/>
         </StackPanel>
 
         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center">
@@ -60,7 +57,7 @@
             <Button Click="Page" Content="Prev" Margin="0, 0, 5, 0" Width="37" Height="23"/>
             <Button Click="Page" Content="Next" Margin="10, 0, 0, 0" Width="35" Height="23"/>
         </StackPanel>
-        <DataGrid Name="OrderView" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+        <DataGrid Name="OrderView" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeleteOrder"/>
@@ -68,20 +65,20 @@
                 </ContextMenu>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="80"/>
-                <DataGridTextColumn Header="Customer" Binding="{Binding Customer}" Width="110"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="70"/>
+                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="90"/>
+                <DataGridTextColumn Header="Customer" Binding="{Binding Customer}" Width="120"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="80"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding Date}" Width="70"/>
                 <DataGridTextColumn Header="Status" Binding="{Binding Date}" Width="70"/>
-             </DataGrid.Columns>
-
-            
-            
+            </DataGrid.Columns>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
         </DataGrid>
+
+
+        <local:OrderInfo IsEnabled="False" Grid.Column="4" Grid.Row="0" Grid.RowSpan="5" VerticalAlignment="Top" HorizontalAlignment="Center" Height="27"/>
     </Grid>
 </UserControl>

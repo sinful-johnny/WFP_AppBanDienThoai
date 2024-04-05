@@ -241,6 +241,7 @@ namespace HW4
             filter = "Price";
             LoadData();
         }
+
     }
     internal class PriceRange : INotifyPropertyChanged
     {
