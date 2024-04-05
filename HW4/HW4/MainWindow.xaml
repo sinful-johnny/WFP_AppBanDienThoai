@@ -89,7 +89,7 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Orders">
-                <Fluent:RibbonGroupBox Header="Order Control">
+                <!--<Fluent:RibbonGroupBox Header="Order Control">
                     <Fluent:Button Header="Add" x:Name="AddOrderRibbonButton" Click="AddOrderRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/plus.png" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -112,7 +112,7 @@
                             <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                </Fluent:RibbonGroupBox>
+                </Fluent:RibbonGroupBox>-->
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Customers">
                 <Fluent:RibbonGroupBox Header="Utilities">
@@ -129,6 +129,25 @@
                     <Fluent:Button Header="Delete" x:Name="DeleteCustomerRibbonButton" Click="DeleteCustomerRibbonButton_Click">
                         <Fluent:Button.LargeIcon>
                             <Image Source="Images/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="View">
+                    <Fluent:Button Header="View Customer Orders" x:Name="ViewCustomerOrderRibbonButton" Click="ViewCustomerOrderRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/search.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="View Customer Promotions" x:Name="ViewCustomerPromoRibbonButton" Click="ViewCustomerPromoRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/search.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Grant">
+                    <Fluent:Button Header="Grant Promotion" x:Name="GrantPromoRibbonButton" Click="GrantPromoRibbonButton_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Image Source="Images/plus_blue.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                 </Fluent:RibbonGroupBox>

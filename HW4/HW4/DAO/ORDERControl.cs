@@ -1001,5 +1001,29 @@ namespace HW4
             }
             return true;
         }
+
+        static public System.Data.DataTable getCustomerOrder(SqlConnection connection, int CUS_ID)
+        {
+            string query = """
+                select O.*
+                from ORDERS as O
+                	inner join CUSTOMER as C on C.CUS_ID = O.CUSTOMER_ID
+                where C.CUS_ID = @CUS_ID
+                """;
+
+            System.Data.DataTable data = new System.Data.DataTable();
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using (SqlCommand cmd = new SqlCommand(query, connection))
+            {
+                cmd.Parameters.Add("@CUS_ID", SqlDbType.Int).Value = CUS_ID;
+                SqlDataReader reader = cmd.ExecuteReader();
+                data.Load(reader);
+            }
+            connection.Close();
+            return data;
+        }
     }
 }
