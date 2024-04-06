@@ -11,6 +11,7 @@ namespace HW4
     {
         public int ID { get; set; }
         public string PhoneName { get; set; }
+        public double OriginalPrice { get; set; }
         public double Price { get; set; }
         public string Thumbnail { get; set; }
         public string Manufacturer { get; set; }

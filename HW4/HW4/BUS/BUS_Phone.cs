@@ -55,11 +55,12 @@ namespace HW4.BUS
             phoneDataTable.Columns.Add("ID",typeof(int));
             phoneDataTable.Columns.Add("PhoneName", typeof(string));
             phoneDataTable.Columns.Add("Price", typeof(string));
+            phoneDataTable.Columns.Add("OriginalPrice", typeof(string));
             phoneDataTable.Columns.Add("Thumbnail", typeof(string));
             phoneDataTable.Columns.Add("Manufacturer", typeof(string));
 
             foreach (PHONE phone in list) { 
-                phoneDataTable.Rows.Add(phone.ID,phone.PhoneName,phone.Price,phone.Thumbnail,phone.Manufacturer);
+                phoneDataTable.Rows.Add(phone.ID,phone.PhoneName,phone.Price,phone.OriginalPrice,phone.Thumbnail,phone.Manufacturer);
             }
 
             return new Tuple<DataTable, int, int>(phoneDataTable,totalItems,totalPage);
@@ -79,8 +80,9 @@ namespace HW4.BUS
                     int ManufacturerID = int.Parse((string)row.ItemArray[1]!);
                     string Thumbnail = (string)row.ItemArray[2]!;
                     double Price = double.Parse((string)row.ItemArray[3]!);
+                    double OriginalPrice = double.Parse((string)row.ItemArray[4]!);
 
-                    PHONEControl.InsertPHONE(connection, PhoneName, ManufacturerID, Thumbnail, Price);
+                    PHONEControl.InsertPHONE(connection, PhoneName, ManufacturerID, Thumbnail, Price, OriginalPrice);
                 }
             }catch (Exception ex)
             {
@@ -89,13 +91,13 @@ namespace HW4.BUS
             return true;
         }
 
-        static public int insert(SqlConnection connection, string name, int ManufacturerID, string Thumbnail, double Price)
+        static public int insert(SqlConnection connection, string name, int ManufacturerID, string Thumbnail, double Price, double OriginalPrice)
         {
-            return PHONEControl.InsertPHONE(connection, name, ManufacturerID, Thumbnail, Price);
+            return PHONEControl.InsertPHONE(connection, name, ManufacturerID, Thumbnail, Price, OriginalPrice);
         }
-        static public bool update(SqlConnection connection, int ID, string name, int ManufacturerID, string Thumbnail, double Price)
+        static public bool update(SqlConnection connection, int ID, string name, int ManufacturerID, string Thumbnail, double Price, double OriginalPrice)
         {
-            return PHONEControl.UpdatePHONE(connection,ID, name, ManufacturerID, Thumbnail,Price);
+            return PHONEControl.UpdatePHONE(connection,ID, name, ManufacturerID, Thumbnail, Price, OriginalPrice);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace HW4
             int skip = (page - 1 ) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
-                                select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
+                                select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE,PHONE.ORIGINALPRICE, count(*) over() as TotalItems 
                                 from PHONE, MANUFACTURER as M 
                                 where   PHONE.MANUFACTURER_ID = M.ID
                                         and M.NAME = @Manufacturer 
@@ -68,7 +68,8 @@ namespace HW4
                         PhoneName = (string)reader["NAME"],
                         Manufacturer = (string)reader["MANUFACTURER"],
                         Thumbnail = (string)reader["THUMBNAIL"],
-                        Price = (double)reader["PRICE"]
+                        Price = (double)reader["PRICE"],
+                        OriginalPrice = (double)reader["ORIGINALPRICE"]
                     });
                 }
                 reader.Close();
@@ -85,7 +86,7 @@ namespace HW4
             int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string    sql = """
-                                select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
+                                select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, PHONE.ORIGINALPRICE, count(*) over() as TotalItems 
                                 from PHONE, MANUFACTURER as M 
                                 where PHONE.MANUFACTURER_ID = M.ID 
                                 and contains(PHONE.NAME, @Keyword)
@@ -122,7 +123,8 @@ namespace HW4
                         PhoneName = (string)reader["NAME"],
                         Manufacturer = (string)reader["MANUFACTURER"],
                         Thumbnail = (string)reader["THUMBNAIL"],
-                        Price = (double)reader["PRICE"]
+                        Price = (double)reader["PRICE"],
+                        OriginalPrice = (double)reader["ORIGINALPRICE"]
                     });
                 }
                 reader.Close();
@@ -139,7 +141,7 @@ namespace HW4
             int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
-                                select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
+                                select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, PHONE.ORIGINALPRICE, count(*) over() as TotalItems 
                                 from PHONE, MANUFACTURER as M 
                                 where   PHONE.MANUFACTURER_ID = M.ID
                                         and M.NAME = @Manufacturer
@@ -176,7 +178,8 @@ namespace HW4
                         PhoneName = (string)reader["NAME"],
                         Manufacturer = (string)reader["MANUFACTURER"],
                         Thumbnail = (string)reader["THUMBNAIL"],
-                        Price = (double)reader["PRICE"]
+                        Price = (double)reader["PRICE"],
+                        OriginalPrice = (double)reader["ORIGINALPRICE"]
                     });
                 }
                 reader.Close();
@@ -193,7 +196,7 @@ namespace HW4
             int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
-                             select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
+                             select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE,PHONE.ORIGINALPRICE, count(*) over() as TotalItems 
                              from PHONE, MANUFACTURER as M 
                              where PHONE.MANUFACTURER_ID = M.ID
                              order by PHONE.ID 
@@ -228,7 +231,8 @@ namespace HW4
                         PhoneName = (string)reader["NAME"],
                         Manufacturer = (string)reader["MANUFACTURER"],
                         Thumbnail = (string)reader["THUMBNAIL"],
-                        Price = (double)reader["PRICE"]
+                        Price = (double)reader["PRICE"],
+                        OriginalPrice = (double)reader["ORIGINALPRICE"]
                     });
                 }
                 reader.Close();
@@ -245,7 +249,7 @@ namespace HW4
             int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
-                             select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
+                             select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, PHONE.ORIGINALPRICE, count(*) over() as TotalItems 
                              from PHONE, MANUFACTURER as M 
                              where PHONE.MANUFACTURER_ID = M.ID
                                     and PHONE.PRICE >= @Min
@@ -284,7 +288,8 @@ namespace HW4
                         PhoneName = (string)reader["NAME"],
                         Manufacturer = (string)reader["MANUFACTURER"],
                         Thumbnail = (string)reader["THUMBNAIL"],
-                        Price = (double)reader["PRICE"]
+                        Price = (double)reader["PRICE"],
+                        OriginalPrice = (double)reader["ORIGINALPRICE"]
                     });
                 }
                 reader.Close();
@@ -301,7 +306,7 @@ namespace HW4
             int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
-                             select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, count(*) over() as TotalItems 
+                             select PHONE.ID,PHONE.NAME,M.NAME as MANUFACTURER,PHONE.THUMBNAIL,PHONE.PRICE, PHONE.ORIGINALPRICE, count(*) over() as TotalItems 
                              from PHONE, MANUFACTURER as M 
                              where PHONE.MANUFACTURER_ID = M.ID
                                     and PHONE.PRICE >= @Min
@@ -338,7 +343,8 @@ namespace HW4
                         PhoneName = (string)reader["NAME"],
                         Manufacturer = (string)reader["MANUFACTURER"],
                         Thumbnail = (string)reader["THUMBNAIL"],
-                        Price = (double)reader["PRICE"]
+                        Price = (double)reader["PRICE"],
+                        OriginalPrice = (double)reader["ORIGINALPRICE"]
                     });
                 }
                 reader.Close();
@@ -347,11 +353,11 @@ namespace HW4
             return result;
         }
 
-        static public int InsertPHONE(SqlConnection connection,string name, int ManufacturerID, string Thumbnail, double Price)
+        static public int InsertPHONE(SqlConnection connection,string name, int ManufacturerID, string Thumbnail, double Price, double OriginalPrice)
         {
             string query = """
-                Insert into PHONE(NAME,MANUFACTURER_ID,THUMBNAIL,PRICE)
-                values(@NAME,@MANUFACTURER_ID,@THUMBNAIL,@PRICE)
+                Insert into PHONE(NAME,MANUFACTURER_ID,THUMBNAIL,PRICE, ORIGINALPRICE)
+                values(@NAME,@MANUFACTURER_ID,@THUMBNAIL,@PRICE, @ORIGINALPRICE)
                 """;
             int id;
             if (connection.State == ConnectionState.Closed)
@@ -364,7 +370,8 @@ namespace HW4
                 cmd.Parameters.Add("@MANUFACTURER_ID", SqlDbType.Int).Value = ManufacturerID;
                 cmd.Parameters.Add("@THUMBNAIL", SqlDbType.VarChar).Value = Thumbnail;
                 cmd.Parameters.Add("@PRICE", SqlDbType.Float).Value = Price;
-                
+                cmd.Parameters.Add("@ORIGINALPRICE", SqlDbType.Float).Value = OriginalPrice;
+
                 try
                 {
                     id = (int)((decimal)cmd.ExecuteScalar());
@@ -407,10 +414,10 @@ namespace HW4
             return true;
         }
 
-        static public bool UpdatePHONE(SqlConnection connection, int ID,string name, int ManufacturerID, string Thumbnail, double Price)
+        static public bool UpdatePHONE(SqlConnection connection, int ID,string name, int ManufacturerID, string Thumbnail, double Price, double OriginalPrice)
         {
             string query = """
-                Update PHONE set NAME=@Name, MANUFACTURER_ID=@ManufacturerID, THUMBNAIL=@Thumbnail, PRICE=@Price where ID=@ID
+                Update PHONE set NAME=@Name, MANUFACTURER_ID=@ManufacturerID, THUMBNAIL=@Thumbnail, PRICE=@Price ORIGINALPRICE =@OriginalPrice where ID=@ID
                 """;
             if (connection.State == ConnectionState.Closed)
             {
@@ -423,6 +430,7 @@ namespace HW4
                 cmd.Parameters.Add("@ManufacturerID", SqlDbType.Int).Value = ManufacturerID;
                 cmd.Parameters.Add("@Thumbnail", SqlDbType.VarChar).Value = Thumbnail;
                 cmd.Parameters.Add("@Price", SqlDbType.Float).Value = Price;
+                cmd.Parameters.Add("@OriginalPrice", SqlDbType.Float).Value = OriginalPrice;
                 try
                 {
                     cmd.ExecuteNonQuery();

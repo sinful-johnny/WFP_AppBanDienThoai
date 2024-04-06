@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HW4.UI.Customers"
         mc:Ignorable="d"
         xmlns:converter="clr-namespace:HW4.UI.Converters"
-        Title="CustomerInfoDialog" Height="450" Width="800">
+        Title="Customer Infomation Editor" Height="450" Width="800">
     <Window.Resources>
         <converter:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
     </Window.Resources>

@@ -63,6 +63,7 @@ namespace HW4
             string ManufacturerName = NewPhone.Manufacturer;
             string Thumbnail = NewPhone.Thumbnail;
             double Price = NewPhone.Price;
+            double OriginalPrice = NewPhone.OriginalPrice;
 
             int Manufacturer_ID = -1;
             try
@@ -83,7 +84,7 @@ namespace HW4
             bool result = false;
             try
             {
-                result = BUS_Phone.update(_connection,ID, PhoneName, Manufacturer_ID, Thumbnail, Price);
+                result = BUS_Phone.update(_connection,ID, PhoneName, Manufacturer_ID, Thumbnail, Price, OriginalPrice);
             }
             catch(Exception ex) { 
                 MessageBox.Show(ex.ToString());

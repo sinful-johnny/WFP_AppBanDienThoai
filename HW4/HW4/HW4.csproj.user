@@ -10,10 +10,22 @@
     <Compile Update="DashboardScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ReportChart.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TitleForChart.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Customers\CustomerInfoDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Customers\CustomerManagementUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Customers\DataViewDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Customers\GrantPromoDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml.cs">
@@ -66,10 +78,22 @@
     <Page Update="DashboardScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ReportChart.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TitleForChart.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UI\Customers\CustomerInfoDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Customers\CustomerManagementUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Customers\DataViewDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Customers\GrantPromoDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Manufacturers\ManufacturerNameInputScreen.xaml">

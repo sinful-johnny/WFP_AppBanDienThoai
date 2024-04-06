@@ -61,7 +61,7 @@
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeleteOrder"/>
-                    <MenuItem Header="Edit" Click="UpdateOrder"/>
+                    <!--<MenuItem Header="Edit" Click="UpdateOrder"/>-->
                 </ContextMenu>
             </DataGrid.Resources>
             <DataGrid.Columns>
