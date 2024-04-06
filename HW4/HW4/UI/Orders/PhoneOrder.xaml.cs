@@ -40,7 +40,6 @@ namespace HW4
             _connection = con;
             startDatePicker.SelectedDate = DateTime.Now;
             endDatePicker.SelectedDate = DateTime.Now;
-            LoadData();
         }
 
         public enum OrderManagementAction
@@ -78,7 +77,6 @@ namespace HW4
                     (_OrderList, totalItems, totalPages) = BUS_Order.getInRange(_connection, _currentPage, _rowPerPage, start, end);
                 }
                 OrderView.ItemsSource = _OrderList;
-                OrderView.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -232,7 +230,7 @@ namespace HW4
 
         private void DateGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            current = (string)DateGet.SelectedItem;
+            current = DateGet.SelectedItem.ToString();
             LoadData();
         }
 
