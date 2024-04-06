@@ -61,7 +61,7 @@ namespace HW4
                     new TabItem() { Content = new DashboardScreen(), Header= "Dashboard"},
                     new TabItem() { Content = new ProductManagementScreen(_connection), Header= "Products"},
                     new TabItem() {Content = new ManufacturerManagementUserControl(_connection), Header = "Manufacturer"},
-                    new TabItem() {Header = "Orders"},
+                    new TabItem() {Content = new PhoneOrder(_connection, new OrderInfo()), Header = "Order"} ,
                     new TabItem() {Content = new CustomerManagementUserControl(_connection), Header = "Customers"},
                     new TabItem() {Content = new PromoManagementUserControl(_connection), Header = "Promotions"}
                 };

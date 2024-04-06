@@ -33,10 +33,10 @@ namespace HW4
         string current = "All time";
         DateTime start = DateTime.Now;
         DateTime end = DateTime.Now;
-        public PhoneOrder(SqlConnection con)
+        public PhoneOrder(SqlConnection con, OrderInfo orderInfo)
         {
             InitializeComponent();
-            OrderInfo.DataSent += ChildUserControl_DataSent;
+            orderInfo.DataSent += ChildUserControl_DataSent;
             _connection = con;
             startDatePicker.SelectedDate = DateTime.Now;
             endDatePicker.SelectedDate = DateTime.Now;

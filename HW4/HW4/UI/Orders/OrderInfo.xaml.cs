@@ -60,7 +60,7 @@ namespace HW4
                 if (deleted ==  true)
                 {
                     MessageBox.Show($"Deleted Phone {selected.PhoneName} successfully!", "Delete Success!", MessageBoxButton.OK);
-                    getOrder.OrderPromos.Remove(selected);
+                    DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
                 }
 
                 else
@@ -76,18 +76,30 @@ namespace HW4
             var AddPhone = new NewPhoneInOrder(conn, getOrder.OrderID);
             if (AddPhone.DialogResult == true)
             {
-                MessageBox.Show("Added New Phone Successfully!", "Edit Successfully", MessageBoxButton.OK);
+                MessageBox.Show("Added New Phone Successfully!", "Add Successfully", MessageBoxButton.OK);
+                DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
             }
 
             else
             {
-                MessageBox.Show("Failed to Added New Phone!", "Edit Failed", MessageBoxButton.OK);
+                MessageBox.Show("Failed to Added New Phone!", "Add Failed", MessageBoxButton.OK);
             }
         }
 
         private void AddPromo(object sender, RoutedEventArgs e)
         {
+            SqlConnection conn = new();
+            var AddPromo = new AddPromo(conn, getOrder.OrderID);
+            if (AddPromo.DialogResult == true)
+            {
+                MessageBox.Show("Added New Promo Successfully!", "Add Successfully", MessageBoxButton.OK);
+                DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
+            }
 
+            else
+            {
+                MessageBox.Show("Failed to Added New Promo!", "Add Failed", MessageBoxButton.OK);
+            }
         }
 
         private void DeletePromo(object sender, RoutedEventArgs e)
@@ -102,7 +114,7 @@ namespace HW4
                 if (deleted == true)
                 {
                     MessageBox.Show($"Deleted Promotion {selected.PromoName} successfully!", "Delete Success!", MessageBoxButton.OK);
-                    getOrder.PromoList.Remove(selected);
+                    DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
                 }
 
                 else

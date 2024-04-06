@@ -11,6 +11,6 @@ namespace HW4.DTO
         public int PromoID {  get; set; }
         public string PromoName { get; set; }
         public string forPhone { get; set; }
-        public float Discount { get; set; }
+        public double Discount { get; set; }
     }
 }

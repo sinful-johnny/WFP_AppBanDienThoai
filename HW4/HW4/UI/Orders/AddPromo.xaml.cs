@@ -1,7 +1,9 @@
-﻿using HW4.DTO;
+﻿using HW4.BUS;
+using HW4.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HW4.UI.Orders
+namespace HW4
 {
     /// <summary>
     /// Interaction logic for AddPromo.xaml
@@ -31,11 +33,47 @@ namespace HW4.UI.Orders
             InitializeComponent();
             this.conn = conn;
             this.OrderID = OrderID;
+            Order.DataContext = OrderID;
         }
 
         private void LoadPromo()
         {
+            string sql = """
+                SELECT * FROM PROMOTIONS
+                """;
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
 
+            using var command = new SqlCommand(sql, conn);
+            var read = command.ExecuteReader();
+            while (read.Read())
+            {
+                promoList.Add(new PROMOTIONSINORDER()
+                {
+                    PromoID = (int)read["PROMO_ID"],
+                    PromoName = (string)read["PromoName"],
+                });
+            }
+
+            Promo.ItemsSource = promoList;
+        }
+
+        private void AddNewPromo(object sender, RoutedEventArgs e)
+        {
+            var selected = (PROMOTIONSINORDER)Promo.SelectedItem;
+
+            var addnew = BUS_Order.EditPromoInOrder(conn, selected.PromoID, OrderID, "Add Promo");
+            if (addnew == true)
+            {
+                DialogResult = true;
+            }
+
+            else
+            {
+                DialogResult = false;
+            }
         }
     }
 }

@@ -47,7 +47,6 @@ namespace HW4
                 { 
                     Cus_ID = (int)read["CUS_ID"],
                     Name = (string)read["FIRSTNAME"] + (string)read["LASTNAME"],
-                    DOB = (DateTime)read["DOB"],
                 });
             }
 
