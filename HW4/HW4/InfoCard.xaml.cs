@@ -11,7 +11,7 @@ namespace HW4
     {
         public InfoCard()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
         public string Title
         {
@@ -36,7 +36,7 @@ namespace HW4
             set { SetValue(AmountProperty, value); }
         }
         public static readonly DependencyProperty AmountProperty =
-            DependencyProperty.Register("AmountTitle", typeof(string), typeof(InfoCard));
+            DependencyProperty.Register("AmountTitle", typeof(int), typeof(InfoCard));
 
         public ImageSource Image
         {
@@ -44,6 +44,6 @@ namespace HW4
             set { SetValue(ImageProperty, value); }
         }
         public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(string), typeof(InfoCard));
+            DependencyProperty.Register("Image", typeof(ImageSource), typeof(InfoCard));
     }
 }

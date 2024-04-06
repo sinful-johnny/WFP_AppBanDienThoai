@@ -21,7 +21,7 @@ namespace HW4
     {
         public DashboardScreen()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
