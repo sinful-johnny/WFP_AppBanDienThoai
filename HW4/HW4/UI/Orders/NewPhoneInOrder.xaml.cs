@@ -50,7 +50,8 @@ namespace HW4
                     Manufacturer = (string)read["MANUFACTURER_NAME"]
                 });
             }
-
+            connection.Close();
+            Order.DataContext = OrderID;
             PhoneChooseView.ItemsSource = phone_list;
         }
         public NewPhoneInOrder(SqlConnection conn, int OrderID)
@@ -70,7 +71,7 @@ namespace HW4
                 {
                     PhoneID = selected.ID,
                     PhoneName = selected.PhoneName,
-                    Price = (float)selected.Price,
+                    Price = (double)selected.Price,
                     quantity = quantity
                 };
                 var choice = MessageBox.Show("Do you want to add phone?", "Add Phone?", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -79,12 +80,10 @@ namespace HW4
                     bool AddPhone = BUS_Order.EditPhoneInOrder(connection, oRDEREDPHONE, OrderID, "Add New Phone");
                     if (AddPhone == true) 
                     {
-                        MessageBox.Show("Added New Phone Successfully!", "Edit Successfully", MessageBoxButton.OK);
                         DialogResult = true;
                     }
                     else
                     {
-                        MessageBox.Show("Failed to Added New Phone!", "Edit Failed", MessageBoxButton.OK);
                         DialogResult = false;
                     }
                 }

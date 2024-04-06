@@ -1,6 +1,7 @@
 ﻿using HW4.DTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,9 @@ namespace HW4
         public int OrderID { get; set; }
         public string CustomerName { get; set; }
         public DateTime OrderDate {  get; set; }
-        public BindingList<ORDEREDPHONE> OrderedPhone { get; set; }
-        public BindingList<PROMOTIONSINORDER> PromoList { get; set; }
-        public float TotalPrice { get; set; }
+        public ObservableCollection<ORDEREDPHONE> OrderPromos { get; set; }
+        public ObservableCollection<PROMOTIONSINORDER> PromoList { get; set; }
+        public double TotalPrice { get; set; }
         public string status { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
 

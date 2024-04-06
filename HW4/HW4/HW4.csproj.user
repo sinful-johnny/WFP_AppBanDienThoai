@@ -22,7 +22,13 @@
     <Compile Update="UI\Orders\AddOrderDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UI\Orders\AddPromo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Orders\NewPhoneInOrder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Orders\EditPhoneQuantity.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Products\AddPhoneDialog.xaml.cs">
@@ -72,7 +78,13 @@
     <Page Update="UI\Orders\AddOrderDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="UI\Orders\AddPromo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UI\Orders\NewPhoneInOrder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Orders\EditPhoneQuantity.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Products\AddPhoneDialog.xaml">

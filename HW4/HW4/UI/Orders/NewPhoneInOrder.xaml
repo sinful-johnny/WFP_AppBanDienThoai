@@ -17,7 +17,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Name="BasicInfo" DataContext="Info">
+            <Label Name="Order" FontSize="20" Content="{Binding OrderID}"></Label>
             <Label FontSize="30" Content="Enter a Number"/>
             <TextBox Height="40" Name="Quantity" Text="1" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="85"></TextBox>
         </StackPanel>
