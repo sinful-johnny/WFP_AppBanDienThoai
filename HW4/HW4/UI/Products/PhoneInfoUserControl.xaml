@@ -24,9 +24,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox x:Name="ImgPathTextBox" d:Text="it's there" Grid.Row="0" Grid.Column="1" Text="{Binding Thumbnail, Converter = {StaticResource absoluteConverter}}"/>
-        <Image x:Name="PhoneImageDisplay" RenderOptions.BitmapScalingMode="HighQuality" Grid.Row="1" Grid.Column="1" Grid.RowSpan="6" d:Source="../../Images/Phone00.jpg" Source="{Binding Thumbnail, Converter= {StaticResource absoluteConverter}}" OpacityMask="Black"/>
+        <Image x:Name="PhoneImageDisplay" RenderOptions.BitmapScalingMode="HighQuality" Grid.Row="1" Grid.Column="1" Grid.RowSpan="8" d:Source="../../Images/Phone00.jpg" Source="{Binding Thumbnail, Converter= {StaticResource absoluteConverter}}" OpacityMask="Black"/>
         <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
             <TextBlock Text="Name:"/>
         </StackPanel>
@@ -36,8 +38,13 @@
         <StackPanel Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left">
             <TextBlock Text="Price (USD):"/>
         </StackPanel>
+        <StackPanel Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left">
+            <TextBlock Text="Original Price (USD):"/>
+        </StackPanel>
+        
         <TextBox x:Name="PhoneNameTextBox" Text="{Binding PhoneName}" d:Text="Iporn 6" FontSize="14" Grid.Row="1" Grid.Column="0"/>
         <TextBox x:Name="PhoneManufacturerTextBox" Text="{Binding Manufacturer}" d:Text="Appel" Grid.Row="3" Grid.Column="0"  FontSize="14" />
         <TextBox x:Name="PhonePriceTextBox" Text="{Binding Price}" d:Text="200" FontSize="14" Grid.Row="5" Grid.Column="0"/>
+        <TextBox x:Name="PhoneOriginalPriceTextBox" Text="{Binding OriginalPrice}" d:Text="100" FontSize="14" Grid.Row="7" Grid.Column="0"/>
     </Grid>
 </UserControl>

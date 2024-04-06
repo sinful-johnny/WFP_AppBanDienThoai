@@ -43,6 +43,7 @@ namespace HW4
             string ManufacturerName = PhoneUserControl.PhoneManufacturerTextBox.Text;
             string Thumbnail = PhoneUserControl.ImgPathTextBox.Text;
             double Price = double.Parse(PhoneUserControl.PhonePriceTextBox.Text);
+            double OriginalPrice = double.Parse(PhoneUserControl.PhoneOriginalPriceTextBox.Text);
 
             int Manufacturer_ID = -1;
             try
@@ -60,7 +61,7 @@ namespace HW4
                 return;
             }
             
-            int PhoneID = BUS_Phone.insert(_connection,PhoneName, Manufacturer_ID,Thumbnail,Price);
+            int PhoneID = BUS_Phone.insert(_connection,PhoneName, Manufacturer_ID, Thumbnail, Price, OriginalPrice);
 
             NewPhone = new PHONE() {
                 ID = PhoneID,
@@ -68,6 +69,7 @@ namespace HW4
                 Manufacturer = ManufacturerName,
                 Thumbnail = Thumbnail,
                 Price = Price,
+                OriginalPrice = OriginalPrice,
             };
 
             DialogResult = true;

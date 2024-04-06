@@ -115,10 +115,34 @@
                 </Grid.ColumnDefinitions>
                 
                 <!--Card-->
-                <uc:InfoCard Grid.Column="0" Title="Sales" SubTitle="" Amount="3" Image="/Images/plus.png"/>
-                <uc:InfoCard Grid.Column="1" Title="" SubTitle="" Amount="3" Image="/Images/plus.png"/>
-                <uc:InfoCard Grid.Column="2" Title="" SubTitle="" Amount="3" Image="/Images/plus.png"/>
+                <uc:InfoCard Grid.Column="0" Title="Sales" SubTitle="Compared to..." Amount="3" Image="/Images/plus.png"/>
+                <uc:InfoCard Grid.Column="1" Title="Purchase" SubTitle="Compared to..." Amount="3" Image="/Images/plus.png"/>
+                <uc:InfoCard Grid.Column="2" Title="Return" SubTitle="Compared to..." Amount="3" Image="/Images/plus.png"/>
             </Grid>
+            
+            <!--Main Chart Section-->
+            <Border Grid.Column="1" Grid.Row="2" Style="{StaticResource whiteBorder}" Margin="20 20 20 0">
+                <Grid Margin="15 5">
+                    <!--Title-->
+                    <TextBlock Text="Sales Figures" Style="{StaticResource titleText1}"/>
+
+
+                    <!--TitleForChart-->  
+                    <uc:TitleForChart HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 8 10 0"/> 
+                    
+                    <!--Chart-->
+                    
+                    
+                    <!--Note-->
+                    
+                    <Grid VerticalAlignment="Bottom" Margin="10 0">
+                        <Icon:PackIconMaterial Kind="Information" Foreground="#f96654"/>
+                        <TextBlock TextWrapping="Wrap" Margin="30 0 0 0" LineHeight="18" Foreground="#b7b7b7" 
+                                   Text="Net Sales, Found on the income statement are used to calculate this ration Return ..."/>
+                    </Grid>
+
+                </Grid>
+            </Border>
         </Grid>
     </Border>
 </UserControl>
