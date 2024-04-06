@@ -25,8 +25,8 @@ namespace HW4
     public partial class AddOrderDialog : Window
     {
         ObservableCollection<CUSTOMER> customer_list = new ObservableCollection<CUSTOMER>();
-        BindingList<PHONE> phone_list = new BindingList<PHONE>();
-        BindingList<ORDEREDPHONE> cart = new BindingList<ORDEREDPHONE>();
+        ObservableCollection<PHONE> phone_list = new ObservableCollection<PHONE>();
+        ObservableCollection<ORDEREDPHONE> cart = new ObservableCollection<ORDEREDPHONE>();
         ORDER NewOrder;
         SqlConnection connection;
         private void LoadCustomer()

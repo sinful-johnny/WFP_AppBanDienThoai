@@ -1,6 +1,7 @@
 ﻿using HW4.BUS;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace HW4
     /// </summary>
     public partial class PhoneOrder : UserControl
     {
-        BindingList<ORDER> _OrderList;
+        ObservableCollection<ORDER> _OrderList;
         int _rowPerPage = 12;
         int _currentPage = 1;
         int totalPages = -1;
@@ -35,9 +36,11 @@ namespace HW4
         public PhoneOrder(SqlConnection con)
         {
             InitializeComponent();
+            OrderInfo.DataSent += ChildUserControl_DataSent;
             _connection = con;
             startDatePicker.SelectedDate = DateTime.Now;
             endDatePicker.SelectedDate = DateTime.Now;
+            LoadData();
         }
 
         public enum OrderManagementAction
@@ -124,7 +127,6 @@ namespace HW4
                 else
                 {
                     MessageBox.Show($"Failed to Delete Order {Selected.OrderID}. Please try again!", "Delete Failed!", MessageBoxButton.OK);
-                    LoadData();
                 }
             }
         }
@@ -141,6 +143,30 @@ namespace HW4
                     MessageBox.Show($"Order {Selected.OrderID} is being delivered!", "Under delivery!", MessageBoxButton.OK);
                     LoadData();
                 }
+
+                else
+                {
+                    MessageBox.Show($"Cannot deliver Order {Selected.OrderID} at the moment!", "Delivery Failed!", MessageBoxButton.OK);
+                }
+            }
+        }
+
+        public void CancelOrderHandler()
+        {
+            ORDER Selected = (ORDER)OrderView.SelectedItem;
+            var choice = MessageBox.Show($"Do you want to Cancel Order {Selected.OrderID}?", "Cancel the Order?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (choice == MessageBoxResult.Yes)
+            {
+                var cancelled = BUS_Order.CancelOrder(_connection, Selected.OrderID);
+                if (cancelled == true)
+                {
+                    MessageBox.Show($"Order {Selected.OrderID} is cancelled!", "Cancelled Successfully!", MessageBoxButton.OK);
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show($"Cannot Cancel Order {Selected.OrderID} at the moment!", "Cancel Failed!", MessageBoxButton.OK);
+                }
             }
         }
 
@@ -154,6 +180,11 @@ namespace HW4
             DeleteOrderHandler();
         }
 
+        private void ChildUserControl_DataSent(object sender, RoutedEventArgs e)
+        {
+            // Do something when data is sent from the child UserControl
+            LoadData();
+        }
         private void Page(object sender, RoutedEventArgs e)
         {
             string index = (string)(sender as Button).Content;

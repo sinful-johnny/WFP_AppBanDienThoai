@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace HW4.BUS
 {
     internal class BUS_Order
     {
-        static public Tuple<BindingList<ORDER>, int, int> SortOrder(SqlConnection conn, int page, int rowsPerPage, string sortCriteria)
+        static public Tuple<ObservableCollection<ORDER>, int, int> SortOrder(SqlConnection conn, int page, int rowsPerPage, string sortCriteria)
         {
             if (sortCriteria == "This Week")
             {
@@ -31,12 +32,12 @@ namespace HW4.BUS
             return ORDERControl.GetAllPaging(conn, page, rowsPerPage);
         }
 
-        static public Tuple<BindingList<ORDER>, int, int> getInRange(SqlConnection conn, int page, int rowsPerPage, DateTime begin, DateTime end)
+        static public Tuple<ObservableCollection<ORDER>, int, int> getInRange(SqlConnection conn, int page, int rowsPerPage, DateTime begin, DateTime end)
         {
             return ORDERControl.FromDateToDate(conn, page, rowsPerPage, begin, end);
         }
 
-        static public int NewOrder(SqlConnection conn, int CustomerID, BindingList<ORDEREDPHONE> OrderedPhone)
+        static public int NewOrder(SqlConnection conn, int CustomerID, ObservableCollection<ORDEREDPHONE> OrderedPhone)
         {
             return ORDERControl.AddOrder(conn, CustomerID, OrderedPhone);
         }
@@ -69,6 +70,16 @@ namespace HW4.BUS
             }
 
             return ORDERControl.ChangePhoneCount(conn, OrderedPhone, OrderID);
+        }
+
+        static public bool EditPromoInOrder(SqlConnection conn, int PromoID, int OrderID, string command)
+        {
+            if (command == "Add Promo")
+            {
+                return ORDERControl.AddPromo(conn, PromoID, OrderID);
+            }
+
+            return ORDERControl.DeletePromo(conn, PromoID, OrderID);
         }
     }
 }

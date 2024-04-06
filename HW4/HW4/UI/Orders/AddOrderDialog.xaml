@@ -40,7 +40,7 @@
 
                 <DataGridTextColumn Header="Product ID" Binding="{Binding SelectedProduct.ProductId}" Width="*" IsReadOnly="True"/>
 
-                <DataGridTextColumn Header="Price" Binding="{Binding SelectedProduct.Price}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding SelectedProduct.Price, Converter={StaticResource USDtoVNDConverter}}" Width="*" IsReadOnly="True"/>
 
                 <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
             </DataGrid.Columns>

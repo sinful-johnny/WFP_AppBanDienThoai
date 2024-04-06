@@ -11,7 +11,7 @@ namespace HW4
     {
         public int PhoneID { get; set; }
         public string PhoneName {  get; set; }
-        public float Price {  get; set; }
+        public double Price {  get; set; }
         public int quantity { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 

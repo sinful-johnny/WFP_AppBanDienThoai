@@ -68,8 +68,8 @@
                 <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="90"/>
                 <DataGridTextColumn Header="Customer" Binding="{Binding Customer}" Width="120"/>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="80"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding Date}" Width="70"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding Date}" Width="70"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, Converter={StaticResource USDtoVNDConverter}}" Width="70"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="70"/>
             </DataGrid.Columns>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
