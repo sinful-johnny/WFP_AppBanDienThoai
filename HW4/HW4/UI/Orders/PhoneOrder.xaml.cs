@@ -206,11 +206,11 @@ namespace HW4
             end = (DateTime)endDatePicker.SelectedDate;
             if (start == null || end == null)
             {
-                MessageBox.Show("Please choose both day range!", "Mssing Limit!", MessageBoxButton.OK);
+                MessageBox.Show("Please choose both day range!", "Missing Limit!", MessageBoxButton.OK);
             }
             else if (start > end)
             {
-                MessageBox.Show("Invalid Dates! Choose againQ", "Invalid Date!", MessageBoxButton.OK);
+                MessageBox.Show("Invalid Dates! Choose again", "Invalid Date!", MessageBoxButton.OK);
             }
 
             else
