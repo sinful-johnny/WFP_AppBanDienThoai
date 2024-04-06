@@ -417,7 +417,7 @@ namespace HW4
         static public bool UpdatePHONE(SqlConnection connection, int ID,string name, int ManufacturerID, string Thumbnail, double Price, double OriginalPrice)
         {
             string query = """
-                Update PHONE set NAME=@Name, MANUFACTURER_ID=@ManufacturerID, THUMBNAIL=@Thumbnail, PRICE=@Price ORIGINALPRICE =@OriginalPrice where ID=@ID
+                Update PHONE set NAME=@Name, MANUFACTURER_ID=@ManufacturerID, THUMBNAIL=@Thumbnail, PRICE=@Price, ORIGINALPRICE =@OriginalPrice where ID=@ID
                 """;
             if (connection.State == ConnectionState.Closed)
             {

@@ -176,7 +176,7 @@ namespace HW4
                 SelectedPhone.Manufacturer = dialog.NewPhone.Manufacturer;
                 SelectedPhone.Thumbnail = dialog.NewPhone.Thumbnail;
                 SelectedPhone.Price = dialog.NewPhone.Price;
-                SelectedPhone.Price = dialog.NewPhone.OriginalPrice;
+                SelectedPhone.OriginalPrice = dialog.NewPhone.OriginalPrice;
             }
         }
 

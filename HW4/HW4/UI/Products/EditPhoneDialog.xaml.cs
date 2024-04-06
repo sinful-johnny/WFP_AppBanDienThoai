@@ -68,7 +68,7 @@ namespace HW4
             int Manufacturer_ID = -1;
             try
             {
-                MANUFACTURER Manufacturer = _manufacturers.Single(x => x.Name == ManufacturerName);
+                MANUFACTURER Manufacturer = _manufacturers.FirstOrDefault(x => x.Name == ManufacturerName)!;
                 Manufacturer_ID = Manufacturer.ID;
             }
             catch (Exception ex)
