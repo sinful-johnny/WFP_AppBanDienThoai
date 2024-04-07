@@ -55,7 +55,7 @@ namespace HW4
                 promoList.Add(new PROMOTIONSINORDER()
                 {
                     PromoID = (int)read["PROMO_ID"],
-                    PromoName = (string)read["PromoName"],
+                    PromoName = (string)read["PROMO_NAME"],
                 });
             }
 
