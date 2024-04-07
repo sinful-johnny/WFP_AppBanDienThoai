@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.DTO;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -37,7 +38,12 @@ namespace HW4.BUS
             return ORDERControl.FromDateToDate(conn, page, rowsPerPage, begin, end);
         }
 
-        static public int NewOrder(SqlConnection conn, int CustomerID, ObservableCollection<ORDEREDPHONE> OrderedPhone)
+        static public Tuple<BindingList<ORDEREDPHONE>, BindingList<PROMOTIONSINORDER>> getOrderData(SqlConnection conn, int OrderID)
+        {
+            return ORDERControl.LoadOrderInfo(conn, OrderID);
+        }
+
+        static public int NewOrder(SqlConnection conn, int CustomerID, BindingList<ORDEREDPHONE> OrderedPhone)
         {
             return ORDERControl.AddOrder(conn, CustomerID, OrderedPhone);
         }

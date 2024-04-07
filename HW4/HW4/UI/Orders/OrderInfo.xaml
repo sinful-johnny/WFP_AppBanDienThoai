@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HW4.OrderInfo"
+﻿<Window x:Class="HW4.OrderInfo"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -24,19 +24,13 @@
             <TextBlock Text="Order's Promotion" FontSize="15"/>
         </StackPanel>
 
-        <DataGrid Name="OrderPhones" Grid.Row="1" ItemsSource="{Binding OrderedPhone}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <DataGrid Name="OrderPhones" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeletePhone"/>
                     <MenuItem Header="Edit" Click="UpdatePhoneCount"/>
                 </ContextMenu>
             </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Phone ID" Binding="{Binding PhoneID}" Width="100"/>
-                <DataGridTextColumn Header="Phone Name" Binding="{Binding PhoneName}" Width="130"/>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}" Width="80"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
-            </DataGrid.Columns>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -45,12 +39,12 @@
         </DataGrid>
 
         <StackPanel Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
-            <!--<Button Click="AddPhone" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
+            <Button Click="AddPhone" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
             <Button Click="DeletePhone" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="32"/>
-            <Button Click="UpdatePhoneCount" Content="Update" Margin="10, 0, 0, 0" Width="60" Height="32"/>-->
+            <Button Click="UpdatePhoneCount" Content="update" Margin="10, 0, 0, 0" Width="60" Height="32"/>
         </StackPanel>
 
-        <DataGrid Name="OrderPromos" Grid.Row="4" ItemsSource="{Binding PromoList}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <DataGrid Name="OrderPromos" Grid.Row="4" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeletePhone"/>
@@ -70,8 +64,8 @@
             </DataGrid.ColumnHeaderStyle>
         </DataGrid>
         <StackPanel Grid.Row="5" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
-            <!--<Button Click="AddPromo" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
-            <Button Click="DeletePromo" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="32"/>-->
+            <Button Click="AddPromo" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
+            <Button Click="DeletePromo" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="32"/>
         </StackPanel>
     </Grid>
-</UserControl>
+</Window>

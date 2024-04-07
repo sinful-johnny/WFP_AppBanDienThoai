@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
+using System.ComponentModel;
 
 namespace HW4
 {
@@ -66,7 +67,7 @@ namespace HW4
             }
         }
 
-        private ObservableCollection<ORDER> ImcomeHandling(SqlConnection connection, DateTime begin, DateTime end)
+        private BindingList<ORDER> ImcomeHandling(SqlConnection connection, DateTime begin, DateTime end)
         {
             //var orders = new ObservableCollection<ORDER>();
             //int skip = (1 - 1) * 10;
@@ -113,7 +114,7 @@ namespace HW4
             //connection.Close();
             //return orders;
             var result = ORDERControl.FromDateToDate(connection, 1, 12, begin, end);
-            ObservableCollection<ORDER> orders = result.Item1;
+            BindingList<ORDER> orders = result.Item1;
             return orders;
         }
 
@@ -121,11 +122,11 @@ namespace HW4
         {
             var beginDate = new DateTime(2024, 4, 1);
             var endDate = end;
-            ObservableCollection<ORDER> orders = ImcomeHandling(_connection, beginDate, endDate);
+            BindingList<ORDER> orders = ImcomeHandling(_connection, beginDate, endDate);
 
             TimeSpan rangeTimeSpan = endDate.Subtract(beginDate); //declared prior as TimeSpan object
-            double[] incomeEachDay = new double [rangeTimeSpan.Days];
-            DateTime[] timeRange = new DateTime[rangeTimeSpan.Days];
+            double[] incomeEachDay = new double [rangeTimeSpan.Days + 1];
+            DateTime[] timeRange = new DateTime[rangeTimeSpan.Days + 1];
 
             foreach (var order in orders)
             {

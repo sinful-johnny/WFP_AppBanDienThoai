@@ -23,14 +23,27 @@ namespace HW4
     /// <summary>
     /// Interaction logic for OrderInfo.xaml
     /// </summary>
-    public partial class OrderInfo : UserControl
+    public partial class OrderInfo : Window
     {
         ORDER getOrder;
+        public int OrderID;
+        SqlConnection conn;
         public event RoutedEventHandler DataSent;
-        public OrderInfo()
+        BindingList<ORDEREDPHONE> phoneList = new BindingList<ORDEREDPHONE>();
+        BindingList<PROMOTIONSINORDER> promoList = new BindingList<PROMOTIONSINORDER>();
+        public OrderInfo(SqlConnection conn, int OrderID)
         {
             InitializeComponent();
-            getOrder = (ORDER)DataContext;
+            this.conn = conn;
+            this.OrderID = OrderID;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            (phoneList, promoList) = BUS_Order.getOrderData(conn, OrderID);
+            OrderPhones.ItemsSource = phoneList;
+            OrderPromos.ItemsSource = promoList;
         }
         private void UpdatePhoneCount(object sender, RoutedEventArgs e)
         {
@@ -38,7 +51,7 @@ namespace HW4
             ORDEREDPHONE selected = (ORDEREDPHONE)OrderPhones.SelectedItem;
             if (selected == null) return;
             var UpdatePhoneCount = new EditPhoneQuantity(conn, selected, getOrder.OrderID);
-            if (UpdatePhoneCount.DialogResult == true)
+            if (UpdatePhoneCount.ShowDialog() == true)
             {
                 MessageBox.Show("Updated Phone Successfully!", "Updated Successfully", MessageBoxButton.OK);
                 DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
@@ -74,7 +87,7 @@ namespace HW4
         {
             SqlConnection conn = new();
             var AddPhone = new NewPhoneInOrder(conn, getOrder.OrderID);
-            if (AddPhone.DialogResult == true)
+            if (AddPhone.ShowDialog() == true)
             {
                 MessageBox.Show("Added New Phone Successfully!", "Add Successfully", MessageBoxButton.OK);
                 DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
@@ -90,7 +103,7 @@ namespace HW4
         {
             SqlConnection conn = new();
             var AddPromo = new AddPromo(conn, getOrder.OrderID);
-            if (AddPromo.DialogResult == true)
+            if (AddPromo.ShowDialog() == true)
             {
                 MessageBox.Show("Added New Promo Successfully!", "Add Successfully", MessageBoxButton.OK);
                 DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
@@ -122,6 +135,13 @@ namespace HW4
                     MessageBox.Show($"Cannot Delete Promotion {selected.PromoName}!", "Delete Failed!", MessageBoxButton.OK);
                 }
             }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            this.DialogResult = false; // or true for OK
         }
     }
 }

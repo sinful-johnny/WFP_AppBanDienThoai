@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static HW4.ProductManagementScreen;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace HW4
 {
@@ -24,20 +25,29 @@ namespace HW4
     /// </summary>
     public partial class PhoneOrder : UserControl
     {
-        ObservableCollection<ORDER> _OrderList;
+        BindingList<ORDER> _OrderList;
+        BindingList<string> timeSelection = new BindingList<string>()
+        {
+            "Today",
+            "This Week",
+            "This Month",
+            "All Time"
+        };
         int _rowPerPage = 12;
         int _currentPage = 1;
         int totalPages = -1;
         int totalItems = -1;
         private SqlConnection _connection;
-        string current = "All time";
+        public string current = "All Time";
         DateTime start = DateTime.Now;
         DateTime end = DateTime.Now;
-        public PhoneOrder(SqlConnection con, OrderInfo orderInfo)
+        public PhoneOrder(SqlConnection con)
         {
             InitializeComponent();
-            orderInfo.DataSent += ChildUserControl_DataSent;
             _connection = con;
+            DateGet.ItemsSource = timeSelection;
+            DateGet.SelectedItem = "All Time";
+ 
             startDatePicker.SelectedDate = DateTime.Now;
             endDatePicker.SelectedDate = DateTime.Now;
         }
@@ -62,13 +72,16 @@ namespace HW4
                 case OrderManagementAction.DeliverOrder:
                     DeliverOrderHandler();
                     break;
+                case OrderManagementAction.CancelOrder:
+                    CancelOrderHandler();
+                    break;
             }
         }
         private void LoadData()
         {
             try
             {
-                if (current == "All time" || current == "Today" || current == "This Week" || current == "This Month")
+                if (current == "All Time" || current == "Today" || current == "This Week" || current == "This Month")
                 {
                     (_OrderList, totalItems, totalPages) = BUS_Order.SortOrder(_connection, _currentPage, _rowPerPage, current);
                 }
@@ -104,10 +117,10 @@ namespace HW4
         public void AddOrderHandler()
         {
             var OrderWin = new AddOrderDialog(_connection);
-            if (OrderWin.DialogResult == true)
+            if (OrderWin.ShowDialog() == true)
             {
+                MessageBox.Show("Inserted Order Complete!", "Insert", MessageBoxButton.OK);
                 LoadData();
-                MessageBox.Show("A new Order has been added!", "Add Success!", MessageBoxButton.OK);
             }
         }
         public void DeleteOrderHandler()
@@ -178,11 +191,6 @@ namespace HW4
             DeleteOrderHandler();
         }
 
-        private void ChildUserControl_DataSent(object sender, RoutedEventArgs e)
-        {
-            // Do something when data is sent from the child UserControl
-            LoadData();
-        }
         private void Page(object sender, RoutedEventArgs e)
         {
             string index = (string)(sender as Button).Content;
@@ -200,31 +208,42 @@ namespace HW4
         }
 
         private void SearchDateRange(object sender, RoutedEventArgs e)
-        {
-            current = "Time Range";
-            start = (DateTime)startDatePicker.SelectedDate;
-            end = (DateTime)endDatePicker.SelectedDate;
-            if (start == null || end == null)
+        {       
+            if (startDatePicker.SelectedDate != null)
             {
-                MessageBox.Show("Please choose both day range!", "Missing Limit!", MessageBoxButton.OK);
+                start = startDatePicker.SelectedDate.Value;
             }
-            else if (start > end)
-            {
-                MessageBox.Show("Invalid Dates! Choose again", "Invalid Date!", MessageBoxButton.OK);
-            }
-
             else
             {
-                LoadData();
+                MessageBox.Show("Please choose starting day range!", "Missing Start!", MessageBoxButton.OK);
+                return;
             }
+
+            if (endDatePicker.SelectedDate != null)
+            {
+                end = endDatePicker.SelectedDate.Value;
+
+                if (end < start)
+                {
+                    MessageBox.Show("Start Date must be earlier than End Date!", "Missing Limit!", MessageBoxButton.OK);
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please choose ending day range!", "Missing End!", MessageBoxButton.OK);
+                return;
+            }
+
+            current = "Time Range";
+            LoadData();
         }
 
         private void RefreshOrder(object sender, RoutedEventArgs e)
         {
             current = "All time";
 
-            DateGet.SelectedItem = current;
-
+            DateGet.SelectedIndex = 3;
             LoadData();
         }
 
@@ -234,6 +253,14 @@ namespace HW4
             LoadData();
         }
 
-
+        private void OrderInfo(object sender, RoutedEventArgs e)
+        {
+            ORDER selected = (ORDER)OrderView.SelectedItem;
+            if (selected != null)
+            {
+                var info = new OrderInfo(_connection, selected.OrderID);
+                info.ShowDialog();
+            }
+        }
     }
 }

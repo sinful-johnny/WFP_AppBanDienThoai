@@ -21,28 +21,17 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="Select Customer" FontSize="25" FontFamily="Arial" HorizontalAlignment="Center"/>
-            <ComboBox Name="Customer" Height="44" Width="235" DisplayMemberPath="CustomerName" ItemsSource="{Binding Customers}" SelectedValue="{Binding SelectedCustomer}"/>
+            <ComboBox Name="Customer" Height="44" Width="235" DisplayMemberPath="Name" ItemsSource="{Binding Customers}" SelectedValue="{Binding SelectedCustomer}"/>
         </StackPanel>
         <DataGrid Name="ProductGrid" AutoGenerateColumns="False" Grid.Row="1">
             <DataGrid.Columns>
-                <DataGridComboBoxColumn Header="Product" SelectedValueBinding="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="PhoneName" Width="*">
-                    <DataGridComboBoxColumn.ElementStyle>
-                        <Style TargetType="ComboBox">
-                            <Setter Property="ItemsSource" Value="{Binding Products}" />
-                        </Style>
-                    </DataGridComboBoxColumn.ElementStyle>
-                    <DataGridComboBoxColumn.EditingElementStyle>
-                        <Style TargetType="ComboBox">
-                            <Setter Property="ItemsSource" Value="{Binding Products}" />
-                        </Style>
-                    </DataGridComboBoxColumn.EditingElementStyle>
-                </DataGridComboBoxColumn>
+                <DataGridTextColumn Header="Product" Binding="{Binding PhoneName}" Width="*" IsReadOnly="True"/>
 
-                <DataGridTextColumn Header="Product ID" Binding="{Binding SelectedProduct.ProductId}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Product ID" Binding="{Binding PhoneID}" Width="*" IsReadOnly="True"/>
 
-                <DataGridTextColumn Header="Price" Binding="{Binding SelectedProduct.Price, Converter={StaticResource USDtoVNDConverter}}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price, Converter={StaticResource USDtoVNDConverter}}" Width="*" IsReadOnly="True"/>
 
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding quantity, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">

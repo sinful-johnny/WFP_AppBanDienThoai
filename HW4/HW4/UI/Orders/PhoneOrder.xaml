@@ -6,17 +6,16 @@
         xmlns:local="clr-namespace:HW4"
         xmlns:converter="clr-namespace:HW4.UI.Converters"
         mc:Ignorable="d"
-        Height="500" Width="1200">
+        Height="350" Width="953">
     <UserControl.Resources>
         <converter:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
         <converter:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
         <converter:StatusColorConverter x:Key="StatusColorConverter"/>
     </UserControl.Resources>
-    <Grid Height="500" VerticalAlignment="Top">
+    <Grid Height="350" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -24,13 +23,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="420"/>
         </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top">
+        <StackPanel Grid.Column="0" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="View Order" Click="OrderInfo" Height="33" Width="78"/>
         </StackPanel>
-
-
 
         <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Search Date" Margin="0,0,0,5" Width="220" TextAlignment="Center"/>
@@ -44,10 +40,6 @@
 
         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center">
             <ComboBox Name="DateGet" Width="118" SelectedIndex="3" Margin="0, 20, 0, 0" SelectionChanged="DateGet_SelectionChanged">
-                <ComboBoxItem Content="Today" />
-                <ComboBoxItem Content="This Week" />
-                <ComboBoxItem Content="This Month" />
-                <ComboBoxItem Content="All time" />
             </ComboBox>
 
             <Button Margin="0, 10, 0, 0" Content="Refresh" Click="RefreshOrder" Width="54"/>
@@ -57,28 +49,18 @@
             <Button Name="Prev" Click="Page" Content="Prev" Margin="0, 0, 5, 0" Width="37" Height="23"/>
             <Button Name="Next" Click="Page" Content="Next" Margin="10, 0, 0, 0" Width="35" Height="23"/>
         </StackPanel>
-        <DataGrid Name="OrderView" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+        <DataGrid Name="OrderView" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="4" Margin="381,0,0,0">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeleteOrder"/>
-                    <!--<MenuItem Header="Edit" Click="UpdateOrder"/>-->
+
                 </ContextMenu>
             </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="90"/>
-                <DataGridTextColumn Header="Customer" Binding="{Binding Customer}" Width="120"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="80"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, Converter={StaticResource USDtoVNDConverter}}" Width="70"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="70"/>
-            </DataGrid.Columns>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
         </DataGrid>
-
-
-        <local:OrderInfo Grid.Column="4" Grid.Row="0" Grid.RowSpan="4" VerticalAlignment="Top" HorizontalAlignment="Center" Height="490"/>
     </Grid>
 </UserControl>

@@ -24,9 +24,9 @@ namespace HW4
     /// </summary>
     public partial class AddOrderDialog : Window
     {
-        ObservableCollection<CUSTOMER> customer_list = new ObservableCollection<CUSTOMER>();
-        ObservableCollection<PHONE> phone_list = new ObservableCollection<PHONE>();
-        ObservableCollection<ORDEREDPHONE> cart = new ObservableCollection<ORDEREDPHONE>();
+        BindingList<CUSTOMER> customer_list = new BindingList<CUSTOMER>();
+        BindingList<PHONE> phone_list = new BindingList<PHONE>();
+        BindingList<ORDEREDPHONE> cart = new BindingList<ORDEREDPHONE>();
         ORDER NewOrder;
         SqlConnection connection;
         private void LoadCustomer()
@@ -46,10 +46,10 @@ namespace HW4
                 customer_list.Add(new CUSTOMER() 
                 { 
                     Cus_ID = (int)read["CUS_ID"],
-                    Name = (string)read["FIRSTNAME"] + (string)read["LASTNAME"],
+                    Name = (string)read["FIRSTNAME"] + ' ' + (string)read["LASTNAME"],
                 });
             }
-
+            read.Close();
             Customer.ItemsSource = customer_list;
         }
 
@@ -72,11 +72,12 @@ namespace HW4
                 {
                     ID = (int)read["ID"],
                     PhoneName = (string)read["NAME"],
-                    Price = (float)read["PRICE"],
+                    Price = (double)read["PRICE"],
                     Thumbnail = (string)read["THUMBNAIL"],
                     Manufacturer = (string)read["MANUFACTURER_NAME"]
                 });
             }
+            read.Close();
 
             PhoneChooseView.ItemsSource = phone_list;
         }
@@ -84,9 +85,9 @@ namespace HW4
         {
             InitializeComponent();
             connection = conn;
-            PhoneChooseView.ItemsSource = cart;
+            ProductGrid.ItemsSource = cart;
             LoadCustomer();
-            LoadPhone();
+             LoadPhone();
         }
 
         private void AddToCart(object sender, RoutedEventArgs e)
@@ -97,32 +98,40 @@ namespace HW4
                 ORDEREDPHONE newPhone = new ORDEREDPHONE() 
                 {
                     PhoneID = selected.ID,
-                    Price = (float)selected.Price,
+                    Price = (double)selected.Price,
                     PhoneName = (string)selected.PhoneName,
                     quantity = 1
                 };
 
                 cart.Add(newPhone);
-                PhoneChooseView.ItemsSource = cart;
+                ProductGrid.ItemsSource = cart;
             }
         }
 
         private void AddNewOrder(object sender, RoutedEventArgs e)
         {
-            CUSTOMER selected_customer = (CUSTOMER)Customer.SelectedItem;
-            var choice = MessageBox.Show("Do you want to add a new order?", "Add Order?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (choice  == MessageBoxResult.Yes)
+            if (Customer.SelectedItem != null)
             {
-                int AddNewOrder = BUS_Order.NewOrder(connection, selected_customer.Cus_ID, cart);
+                CUSTOMER selected_customer = (CUSTOMER)Customer.SelectedItem;
+                var choice = MessageBox.Show("Do you want to add a new order?", "Add Order?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (choice == MessageBoxResult.Yes)
+                {
+                    int AddNewOrder = BUS_Order.NewOrder(connection, selected_customer.Cus_ID, cart);
 
-                if (AddNewOrder == -1)
-                {
-                    MessageBox.Show("Can't add A new Order!", "Add Failed!", MessageBoxButton.OK);
+                    if (AddNewOrder == -1)
+                    {
+                        DialogResult = false;
+                    }
+                    else
+                    {
+                        DialogResult = true;
+                    }
                 }
-                else
-                {
-                    DialogResult = true;
-                }
+            }
+
+            else
+            {
+                MessageBox.Show("You must select a customer first!", "Customer not Selected!", MessageBoxButton.OK);
             }
         }
     }

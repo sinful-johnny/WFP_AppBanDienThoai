@@ -30,7 +30,8 @@ namespace HW4
             int skip = (page - 1) * 10;
             int take = rowsPerPage;
             string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
+                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems  
+                              FROM ORDERS, CUSTOMER 
                               WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID
                               ORDER BY ORDERS.ORDER_ID
                               OFFSET @Skip ROWS
@@ -63,7 +64,7 @@ namespace HW4
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
                     DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     double TotalPrice;
-                    if (reader["TOTAL"] != null)
+                    if (reader["TOTAL"] != System.DBNull.Value)
                     {
                         TotalPrice = (double)reader["TOTAL"];
                     }
@@ -72,7 +73,7 @@ namespace HW4
                         TotalPrice = 0;
                     }
                     string status;
-                    if (reader["STATUS"] != null)
+                    if (reader["STATUS"] != System.DBNull.Value)
                     {
                         status = (string)reader["STATUS"];
                     }
@@ -105,8 +106,9 @@ namespace HW4
             int skip = (page - 1) * 10;
             int take = rowsPerPage;
             string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
-                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND CONVERT(DATE, ORDERS.CREATED_DATE) = @Today
+                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
+                              FROM ORDERS, CUSTOMER
+                              WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND CONVERT(date, ORDERS.CREATED_DATE) = CONVERT(date, GETDATE())
                               ORDER BY ORDERS.ORDER_ID
                               OFFSET @Skip ROWS
                               fetch next @Take rows only
@@ -122,7 +124,6 @@ namespace HW4
 
                 command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
                 command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
-                command.Parameters.Add("@Today", SqlDbType.DateTime).Value = DateTime.Today;
                 var reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -139,7 +140,7 @@ namespace HW4
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
                     double TotalPrice;
                     DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
-                    if (reader["TOTAL"] != null)
+                    if (reader["TOTAL"] != System.DBNull.Value)
                     {
                         TotalPrice = (double)reader["TOTAL"];
                     }
@@ -148,7 +149,7 @@ namespace HW4
                         TotalPrice = 0;
                     }
                     string status;
-                    if (reader["STATUS"] != null)
+                    if (reader["STATUS"] != System.DBNull.Value)
                     {
                         status = (string)reader["STATUS"];
                     }
@@ -181,7 +182,8 @@ namespace HW4
             int skip = (page - 1) * 10;
             int take = rowsPerPage;
             string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
+                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
+                              FROM ORDERS, CUSTOMER
                               WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND DATEPART(ISO_WEEK, ORDERS.CREATED_DATE) = DATEPART(ISO_WEEK, @Today) 
                               AND YEAR(ORDERS.CREATED_DATE) = YEAR(@Today)
                               ORDER BY ORDERS.ORDER_ID
@@ -216,7 +218,7 @@ namespace HW4
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
                     DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     double TotalPrice;
-                    if (reader["TOTAL"] != null)
+                    if (reader["TOTAL"] != System.DBNull.Value)
                     {
                         TotalPrice = (double)reader["TOTAL"];
                     }
@@ -225,7 +227,7 @@ namespace HW4
                         TotalPrice = 0;
                     }
                     string status;
-                    if (reader["STATUS"] != null)
+                    if (reader["STATUS"] != System.DBNull.Value)
                     {
                         status = (string)reader["STATUS"];
                     }
@@ -258,7 +260,8 @@ namespace HW4
             int skip = (page - 1) * 10;
             int take = rowsPerPage;
             string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
+                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
+                              FROM ORDERS, CUSTOMER
                               WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND MONTH(ORDERS.CREATED_DATE) = MONTH(@Today) AND YEAR(ORDERS.CREATED_DATE) = YEAR(@Today)
                               ORDER BY ORDERS.ORDER_ID
                               OFFSET @Skip ROWS
@@ -291,13 +294,24 @@ namespace HW4
                     int OrderID = (int)reader["ORDER_ID"];
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
                     DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
-                    double TotalPrice = (double)reader["TOTAL"];
-                    string status = (string)reader["STATUS"];
-                    string sql2 = """
-                              select PHONE.ID, PHONE.NAME, ORDERS_PHONE.PHONE_COUNT, ORDERS_PHONE.TOTAL from ORDERS, ORDERS_PHONE JOIN PHONE ON PHONE.ID = ORDERS_PHONE.PHONE_ID
-                              WHERE ORDERS_PHONE.ORDER_ID = @Id 
-                              ORDER BY PHONE.ID
-                         """;
+                    double TotalPrice;
+                    if (reader["TOTAL"] != System.DBNull.Value)
+                    {
+                        TotalPrice = (double)reader["TOTAL"];
+                    }
+                    else
+                    {
+                        TotalPrice = 0;
+                    }
+                    string status;
+                    if (reader["STATUS"] != System.DBNull.Value)
+                    {
+                        status = (string)reader["STATUS"];
+                    }
+                    else
+                    {
+                        status = "Pending";
+                    }
                     orders.Add(new ORDER()
                     {
                         OrderID = OrderID,
@@ -323,7 +337,8 @@ namespace HW4
             int skip = (page - 1) * 10;
             int take = rowsPerPage;
             string sql = """
-                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS FROM ORDERS, CUSTOMER
+                              select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
+                              FROM ORDERS, CUSTOMER
                               WHERE ORDERS.CUSTOMER_ID = CUSTOMER.CUS_ID AND ORDERS.CREATED_DATE BETWEEN @StartDate AND @EndDate
                               ORDER BY ORDERS.ORDER_ID
                               OFFSET @Skip ROWS
@@ -358,7 +373,7 @@ namespace HW4
                     string FullName = (string)reader["FIRSTNAME"] + " " + (string)reader["LASTNAME"];
                     DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     double TotalPrice;
-                    if (reader["TOTAL"] != null)
+                    if (reader["TOTAL"] != System.DBNull.Value)
                     {
                         TotalPrice = (double)reader["TOTAL"];
                     }
@@ -367,7 +382,7 @@ namespace HW4
                         TotalPrice = 0;
                     }
                     string status;
-                    if (reader["STATUS"] != null)
+                    if (reader["STATUS"] != System.DBNull.Value)
                     {
                         status = (string)reader["STATUS"];
                     }
@@ -423,9 +438,9 @@ namespace HW4
             }
 
             string sql2 = """
-                SELECT PROMO_ORDERS.PROMO_ID, PROMOTIONS.PROMO_NAME, PHONE.NAME AS PHONE_NAME, PROMOTIONS.DISCOUNT
+                SELECT PROMO_ORDERS.PROMO_ID, PROMOTIONS.PROMO_NAME, PHONE.NAME AS PHONE_NAME, PROMOTIONS.DISCOUNTS
                 FROM PROMO_ORDERS JOIN PROMOTIONS ON PROMO_ORDERS.PROMO_ID= PROMOTIONS.PROMO_ID, PHONE
-                WHERE PHONE.ID = PROMOTIONS.PROMO_PHONE_ID AND PROMO_ORDERS = @OrderID
+                WHERE PHONE.ID = PROMOTIONS.PROMO_PHONE_ID AND PROMO_ORDERS.ORDER_ID = @OrderID
                 """;
             using (var command2 = new SqlCommand(sql2, connection))
             {
@@ -438,7 +453,7 @@ namespace HW4
                         PromoID = (int)reader2["PROMO_ID"],
                         PromoName = (string)reader2["PROMO_NAME"],
                         forPhone = (string)reader2["PHONE_NAME"],
-                        Discount = (double)reader2["DISCOUNT"]
+                        Discount = (double)reader2["DISCOUNTS"]
                     });
                 }
                 reader2.Close();
@@ -453,6 +468,7 @@ namespace HW4
             string sql = """
                 Insert into ORDERS(CUSTOMER_ID, CREATED_DATE, STATUS)
                 values(@CustomerID, @Today, 'Pending')
+                ;SELECT SCOPE_IDENTITY()
                 """;
             int id = -1;
             if (connection.State == ConnectionState.Closed) 
@@ -491,7 +507,7 @@ namespace HW4
                 double price = product.Price * product.quantity;
 
                 string query1 = """
-                    SELECT PROMOTIONS.DISCOUNT
+                    SELECT PROMOTIONS.DISCOUNTS
                     FROM PHONE JOIN PROMOTIONS ON PROMOTIONS.PROMO_PHONE_ID = PHONE.ID, PROMO_ORDERS
                     WHERE PHONE.ID = @PhoneId AND PROMO_ORDERS.PROMO_ID = PROMOTIONS.PROMO_ID AND PROMO_ORDERS.ORDER_ID = @OrderID
                     """;
@@ -504,10 +520,13 @@ namespace HW4
                     try
                     {
                         var reader = tempComm.ExecuteReader();
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            float discount = (float)reader["DISCOUNT"];
-                            price *= (float)(1 - (float)(discount / 100));
+                            while (reader.Read())
+                            {
+                                double discount = (double)reader["DISCOUNTS"];
+                                price *= (double)(1 - (discount / 100));
+                            }
                         }
 
                         reader.Close();
@@ -529,9 +548,10 @@ namespace HW4
                     tempComm2.Parameters.Add("@OrderID", SqlDbType.Int).Value = id;
                     tempComm2.Parameters.Add("@PhoneID", SqlDbType.Int).Value = product.PhoneID;
                     tempComm2.Parameters.Add("@count", SqlDbType.Int).Value = product.quantity;
+                    tempComm2.Parameters.Add("@total", SqlDbType.Float).Value = total;
                     try 
-                    { 
-                        tempComm2.Parameters.Add("@total", SqlDbType.Float).Value = total;
+                    {
+                        tempComm2.ExecuteNonQuery();
                     }
 
                     catch (Exception ex)

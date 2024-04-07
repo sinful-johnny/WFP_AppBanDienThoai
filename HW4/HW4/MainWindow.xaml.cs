@@ -61,7 +61,7 @@ namespace HW4
                     new TabItem() { Content = new DashboardScreen(), Header= "Dashboard"},
                     new TabItem() { Content = new ProductManagementScreen(_connection), Header= "Products"},
                     new TabItem() {Content = new ManufacturerManagementUserControl(_connection), Header = "Manufacturer"},
-                    new TabItem() { },//{Content = new PhoneOrder(_connection, new OrderInfo()), Header = "Order"} ,
+                    new TabItem() {Content = new PhoneOrder(_connection), Header = "Order"} ,
                     new TabItem() {Content = new CustomerManagementUserControl(_connection), Header = "Customers"},
                     new TabItem() {Content = new PromoManagementUserControl(_connection), Header = "Promotions"}
                 };
@@ -219,6 +219,39 @@ namespace HW4
             CustomerManagementUserControl? userControl = (CustomerManagementUserControl)tabItem.Content;
             userControl.HandleParentEvent(
                 CustomerManagementUserControl.CustomerManagementActions.GrantPromo
+            );
+        }
+
+        private void AddOrderRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PhoneOrder? userControl = (PhoneOrder)tabItem.Content;
+            userControl.HandleParentsEvent(
+                PhoneOrder.OrderManagementAction.AddOrder
+            );
+        }
+        private void DeleteOrderRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PhoneOrder? userControl = (PhoneOrder)tabItem.Content;
+            userControl.HandleParentsEvent(
+                PhoneOrder.OrderManagementAction.DeleteOrder
+            );
+        }
+        private void DeliverRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PhoneOrder? userControl = (PhoneOrder)tabItem.Content;
+            userControl.HandleParentsEvent(
+                PhoneOrder.OrderManagementAction.DeliverOrder
+            );
+        }
+        private void CancelRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = (TabItem)tabs.SelectedItem;
+            PhoneOrder? userControl = (PhoneOrder)tabItem.Content;
+            userControl.HandleParentsEvent(
+                PhoneOrder.OrderManagementAction.CancelOrder
             );
         }
     }
