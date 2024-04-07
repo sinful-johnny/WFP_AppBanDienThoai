@@ -30,6 +30,7 @@ namespace HW4.UI.Customers
         int _pageSize = 10;
         int totalPages = -1;
         int totalItems = -1;
+        string _keyWord = "";
         DataTable _promos;
         BindingList<Page> PageOptions = new BindingList<Page>();
         int CUS_ID;
@@ -44,7 +45,7 @@ namespace HW4.UI.Customers
             try
             {
                 int oldTotalPages = totalPages;
-                (_promos, totalItems, totalPages) = PROMOTIONS_Control.GetAllPaging(_con, _currentPage, _rowPerPage);
+                (_promos, totalItems, totalPages) = BUS_Promotions.getPromosWithKeyword(_con, _currentPage, _rowPerPage,_keyWord);
                 PromoDataGrid.ItemsSource = _promos.DefaultView;
                 if (oldTotalPages != totalPages)
                 {
@@ -87,6 +88,7 @@ namespace HW4.UI.Customers
 
         private void PageSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            TitlePanel.DataContext = CUS_ID;
             if (PageSelectComboBox.SelectedItem != null && _currentPage != ((Page)PageSelectComboBox.SelectedItem)._pageNo)
             {
                 _currentPage = ((Page)PageSelectComboBox.SelectedItem)._pageNo;
@@ -122,6 +124,12 @@ namespace HW4.UI.Customers
             {
                 MessageBox.Show(ex.ToString(),"Error",MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            _keyWord = SearchTextBox.Text;
+            LoadData();
         }
     }
 }

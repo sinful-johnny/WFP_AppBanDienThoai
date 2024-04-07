@@ -44,24 +44,6 @@ namespace HW4
                 command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
                 var reader = command.ExecuteReader();
                 
-                //while (reader.Read())
-                //{
-                //    if (totalItems == -1)
-                //    {
-                //        totalItems = (int)reader["TotalItems"];
-                //        totalPages = (totalItems / rowsPerPage);
-                //        if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
-                //        else totalPages = (int)(totalItems / rowsPerPage) + 1;
-                //    }
-                //    phones.Add(new PHONE()
-                //    {
-                //        ID = (int)reader["ID"],
-                //        PhoneName = (string)reader["NAME"],
-                //        Manufacturer = (string)reader["MANUFACTURER"],
-                //        Thumbnail = (string)reader["THUMBNAIL"],
-                //        Price = (double)reader["PRICE"]
-                //    });
-                //}
                 dataTable.Load(reader);
                 if (totalItems == -1 && dataTable.Rows.Count > 0)
                 {
@@ -120,14 +102,58 @@ namespace HW4
             return result;
         }
 
+        static public Tuple<DataTable, int, int> getPromosWithKeyword(SqlConnection connection, int page, int rowsPerPage, string Keyword)
+        {
+            int totalItems = -1;
+            int totalPages = -1;
+            //var phones = new BindingList<PHONE>();
+            int skip = (page - 1) * rowsPerPage;
+            int take = rowsPerPage;
+            string sql = """
+                             select PR.PROMO_ID, PR.PROMO_NAME, PR.STARTDATE, PR.ENDDATE, M.NAME as APPLIED_MANUFACTURER, P.NAME as APPLIED_PHONE, PR.DISCOUNTS, PR.PROMO_STATUS, count(*) over() as TotalItems 
+                             from PROMOTIONS as PR 
+                             		left join PHONE as P on P.ID = PR.PROMO_PHONE_ID
+                             		left join MANUFACTURER as M on M.ID = PR.PROMO_MANUFACTURER_ID
+                             where PR.PROMO_STATUS = 'Open' and CONTAINS (PR.PROMO_NAME,@Keyword)
+                             order by PR.PROMO_ID
+                             offset @Skip rows 
+                             fetch next @Take rows only
+                             """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            DataTable dataTable = new DataTable();
+            using (var command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
+                command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
+                command.Parameters.Add("@Keyword", SqlDbType.VarChar).Value = Keyword;
+                var reader = command.ExecuteReader();
+
+                dataTable.Load(reader);
+                if (totalItems == -1 && dataTable.Rows.Count > 0)
+                {
+                    totalItems = int.Parse(dataTable.Rows[0]["TotalItems"].ToString());
+                    totalPages = (totalItems / rowsPerPage);
+                    if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
+                    else totalPages = (int)(totalItems / rowsPerPage) + 1;
+                }
+                dataTable.Columns.Remove("TotalItems");
+                reader.Close();
+            }
+            var result = new Tuple<DataTable, int, int>(dataTable, totalItems, totalPages);
+            return result;
+        }
+
         static public System.Data.DataTable getCustomerPromos(SqlConnection connection, int CUS_ID)
         {
             string query = """
                 select PC.USAGE_STATUS ,PR.*
                 from PROMOTIONS as PR
                 	inner join PROMO_CUSTOMER as PC on PC.PROMO_ID = PR.PROMO_ID
-                	inner join CUSTOMER as C on C.CUS_ID = PC.CUS_ID
-                where C.CUS_ID = @CUS_ID
+                where PC.CUS_ID = @CUS_ID
                 """;
 
             DataTable data = new DataTable();

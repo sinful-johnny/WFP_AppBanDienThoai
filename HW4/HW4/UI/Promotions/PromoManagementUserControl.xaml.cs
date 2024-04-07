@@ -35,6 +35,7 @@ namespace HW4
         DataTable _promos;
         int mode = Mode.Default;
         BindingList<Page> PageOptions = new BindingList<Page>();
+        string _keyWord;
         public PromoManagementUserControl(SqlConnection connection)
         {
             InitializeComponent();
@@ -77,6 +78,9 @@ namespace HW4
                     (_promos, totalItems, totalPages) = PROMOTIONS_Control.GetAllPaging(_con, _currentPage, _rowPerPage);
                 }else if(mode == Mode.OpenOnly) {
                     (_promos, totalItems, totalPages) = PROMOTIONS_Control.getOpenPromos(_con, _currentPage, _rowPerPage); 
+                }else if(mode == Mode.KeyWord)
+                {
+                    (_promos, totalItems, totalPages) = BUS_Promotions.getPromosWithKeyword(_con, _currentPage, _rowPerPage,_keyWord);
                 }
                 PromoDataGrid.ItemsSource = _promos.DefaultView;
                 if (oldTotalPages != totalPages)
@@ -206,6 +210,13 @@ namespace HW4
                 mode = Mode.Default;
             }
             
+            LoadData();
+        }
+
+        private void SeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            _keyWord = SearchTextBox.Text;
+            mode = Mode.KeyWord;
             LoadData();
         }
     }

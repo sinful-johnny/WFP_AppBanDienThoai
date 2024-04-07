@@ -26,7 +26,7 @@
             <StackPanel Grid.Row="0" VerticalAlignment="Center">
                 <Label Content="Search Box"/>
                 <TextBox x:Name="SearchTextBox"/>
-                <Button x:Name="SeachButton" Content="Search" Width="50" Margin="0,5,0,0"/>
+                <Button x:Name="SeachButton" Content="Search" Width="50" Margin="0,5,0,0" Click="SeachButton_Click"/>
             </StackPanel>
         </Grid>
 
