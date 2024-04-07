@@ -14,8 +14,6 @@ namespace HW4
         public int OrderID { get; set; }
         public string CustomerName { get; set; }
         public DateTime OrderDate {  get; set; }
-        public ObservableCollection<ORDEREDPHONE> OrderPromos { get; set; }
-        public ObservableCollection<PROMOTIONSINORDER> PromoList { get; set; }
         public double TotalPrice { get; set; }
         public string status { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
