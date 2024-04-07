@@ -36,10 +36,9 @@
                 <TextBlock Text="-" Margin="5,0"/>
                 <DatePicker Name="endDatePicker"/>
             </StackPanel>
-            <Button Content="Show" Click="ShowDateRange" Name="Search" HorizontalAlignment="Center" Margin="0,5"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Click="ChartWithDateButton_Click" Content="Ngày" 
+            <Button Click="ChartWithDateButton_Click" Content="Ngày"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="56"/>
         </StackPanel>
 
