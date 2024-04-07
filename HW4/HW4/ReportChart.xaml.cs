@@ -164,10 +164,10 @@ namespace HW4
                 //    int Day = rangeTime.Days;
                 //    incomeEachDay[Day] += incomechartlist.TotalPrice;
                 //}
-                TimeSpan rangeTime = incomechartlist.OrderDate.Subtract(beginDate);
-                int Day = rangeTime.Days;
-                incomeEachDay[Day] += incomechartlist.TotalPrice;
-                profitEachDay[Day] += incomechartlist.Profit;
+                //TimeSpan rangeTime = incomechartlist.OrderDate.Subtract(beginDate);
+                //int Day = rangeTime.Days;
+                //incomeEachDay[Day] += incomechartlist.TotalPrice;
+                //profitEachDay[Day] += incomechartlist.Profit;
             }
 
             declareChartSeries();

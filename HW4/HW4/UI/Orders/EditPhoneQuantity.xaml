@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW4"
         mc:Ignorable="d"
-        Title="Edit Phone Number" Height="160" Width="250">
+        Title="Edit Phone Number" Height="210" Width="314">
     <Grid>
         <StackPanel Name="getInfo" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="Info">
             <Label FontSize="20" Content="{Binding OrderID}"></Label>
             <Label FontSize="20" Content="{Binding PhoneName}"></Label>
-            <Label Content="Choose a new quantity"/>
+            <Label Content="Choose a new quantity" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <TextBox Name="quantity"  Text="{Binding Quantity}" Width="63" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
             <Button Height="25" Width="44" HorizontalAlignment="Center" Content="Update" Click="UpdateQuantity" Margin="0, 8, 0, 0"/>
         </StackPanel>

@@ -23,9 +23,18 @@ namespace HW4
     /// </summary>
     public partial class NewPhoneInOrder : Window
     {
+        SqlConnection connection;
         BindingList<PHONE> phone_list = new BindingList<PHONE>();
         int OrderID;
-        SqlConnection connection;
+        
+
+        public NewPhoneInOrder(SqlConnection conn, int OrderID)
+        {
+            InitializeComponent();
+            connection = conn;
+            this.OrderID = OrderID;
+            LoadPhone();
+        }
         private void LoadPhone()
         {
             string sql = """
@@ -45,7 +54,7 @@ namespace HW4
                 {
                     ID = (int)read["ID"],
                     PhoneName = (string)read["NAME"],
-                    Price = (float)read["PRICE"],
+                    Price = (double)read["PRICE"],
                     Thumbnail = (string)read["THUMBNAIL"],
                     Manufacturer = (string)read["MANUFACTURER_NAME"]
                 });
@@ -54,13 +63,6 @@ namespace HW4
             Order.DataContext = OrderID;
             PhoneChooseView.ItemsSource = phone_list;
         }
-        public NewPhoneInOrder(SqlConnection conn, int OrderID)
-        {
-            this.OrderID = OrderID;
-            InitializeComponent();
-            LoadPhone();
-        }
-
         private void AddNewPhone(object sender, RoutedEventArgs e)
         {
             try

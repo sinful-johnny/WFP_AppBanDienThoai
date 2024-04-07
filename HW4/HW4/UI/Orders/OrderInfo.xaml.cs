@@ -25,10 +25,8 @@ namespace HW4
     /// </summary>
     public partial class OrderInfo : Window
     {
-        ORDER getOrder;
         public int OrderID;
         SqlConnection conn;
-        public event RoutedEventHandler DataSent;
         BindingList<ORDEREDPHONE> phoneList = new BindingList<ORDEREDPHONE>();
         BindingList<PROMOTIONSINORDER> promoList = new BindingList<PROMOTIONSINORDER>();
         public OrderInfo(SqlConnection conn, int OrderID)
@@ -47,14 +45,13 @@ namespace HW4
         }
         private void UpdatePhoneCount(object sender, RoutedEventArgs e)
         {
-            SqlConnection conn = new();
             ORDEREDPHONE selected = (ORDEREDPHONE)OrderPhones.SelectedItem;
             if (selected == null) return;
-            var UpdatePhoneCount = new EditPhoneQuantity(conn, selected, getOrder.OrderID);
+            var UpdatePhoneCount = new EditPhoneQuantity(conn, selected, OrderID);
             if (UpdatePhoneCount.ShowDialog() == true)
             {
                 MessageBox.Show("Updated Phone Successfully!", "Updated Successfully", MessageBoxButton.OK);
-                DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
+                LoadData();
             }
             else
             {
@@ -63,17 +60,16 @@ namespace HW4
         }
         private void DeletePhone(object sender, RoutedEventArgs e)
         {
-            SqlConnection conn = new();
             ORDEREDPHONE selected = (ORDEREDPHONE)OrderPhones.SelectedItem;
 
             var deleteOption = MessageBox.Show("Are you sure you want to delete this phone?", "Delete Phone?", MessageBoxButton.YesNo);
             if (deleteOption == MessageBoxResult.Yes)
             {
-                bool deleted = BUS_Order.EditPhoneInOrder(conn, selected, getOrder.OrderID, "Delete Phone");
+                bool deleted = BUS_Order.EditPhoneInOrder(conn, selected, OrderID, "Delete Phone");
                 if (deleted ==  true)
                 {
                     MessageBox.Show($"Deleted Phone {selected.PhoneName} successfully!", "Delete Success!", MessageBoxButton.OK);
-                    DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
+                    LoadData();
                 }
 
                 else
@@ -85,12 +81,11 @@ namespace HW4
 
         private void AddPhone(object sender, RoutedEventArgs e)
         {
-            SqlConnection conn = new();
-            var AddPhone = new NewPhoneInOrder(conn, getOrder.OrderID);
+            var AddPhone = new NewPhoneInOrder(conn, OrderID);
             if (AddPhone.ShowDialog() == true)
             {
                 MessageBox.Show("Added New Phone Successfully!", "Add Successfully", MessageBoxButton.OK);
-                DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
+                LoadData();
             }
 
             else
@@ -101,12 +96,11 @@ namespace HW4
 
         private void AddPromo(object sender, RoutedEventArgs e)
         {
-            SqlConnection conn = new();
-            var AddPromo = new AddPromo(conn, getOrder.OrderID);
+            var AddPromo = new AddPromo(conn, OrderID);
             if (AddPromo.ShowDialog() == true)
             {
                 MessageBox.Show("Added New Promo Successfully!", "Add Successfully", MessageBoxButton.OK);
-                DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
+                LoadData();
             }
 
             else
@@ -117,17 +111,16 @@ namespace HW4
 
         private void DeletePromo(object sender, RoutedEventArgs e)
         {
-            SqlConnection conn = new();
             PROMOTIONSINORDER selected = (PROMOTIONSINORDER)OrderPromos.SelectedItem;
 
             var deleteOption = MessageBox.Show("Are you sure you want to delete this promotion?", "Delete Promotion?", MessageBoxButton.YesNo);
             if (deleteOption == MessageBoxResult.Yes)
             {
-                bool deleted = BUS_Order.EditPromoInOrder(conn, selected.PromoID, getOrder.OrderID, "Delete Promo");
+                bool deleted = BUS_Order.EditPromoInOrder(conn, selected.PromoID, OrderID, "Delete Promo");
                 if (deleted == true)
                 {
                     MessageBox.Show($"Deleted Promotion {selected.PromoName} successfully!", "Delete Success!", MessageBoxButton.OK);
-                    DataSent?.Invoke(this, (RoutedEventArgs)EventArgs.Empty);
+                    LoadData();
                 }
 
                 else
@@ -135,13 +128,6 @@ namespace HW4
                     MessageBox.Show($"Cannot Delete Promotion {selected.PromoName}!", "Delete Failed!", MessageBoxButton.OK);
                 }
             }
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-
-            this.DialogResult = false; // or true for OK
         }
     }
 }

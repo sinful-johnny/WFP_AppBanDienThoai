@@ -3,6 +3,7 @@ using HW4.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -27,10 +28,11 @@ namespace HW4
         public int OrderID;
         SqlConnection conn;
         public PROMOTIONSINORDER getPromo;
-        ObservableCollection<PROMOTIONSINORDER> promoList; 
+        BindingList<PROMOTIONSINORDER> promoList = new BindingList<PROMOTIONSINORDER>(); 
         public AddPromo(SqlConnection conn, int OrderID)
         {
             InitializeComponent();
+            LoadPromo();
             this.conn = conn;
             this.OrderID = OrderID;
             Order.DataContext = OrderID;

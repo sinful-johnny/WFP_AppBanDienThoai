@@ -134,5 +134,17 @@ namespace HW4
                 MessageBox.Show("You must select a customer first!", "Customer not Selected!", MessageBoxButton.OK);
             }
         }
+
+        private void DeleteFromCart(object sender, RoutedEventArgs e)
+        {
+            ORDEREDPHONE selected = (ORDEREDPHONE)ProductGrid.SelectedItem;
+
+            if (selected != null)
+            {
+                cart.Remove(selected);
+            }
+
+            ProductGrid.ItemsSource = cart;
+        }
     }
 }

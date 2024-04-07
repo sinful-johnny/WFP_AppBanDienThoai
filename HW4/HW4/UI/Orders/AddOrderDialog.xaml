@@ -20,6 +20,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+
             <Label Content="Select Customer" FontSize="25" FontFamily="Arial" HorizontalAlignment="Center"/>
             <ComboBox Name="Customer" Height="44" Width="235" DisplayMemberPath="Name" ItemsSource="{Binding Customers}" SelectedValue="{Binding SelectedCustomer}"/>
         </StackPanel>
@@ -37,8 +38,9 @@
         <StackPanel Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Height="42" Width="113" Content="Add New Order" FontSize="15" Click="AddNewOrder"/>
         </StackPanel>
-        <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <Button Height="29" Width="85" Content="Add to Cart" FontSize="12" Click="AddToCart"/>
+            <Button Height="29" Width="102" Content="Delete From Cart" FontSize="12" Click="DeleteFromCart" Margin="15, 0, 0, 0"/>
         </StackPanel>
         <ListView Name="PhoneChooseView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="2" Grid.ColumnSpan="3">
             <ListView.ItemsPanel>

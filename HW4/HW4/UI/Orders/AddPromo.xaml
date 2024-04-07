@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW4"
         mc:Ignorable="d"
-        Title="AddPromo" Height="223" Width="389">
+        Title="AddPromo" Height="176" Width="262">
     <Grid>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label FontSize="20" Content="{Binding OrderID}" Name="Order"></Label>
             <Label Content="Select Promo" FontSize="20" FontFamily="Arial" HorizontalAlignment="Center"/>
-            <ComboBox Name="Promo" Height="44" Width="201" DisplayMemberPath="PromoName" ItemsSource="{Binding PROMOTIONSINORDER}" SelectedValue="{Binding SelectedCustomer}"/>
+            <ComboBox Name="Promo" Height="25" Width="162" DisplayMemberPath="PromoName" ItemsSource="{Binding PROMOTIONSINORDER}" SelectedValue="{Binding SelectedCustomer}"/>
             <Button Height="25" Width="44" HorizontalAlignment="Center" Content="Update" Click="AddNewPromo" Margin="0, 8, 0, 0"/>
         </StackPanel>
     </Grid>
