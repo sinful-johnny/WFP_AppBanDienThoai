@@ -32,9 +32,9 @@ namespace HW4
         public AddPromo(SqlConnection conn, int OrderID)
         {
             InitializeComponent();
-            LoadPromo();
             this.conn = conn;
             this.OrderID = OrderID;
+            LoadPromo();
             Order.DataContext = OrderID;
         }
 
