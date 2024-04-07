@@ -140,9 +140,25 @@
                         <TextBlock TextWrapping="Wrap" Margin="30 0 0 0" LineHeight="18" Foreground="#b7b7b7" 
                                    Text="Net Sales, Found on the income statement are used to calculate this ration Return ..."/>
                     </Grid>
-
                 </Grid>
             </Border>
+
+            <!--Right Section-->
+            <Grid Grid.Column="2" Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--Sales List-->
+                <Border Style="{StaticResource whiteBorder}">
+                    <StackPanel>
+                        <TextBlock Text="Sales List" Style="{StaticResource titleText1}"/>
+                        <TextBlock Style="{StaticResource titleText2}" TextWrapping="Wrap" Margin="0 10"  
+                       Text="This is the sales data with the most revenue for this month"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

@@ -72,72 +72,25 @@ namespace HW4
             return true;
         }
 
-        private BindingList<ORDER> ImcomeHandling(SqlConnection connection, DateTime begin, DateTime end)
+        private ObservableCollection<INCOMECHART> ImcomeHandling(SqlConnection connection, DateTime begin, DateTime end)
         {
             var incomechartlist = new ObservableCollection<INCOMECHART>();
 
-            //string sql = """
-            //                  select ORDERS.ORDER_ID, ORDERS.CREATED_DATE, ORDERS.TOTAL
-            //                  WHERE ORDERS.CREATED_DATE BETWEEN @StartDate AND @EndDate
-            //                  ORDER BY ORDERS.ORDER_ID
-            //                  OFFSET @Skip ROWS
-            //                  fetch next @Take rows only
-            //             """;
-            //if (connection.State == ConnectionState.Closed)
-            //{
-            //    connection.Open();
-            //}
-
-            //using (var command = new SqlCommand(sql, connection))
-            //{
-            //    //_connection.Open();
-            //    command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
-            //    command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
-            //    command.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = begin;
-            //    command.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = end;
-            //    var reader = command.ExecuteReader();
-
-            //    while (reader.Read())
-            //    {
-            //        int OrderID = (int)reader["ORDER_ID"];
-            //        DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
-            //        double TotalPrice = (double)reader["TOTAL"];
-            //        orders.Add(new ORDER()
-            //        {
-            //            OrderID = OrderID,
-            //            CustomerName = null,
-            //            OrderDate = OrderDate,
-            //            OrderPromos = null,
-            //            PromoList = null,
-            //            TotalPrice = TotalPrice,
-            //            status = null
-            //        });
-            //    }
-            //}
-            //connection.Close();
-            //return orders;
-            var result = ORDERControl.FromDateToDate(connection, 1, 12, begin, end);
-            BindingList<ORDER> orders = result.Item1;
-            return orders;
-        }
-
-        private void Chart_Loaded(object sender, RoutedEventArgs e)
-        {
-            var beginDate = new DateTime(2024, 4, 1);
-            var endDate = end;
-            BindingList<ORDER> orders = ImcomeHandling(_connection, beginDate, endDate);
-
-            TimeSpan rangeTimeSpan = endDate.Subtract(beginDate); //declared prior as TimeSpan object
-            double[] incomeEachDay = new double [rangeTimeSpan.Days + 1];
-            DateTime[] timeRange = new DateTime[rangeTimeSpan.Days + 1];
-
-            foreach (var order in orders)
+            string sql = """
+                              select O.ORDER_ID, O.CREATED_DATE, O.TOTAL, (O.TOTAL - P.ORIGINALPRICE*OP.PHONE_COUNT) AS 'PROFIT'
+                              from ORDERS O, ORDERS_PHONE OP, PHONE P
+                              where OP.PHONE_ID = P.ID
+                         	    and OP.ORDER_ID = O.ORDER_ID
+                                and CREATED_DATE BETWEEN @StartDate AND @EndDate
+                         """;
+            if (connection.State == ConnectionState.Closed)
             {
-                _connection.Open();
+                connection.Open();
             }
 
-            using (var command = new SqlCommand(sql, _connection))
+            using (var command = new SqlCommand(sql, connection))
             {
+                //_connection.Open();
                 command.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = begin;
                 command.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = end;
 
@@ -165,33 +118,27 @@ namespace HW4
                 }
             }
             connection.Close();
-
             return incomechartlist;
-
-
-            //var result = ORDERControl.FromDateToDate(connection, 1, 12, begin, end);
-            //ObservableCollection<ORDER> orders = result.Item1;
-            //return orders;
         }
 
         private void declareChartSeries()
         {
             chart.Series = new SeriesCollection()
             {
-                new LineSeries()
-                {
-                    Title = "Doanh thu của cửa hàng",
-                    Values = new ChartValues<double>(),
-                    Stroke = Brushes.DarkRed,
-                    StrokeDashArray = new DoubleCollection{1}
-                },
                 new ColumnSeries()
                 {
-                    Title = "Lợi nhuận của cửa hàng",
+                    Title = "Doanh thu của cửa hàng",
                     Values = new ChartValues<double>(),
                     Stroke = Brushes.OrangeRed,
                     StrokeThickness = 2,
                     Fill = Brushes.OrangeRed
+                },
+                new LineSeries()
+                {
+                    Title = "Lợi nhuận của cửa hàng",
+                    Values = new ChartValues<double>(),
+                    Stroke = Brushes.DarkRed,
+                    StrokeDashArray = new DoubleCollection{1}
                 }
             };
         }
