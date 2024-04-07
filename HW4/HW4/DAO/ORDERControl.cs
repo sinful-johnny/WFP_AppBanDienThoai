@@ -990,7 +990,7 @@ namespace HW4
 
             using (var addPromo = new SqlCommand(sql, connection))
             {
-                addPromo.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
+                addPromo.Parameters.Add("@promoID", SqlDbType.Int).Value = promoID;
                 addPromo.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
                 try
                 {
@@ -1002,35 +1002,62 @@ namespace HW4
                     return false;
                 }
             }
+
+            string sql2 = """
+                    SELECT PROMOTIONS.DISCOUNTS
+                    FROM PROMOTIONS
+                    WHERE PROMO_ID = @id
+                    """;
+            double discounts;
+
+            using (var getPromo = new SqlCommand(sql2, connection))
+            {
+                getPromo.Parameters.Add("@id", SqlDbType.Int).Value = promoID;
+                try
+                {
+                    var reader = getPromo.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        discounts = (double)reader["DISCOUNTS"];
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    connection.Close();
+                    return false;
+                }
+            }
             string getSQL = """
                 UPDATE ORDERS_PHONE
-                SET TOTAL = TOTAL * (1 - PROMOTION.DISCOUNTS / 100)
+                SET TOTAL = TOTAL * (1 - (@discounts / 100))
                 OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
-                FROM ORDERS_PHONE, PROMOTIONS
-                WHERE ORDERS_PHONE.PHONE_ID = PROMOTIONS.PROMO_PHONE_ID AND PROMOTIONS.PROMO_ID = @promoID AND ORDERS_PHONE.ORDER_ID = @OrderID
+                WHERE ORDERS_PHONE.ORDER_ID = @OrderID
                 """;
-
-            using var updatePrice = new SqlCommand(getSQL, connection);
-            updatePrice.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
-            updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
-            float oldPrice = 0;
-            float newPrice = 0;
-            try
+            double oldPrice = 0;
+            double newPrice = 0;
+            using (var updatePrice = new SqlCommand(getSQL, connection))
             {
-                var reader = updatePrice.ExecuteReader();
-                while (reader.Read())
+
+                updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+
+                try
                 {
-                    oldPrice = (float)reader["OldPrice"];
-                    newPrice = (float)reader["NewPrice"];
+                    var reader = updatePrice.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        oldPrice = (float)reader["OldPrice"];
+                        newPrice = (float)reader["NewPrice"];
+                    }
+                    reader.Close();
                 }
-                reader.Close();
+                catch (Exception ex)
+                {
+                    connection.Close();
+                    return false;
+                }
             }
-            catch (Exception ex)
-            {
-                connection.Close();
-                return false;
-            }
-
+4
             string updateOrder = """
                 UPDATE ORDERS
                 SET TOTAL = TOTAL - @OldPrice + @NewPrice
@@ -1041,6 +1068,7 @@ namespace HW4
             {
                 orderCommand.Parameters.Add("@OldPrice", SqlDbType.Float).Value = oldPrice;
                 orderCommand.Parameters.Add("@NewPrice", SqlDbType.Float).Value = newPrice;
+                orderCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
                 try
                 {
                     orderCommand.ExecuteNonQuery();
