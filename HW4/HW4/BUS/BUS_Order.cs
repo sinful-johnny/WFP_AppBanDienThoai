@@ -12,7 +12,7 @@ namespace HW4.BUS
 {
     internal class BUS_Order
     {
-        static public Tuple<ObservableCollection<ORDER>, int, int> SortOrder(SqlConnection conn, int page, int rowsPerPage, string sortCriteria)
+        static public Tuple<BindingList<ORDER>, int, int> SortOrder(SqlConnection conn, int page, int rowsPerPage, string sortCriteria)
         {
             if (sortCriteria == "This Week")
             {
@@ -32,7 +32,7 @@ namespace HW4.BUS
             return ORDERControl.GetAllPaging(conn, page, rowsPerPage);
         }
 
-        static public Tuple<ObservableCollection<ORDER>, int, int> getInRange(SqlConnection conn, int page, int rowsPerPage, DateTime begin, DateTime end)
+        static public Tuple<BindingList<ORDER>, int, int> getInRange(SqlConnection conn, int page, int rowsPerPage, DateTime begin, DateTime end)
         {
             return ORDERControl.FromDateToDate(conn, page, rowsPerPage, begin, end);
         }
