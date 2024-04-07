@@ -121,7 +121,7 @@ namespace HW4
             return orders;
         }
 
-        private void chart_Loaded(object sender, RoutedEventArgs e)
+        private void Chart_Loaded(object sender, RoutedEventArgs e)
         {
             var beginDate = new DateTime(2024, 4, 1);
             var endDate = end;
@@ -133,10 +133,10 @@ namespace HW4
 
             foreach (var order in orders)
             {
-                connection.Open();
+                _connection.Open();
             }
 
-            using (var command = new SqlCommand(sql, connection))
+            using (var command = new SqlCommand(sql, _connection))
             {
                 command.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = begin;
                 command.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = end;

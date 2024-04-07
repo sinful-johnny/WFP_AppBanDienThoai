@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:HW4"
              d:DataContext="{d:DesignInstance Type=local:ORDER}"
              mc:Ignorable="d" 
-             d:DesignHeight="430.4" d:DesignWidth="391.2">
+             d:DesignHeight="430.4" Width="329">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -39,9 +39,9 @@
         </DataGrid>
 
         <StackPanel Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Click="AddPhone" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
-            <Button Click="DeletePhone" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="32"/>
-            <Button Click="UpdatePhoneCount" Content="update" Margin="10, 0, 0, 0" Width="60" Height="32"/>
+            <Button Click="AddPhone" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="27"/>
+            <Button Click="DeletePhone" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="24"/>
+            <Button Click="UpdatePhoneCount" Content="Update" Margin="10, 0, 0, 0" Width="60" Height="25"/>
         </StackPanel>
 
         <DataGrid Name="OrderPromos" Grid.Row="4" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -51,12 +51,6 @@
                     <MenuItem Header="Edit" Click="UpdatePhoneCount"/>
                 </ContextMenu>
             </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Promo ID" Binding="{Binding PromoID}" Width="80"/>
-                <DataGridTextColumn Header="Promo Name" Binding="{Binding PromoName}" Width="110"/>
-                <DataGridTextColumn Header="For Phone" Binding="{Binding forPhone}" Width="130"/>
-                <DataGridTextColumn Header="Discount" Binding="{Binding Discount}" Width="70"/>
-            </DataGrid.Columns>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
