@@ -1036,7 +1036,7 @@ namespace HW4
                 SET TOTAL = TOTAL * (1 - (@discounts / 100))
                 OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
                 FROM ORDERS_PHONE op JOIN PHONE p ON op.PHONE_ID = p.ID
-                WHERE op.ORDER_ID = @OrderID AND (p.ID = @PhoneID OR p.MANUFACTURER = @ManufacturerID)
+                WHERE op.ORDER_ID = @OrderID AND (p.ID = @PhoneID OR p.MANUFACTURER_ID = @ManufacturerID)
                 """;
             double oldPrice = 0;
             double newPrice = 0;
@@ -1147,7 +1147,7 @@ namespace HW4
                     SET TOTAL = TOTAL * (1 + @discounts / 100)
                     OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
                     FROM ORDERS_PHONE op JOIN PHONE p ON op.PHONE_ID = p.ID
-                    WHERE op.ORDER_ID = @OrderID AND (p.ID = @PhoneID OR p.MANUFACTURER = @ManufacturerID)
+                    WHERE op.ORDER_ID = @OrderID AND (p.ID = @PhoneID OR p.MANUFACTURER_ID = @ManufacturerID)
                     """;
             double oldPrice = 0;
             double newPrice = 0;
