@@ -5,11 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW4"
         mc:Ignorable="d"
-        Title="Edit Phone Number" Height="210" Width="314">
+        Title="Edit Phone Number" Height="200" Width="314">
     <Grid>
-        <StackPanel Name="getInfo" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="Info">
-            <Label FontSize="20" Content="{Binding OrderID}"></Label>
-            <Label FontSize="20" Content="{Binding PhoneName}"></Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Name="OrderInfoBasic">
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="Order ID" />: <Run Text="{Binding OrderID}"/>
+            </TextBlock>
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="Phone" />: <Run Text="{Binding PhoneName}"/>
+            </TextBlock>
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="Total" />: <Run Text="{Binding Price}"/>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Name="getInfo" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="Info" Grid.Row="1">
             <Label Content="Choose a new quantity" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <TextBox Name="quantity"  Text="{Binding Quantity}" Width="63" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
             <Button Height="25" Width="44" HorizontalAlignment="Center" Content="Update" Click="UpdateQuantity" Margin="0, 8, 0, 0"/>

@@ -5,26 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HW4"
              d:DataContext="{d:DesignInstance Type=local:ORDER}"
-             mc:Ignorable="d" 
-             d:DesignHeight="430.4" Width="329">
+             mc:Ignorable="d" Width="329" Height="525"
+                Title="Order Info">
     <Grid >
         <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Name="OrderInfoBasic">
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="Order ID" />: <Run Text="{Binding OrderID}"/>
+            </TextBlock>
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="Customer" />: <Run Text="{Binding CustomerName}"/>
+            </TextBlock>
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="Date" />: <Run Text="{Binding OrderDate}"/>
+            </TextBlock>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center">
             <TextBlock Text="Order's Phone" FontSize="15"/>
         </StackPanel>
-        <StackPanel Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Center">
             <TextBlock Text="Order's Promotion" FontSize="15"/>
         </StackPanel>
 
-        <DataGrid Name="OrderPhones" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <DataGrid Name="OrderPhones" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeletePhone"/>
@@ -38,13 +51,13 @@
             </DataGrid.ColumnHeaderStyle>
         </DataGrid>
 
-        <StackPanel Grid.Row="2" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="3" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Click="AddPhone" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="27"/>
             <Button Click="DeletePhone" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="24"/>
             <Button Click="UpdatePhoneCount" Content="Update" Margin="10, 0, 0, 0" Width="60" Height="25"/>
         </StackPanel>
 
-        <DataGrid Name="OrderPromos" Grid.Row="4" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <DataGrid Name="OrderPromos" Grid.Row="5" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Resources>
                 <ContextMenu x:Key="RightClickMenu">
                     <MenuItem Header="Delete" Click="DeletePhone"/>
@@ -57,7 +70,7 @@
                 </Style>
             </DataGrid.ColumnHeaderStyle>
         </DataGrid>
-        <StackPanel Grid.Row="5" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="6" Grid.RowSpan="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Click="AddPromo" Content="Add" Margin="0, 0, 5, 0" Width="51" Height="32"/>
             <Button Click="DeletePromo" Content="Delete" Margin="10, 0, 0, 0" Width="60" Height="32"/>
         </StackPanel>

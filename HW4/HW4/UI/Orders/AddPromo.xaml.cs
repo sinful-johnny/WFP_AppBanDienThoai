@@ -25,17 +25,30 @@ namespace HW4
     /// </summary>
     public partial class AddPromo : Window
     {
-        public int OrderID;
+        public ORDER OrderGet;
         SqlConnection conn;
         public PROMOTIONSINORDER getPromo;
         BindingList<PROMOTIONSINORDER> promoList = new BindingList<PROMOTIONSINORDER>(); 
-        public AddPromo(SqlConnection conn, int OrderID)
+        public AddPromo(SqlConnection conn, ORDER Order)
         {
             InitializeComponent();
             this.conn = conn;
-            this.OrderID = OrderID;
+            OrderGet = Order;
+            Info info = new Info()
+            {
+                OrderID = OrderGet.OrderID,
+                CustomerName = OrderGet.CustomerName,
+                OrderDate = OrderGet.OrderDate.ToShortDateString(),
+            };
+            OrderInfoBasic.DataContext = info;
             LoadPromo();
-            Order.DataContext = OrderID;
+        }
+
+        private class Info
+        {
+            public int OrderID { get; set; }
+            public string CustomerName {  get; set; }
+            public string OrderDate {  get; set; }
         }
 
         private void LoadPromo()
@@ -67,7 +80,7 @@ namespace HW4
         {
             var selected = (PROMOTIONSINORDER)Promo.SelectedItem;
 
-            var addnew = BUS_Order.EditPromoInOrder(conn, selected.PromoID, OrderID, "Add Promo");
+            var addnew = BUS_Order.EditPromoInOrder(conn, selected.PromoID, OrderGet.OrderID, "Add Promo");
             if (addnew == true)
             {
                 DialogResult = true;

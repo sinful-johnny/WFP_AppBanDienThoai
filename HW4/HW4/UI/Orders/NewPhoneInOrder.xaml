@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HW4"
         xmlns:converter="clr-namespace:HW4.UI.Converters"
         mc:Ignorable="d"
-        Title="NewPhoneInOrder" Height="600" Width="600">
+        Title="NewPhoneInOrder" Height="500" Width="600">
     <Window.Resources>
         <converter:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
         <converter:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
@@ -14,15 +14,26 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Name="BasicInfo" DataContext="Info">
-            <Label Name="Order" FontSize="20" Content="{Binding OrderID}"></Label>
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Name="OrderInfoBasic">
+            <TextBlock HorizontalAlignment="Center" FontSize="20">
+                <Run Text="Order ID" />: <Run Text="{Binding OrderID}"/>
+            </TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontSize="20">
+                <Run Text="Customer" />: <Run Text="{Binding CustomerName}"/>
+            </TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontSize="20">
+                <Run Text="Date" />: <Run Text="{Binding OrderDate}"/>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Name="BasicInfo" DataContext="Info">
             <Label FontSize="30" Content="Enter a Number"/>
             <TextBox Height="40" Name="Quantity" Text="1" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="85"></TextBox>
         </StackPanel>
-        <ListView Name="PhoneChooseView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+        <ListView Name="PhoneChooseView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="2">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
@@ -42,7 +53,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Content="Add new Phone" Height="44" FontSize="25" Width="199" Click="AddNewPhone"/>
         </StackPanel>
     </Grid>

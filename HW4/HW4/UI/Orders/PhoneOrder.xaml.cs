@@ -228,6 +228,7 @@ namespace HW4
             current = "All Time";
 
             DateGet.SelectedItem = current;
+            _currentPage = 1;
             startDatePicker.SelectedDate = DateTime.Now;
             endDatePicker.SelectedDate = DateTime.Now;
             LoadData();
@@ -245,7 +246,7 @@ namespace HW4
             ORDER selected = (ORDER)OrderView.SelectedItem;
             if (selected != null)
             {
-                var info = new OrderInfo(_connection, selected.OrderID);
+                var info = new OrderInfo(_connection, selected);
                 info.ShowDialog();
 
                 LoadData();

@@ -33,16 +33,17 @@ namespace HW4
             {
                 OrderID = OrderID,
                 PhoneName = phone.PhoneName,
-                Quantity = phone.quantity
+                Price = phone.Price,
             };
-            getInfo.DataContext = info;
+            OrderInfoBasic.DataContext = info;
+            quantity.DataContext = phone.quantity;
         }
 
         internal class Info
         {
             public int OrderID { get; set; }
             public string PhoneName { get; set; }
-            public float Quantity { get; set; }
+            public double Price{ get; set; }
         }
 
         private void UpdateQuantity(object sender, RoutedEventArgs e)

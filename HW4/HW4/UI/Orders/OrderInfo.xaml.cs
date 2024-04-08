@@ -25,21 +25,34 @@ namespace HW4
     /// </summary>
     public partial class OrderInfo : Window
     {
-        public int OrderID;
+        public ORDER Order;
         SqlConnection conn;
         BindingList<ORDEREDPHONE> phoneList = new BindingList<ORDEREDPHONE>();
         BindingList<PROMOTIONSINORDER> promoList = new BindingList<PROMOTIONSINORDER>();
-        public OrderInfo(SqlConnection conn, int OrderID)
+        private class Info
+        {
+            public int OrderID { get; set; }
+            public string CustomerName { get; set; }
+            public string OrderDate { get; set; }
+        }
+        public OrderInfo(SqlConnection conn, ORDER OrderInfo)
         {
             InitializeComponent();
             this.conn = conn;
-            this.OrderID = OrderID;
+            Order = OrderInfo;
+            Info info = new Info()
+            {
+                OrderID = Order.OrderID,
+                CustomerName = Order.CustomerName,
+                OrderDate = Order.OrderDate.ToShortDateString(),
+            };
+            OrderInfoBasic.DataContext = info;
             LoadData();
         }
 
         private void LoadData()
         {
-            (phoneList, promoList) = BUS_Order.getOrderData(conn, OrderID);
+            (phoneList, promoList) = BUS_Order.getOrderData(conn, Order.OrderID);
             OrderPhones.ItemsSource = phoneList;
             OrderPromos.ItemsSource = promoList;
         }
@@ -47,7 +60,7 @@ namespace HW4
         {
             ORDEREDPHONE selected = (ORDEREDPHONE)OrderPhones.SelectedItem;
             if (selected == null) return;
-            var UpdatePhoneCount = new EditPhoneQuantity(conn, selected, OrderID);
+            var UpdatePhoneCount = new EditPhoneQuantity(conn, selected, Order.OrderID);
             if (UpdatePhoneCount.ShowDialog() == true)
             {
                 MessageBox.Show("Updated Phone Successfully!", "Updated Successfully", MessageBoxButton.OK);
@@ -65,7 +78,7 @@ namespace HW4
             var deleteOption = MessageBox.Show("Are you sure you want to delete this phone?", "Delete Phone?", MessageBoxButton.YesNo);
             if (deleteOption == MessageBoxResult.Yes)
             {
-                bool deleted = BUS_Order.EditPhoneInOrder(conn, selected, OrderID, "Delete Phone");
+                bool deleted = BUS_Order.EditPhoneInOrder(conn, selected, Order.OrderID, "Delete Phone");
                 if (deleted ==  true)
                 {
                     MessageBox.Show($"Deleted Phone {selected.PhoneName} successfully!", "Delete Success!", MessageBoxButton.OK);
@@ -81,7 +94,7 @@ namespace HW4
 
         private void AddPhone(object sender, RoutedEventArgs e)
         {
-            var AddPhone = new NewPhoneInOrder(conn, OrderID);
+            var AddPhone = new NewPhoneInOrder(conn, Order);
             if (AddPhone.ShowDialog() == true)
             {
                 MessageBox.Show("Added New Phone Successfully!", "Add Successfully", MessageBoxButton.OK);
@@ -96,7 +109,7 @@ namespace HW4
 
         private void AddPromo(object sender, RoutedEventArgs e)
         {
-            var AddPromo = new AddPromo(conn, OrderID);
+            var AddPromo = new AddPromo(conn, Order);
             if (AddPromo.ShowDialog() == true)
             {
                 MessageBox.Show("Added New Promo Successfully!", "Add Successfully", MessageBoxButton.OK);
@@ -116,7 +129,7 @@ namespace HW4
             var deleteOption = MessageBox.Show("Are you sure you want to delete this promotion?", "Delete Promotion?", MessageBoxButton.YesNo);
             if (deleteOption == MessageBoxResult.Yes)
             {
-                bool deleted = BUS_Order.EditPromoInOrder(conn, selected.PromoID, OrderID, "Delete Promo");
+                bool deleted = BUS_Order.EditPromoInOrder(conn, selected.PromoID, Order.OrderID, "Delete Promo");
                 if (deleted == true)
                 {
                     MessageBox.Show($"Deleted Promotion {selected.PromoName} successfully!", "Delete Success!", MessageBoxButton.OK);

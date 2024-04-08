@@ -25,14 +25,26 @@ namespace HW4
     {
         SqlConnection connection;
         BindingList<PHONE> phone_list = new BindingList<PHONE>();
-        int OrderID;
-        
+        ORDER OrderGet;
 
-        public NewPhoneInOrder(SqlConnection conn, int OrderID)
+        private class Info
+        {
+            public int OrderID { get; set; }
+            public string CustomerName { get; set; }
+            public string OrderDate { get; set; }
+        }
+        public NewPhoneInOrder(SqlConnection conn, ORDER Order)
         {
             InitializeComponent();
             connection = conn;
-            this.OrderID = OrderID;
+            OrderGet = Order;
+            Info info = new Info()
+            {
+                OrderID = OrderGet.OrderID,
+                CustomerName = OrderGet.CustomerName,
+                OrderDate = OrderGet.OrderDate.ToShortDateString(),
+            };
+            OrderInfoBasic.DataContext = info;
             LoadPhone();
         }
         private void LoadPhone()
@@ -60,7 +72,6 @@ namespace HW4
                 });
             }
             connection.Close();
-            Order.DataContext = OrderID;
             PhoneChooseView.ItemsSource = phone_list;
         }
         private void AddNewPhone(object sender, RoutedEventArgs e)
@@ -79,7 +90,7 @@ namespace HW4
                 var choice = MessageBox.Show("Do you want to add phone?", "Add Phone?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (choice == MessageBoxResult.Yes)
                 {
-                    bool AddPhone = BUS_Order.EditPhoneInOrder(connection, oRDEREDPHONE, OrderID, "Add New Phone");
+                    bool AddPhone = BUS_Order.EditPhoneInOrder(connection, oRDEREDPHONE, OrderGet.OrderID, "Add New Phone");
                     if (AddPhone == true) 
                     {
                         DialogResult = true;
