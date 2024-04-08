@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="HW4.ProductCards"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+             xmlns:local="clr-namespace:HW4"
+             Name ="ProductCard">
+    <Border CornerRadius="10" Padding="3" Margin="0 10">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#f7f6f4"/>
+                    </Trigger>
+                    <DataTrigger Binding="{Binding ElementName=ProductCard, Path=IsActive}" Value="True">
+                        <Setter Property="Background" Value="#f7f6f4"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <StackPanel Orientation="Horizontal">
+            <Border Width="50" Height="50" CornerRadius="10" Margin="0 0 10 0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0.5 0">
+                        <GradientStop Color="#7cb8ff" Offset="0"/>
+                        <GradientStop Color="#b2d3fe" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+        </StackPanel>
+    </Border>
+</UserControl>

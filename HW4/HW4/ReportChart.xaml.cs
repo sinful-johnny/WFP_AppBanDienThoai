@@ -27,6 +27,7 @@ namespace HW4
         string current = "All time";
         DateTime start = DateTime.Now;
         DateTime end = DateTime.Now;
+        string _timeType = "Ngày";
         public ReportChart()//SqlConnection connection)
         {
             InitializeComponent();
@@ -152,9 +153,10 @@ namespace HW4
             incomechartlists = ImcomeHandling(_connection, beginDate, endDate);
 
             TimeSpan rangeTimeSpan = endDate.Subtract(beginDate); //declared prior as TimeSpan object
-            double[] incomeEachDay = new double [rangeTimeSpan.Days];
-            double[] profitEachDay = new double[rangeTimeSpan.Days];
-            DateTime[] timeRange = new DateTime[rangeTimeSpan.Days];
+            int DaysSpan = rangeTimeSpan.Days + 1;
+            double[] incomeEachDay = new double [DaysSpan];
+            double[] profitEachDay = new double[DaysSpan];
+            DateTime[] timeRange = new DateTime[DaysSpan];
 
             foreach (var incomechartlist in incomechartlists)
             {
@@ -172,7 +174,7 @@ namespace HW4
 
             declareChartSeries();
 
-            for (int Day = 0; Day < rangeTimeSpan.Days; Day++)
+            for (int Day = 0; Day < DaysSpan; Day++)
             {
                 chart.Series[0].Values.Add(incomeEachDay[Day]);
                 chart.Series[1].Values.Add(profitEachDay[Day]);
@@ -180,12 +182,13 @@ namespace HW4
 
             chart.AxisX.Add(new Axis()
             {
+                Title = _timeType,
                 Labels = new List<string>()
             });
 
             //Store a DateTimes String 
             var datetimeString = new List<string>();
-            for (int Day = 0; Day < rangeTimeSpan.Days; Day++)
+            for (int Day = 0; Day < DaysSpan; Day++)
             {
                 timeRange[Day] = beginDate;
                 datetimeString.Add(timeRange[Day].ToString("dd/MM/yyyy"));
@@ -196,6 +199,7 @@ namespace HW4
 
         private void ChartWithDateButton_Click(object sender, RoutedEventArgs e)
         {
+            _timeType = "Ngày";
             if (ShowDateRange() == false) return;
 
             var beginDate = start;
@@ -206,9 +210,11 @@ namespace HW4
             incomechartlists = ImcomeHandling(_connection, beginDate, endDate);
 
             TimeSpan rangeTimeSpan = endDate.Subtract(beginDate); //declared prior as TimeSpan object
-            double[] incomeEachDay = new double[rangeTimeSpan.Days];
-            double[] profitEachDay = new double[rangeTimeSpan.Days];
-            DateTime[] timeRange = new DateTime[rangeTimeSpan.Days];
+            int DaysSpan = rangeTimeSpan.Days + 1;
+
+            double[] incomeEachDay = new double[DaysSpan];
+            double[] profitEachDay = new double[DaysSpan];
+            DateTime[] timeRange = new DateTime[DaysSpan];
 
             foreach (var incomechartlist in incomechartlists)
             {
@@ -226,7 +232,7 @@ namespace HW4
 
             declareChartSeries();
 
-            for (int Day = 0; Day < rangeTimeSpan.Days; Day++)
+            for (int Day = 0; Day < DaysSpan; Day++)
             {
                 chart.Series[0].Values.Add(incomeEachDay[Day]);
                 chart.Series[1].Values.Add(profitEachDay[Day]);
@@ -234,12 +240,13 @@ namespace HW4
 
             chart.AxisX.Add(new Axis()
             {
+                Title = _timeType,
                 Labels = new List<string>()
             });
 
             //Store a DateTimes String 
             var datetimeString = new List<string>();
-            for (int Day = 0; Day < rangeTimeSpan.Days; Day++)
+            for (int Day = 0; Day < DaysSpan; Day++)
             {
                 timeRange[Day] = beginDate;
                 datetimeString.Add(timeRange[Day].ToString("dd/MM/yyyy"));
@@ -250,6 +257,7 @@ namespace HW4
 
         private void ChartWithMonthButton_Click(object sender, RoutedEventArgs e)
         {
+            _timeType = "Tháng";
             if (ShowDateRange() == false) return;
 
             var beginDate = start;
@@ -289,6 +297,7 @@ namespace HW4
 
             chart.AxisX.Add(new Axis()
             {
+                Title = _timeType,
                 Labels = new List<string>()
             });
 
@@ -305,6 +314,7 @@ namespace HW4
 
         private void ChartWithYearButton_Click(object sender, RoutedEventArgs e)
         {
+            _timeType = "Năm";
             if (ShowDateRange() == false) return;
 
             var beginDate = start;
@@ -342,6 +352,7 @@ namespace HW4
 
             chart.AxisX.Add(new Axis()
             {
+                Title = _timeType,
                 Labels = new List<string>()
             });
 
