@@ -527,8 +527,8 @@ namespace HW4
 
                 string query1 = """
                     SELECT PROMOTIONS.DISCOUNTS
-                    FROM PHONE JOIN PROMOTIONS ON PROMOTIONS.PROMO_PHONE_ID = PHONE.ID, PROMO_ORDERS
-                    WHERE PHONE.ID = @PhoneId AND PROMO_ORDERS.PROMO_ID = PROMOTIONS.PROMO_ID AND PROMO_ORDERS.ORDER_ID = @OrderID
+                    FROM PHONE, PROMOTIONS JOIN PROMO_ORDERS ON PROMO_ORDERS.PROMO_ID = PROMOTIONS.PROMO_ID
+                    WHERE PHONE.ID = @PhoneId AND PROMO_ORDERS.ORDER_ID = @OrderID AND (PHONE.ID = PROMOTIONS.PROMO_PHONE_ID OR PHONE.MANUFACTURER_ID = PROMOTIONS.PROMO_MANUFACTURER_ID)
                     """;
 
                 using (var tempComm = new SqlCommand(query1, connection))
@@ -742,9 +742,9 @@ namespace HW4
             double price = Phone.quantity * Phone.Price;
                 
             string getPromo = """
-                    SELECT PROMOTIONS.DISCOUNTS
-                    FROM PROMO_ORDERS JOIN PROMOTIONS ON PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                    WHERE PROMOTIONS.PROMO_PHONE_ID = @PhoneId AND PROMO_ORDERS.ORDER_ID = @OrderID
+                SELECT PROMOTIONS.DISCOUNTS
+                FROM PHONE, PROMOTIONS JOIN PROMO_ORDERS ON PROMO_ORDERS.PROMO_ID = PROMOTIONS.PROMO_ID
+                WHERE PHONE.ID = @PhoneId AND PROMO_ORDERS.ORDER_ID = @OrderID AND (PHONE.ID = PROMOTIONS.PROMO_PHONE_ID OR PHONE.MANUFACTURER_ID = PROMOTIONS.PROMO_MANUFACTURER_ID)
                 """;
 
             using (var discCommand = new SqlCommand(getPromo, connection))
@@ -902,9 +902,9 @@ namespace HW4
                         WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
                     """;
             string getPromo = """
-                        SELECT PROMOTIONS.DISCOUNTS
-                        FROM PROMO_ORDERS JOIN PROMOTIONS ON PROMOTIONS.PROMO_ID = PROMO_ORDERS.PROMO_ID
-                        WHERE PROMOTIONS.PROMO_PHONE_ID = @PhoneId AND PROMO_ORDERS.ORDER_ID = @OrderID
+                    SELECT PROMOTIONS.DISCOUNTS
+                    FROM PHONE, PROMOTIONS JOIN PROMO_ORDERS ON PROMO_ORDERS.PROMO_ID = PROMOTIONS.PROMO_ID
+                    WHERE PHONE.ID = @PhoneId AND PROMO_ORDERS.ORDER_ID = @OrderID AND (PHONE.ID = PROMOTIONS.PROMO_PHONE_ID OR PHONE.MANUFACTURER_ID = PROMOTIONS.PROMO_MANUFACTURER_ID)
                     """;
             if (connection.State == ConnectionState.Closed)
             {
@@ -1003,8 +1003,9 @@ namespace HW4
                 }
             }
             int phoneID = 0;
+            int manufacturerID = 0;
             string sql2 = """
-                    SELECT DISCOUNTS, PROMO_PHONE_ID
+                    SELECT DISCOUNTS, PROMO_PHONE_ID, PROMO_MANUFACTURER_ID
                     FROM PROMOTIONS
                     WHERE PROMO_ID = @id
                     """;
@@ -1020,6 +1021,7 @@ namespace HW4
                     {
                         discounts = (double)reader["DISCOUNTS"];
                         phoneID = (int)reader["PROMO_PHONE_ID"];
+                        manufacturerID = (int)reader["PROMO_MANUFACTURER_ID"];
                     }
                     reader.Close();
                 }
@@ -1030,10 +1032,11 @@ namespace HW4
                 }
             }
             string getSQL = """
-                UPDATE ORDERS_PHONE
+                UPDATE op
                 SET TOTAL = TOTAL * (1 - (@discounts / 100))
                 OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
-                WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
+                FROM ORDERS_PHONE op JOIN PHONE p ON op.PHONE_ID = p.ID
+                WHERE op.ORDER_ID = @OrderID AND (p.ID = @PhoneID OR p.MANUFACTURER = @ManufacturerID)
                 """;
             double oldPrice = 0;
             double newPrice = 0;
@@ -1042,14 +1045,15 @@ namespace HW4
 
                 updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
                 updatePrice.Parameters.Add("@PhoneID", SqlDbType.Int).Value = phoneID;
+                updatePrice.Parameters.Add("@ManufacturerID", SqlDbType.Int).Value= manufacturerID;
                 updatePrice.Parameters.Add("@discounts", SqlDbType.Float).Value = discounts;
                 try
                 {
                     var reader = updatePrice.ExecuteReader();
                     while (reader.Read())
                     {
-                        oldPrice = (double)reader["OldPrice"];
-                        newPrice = (double)reader["NewPrice"];
+                        oldPrice += (double)reader["OldPrice"];
+                        newPrice += (double)reader["NewPrice"];
                     }
                     reader.Close();
                 }
@@ -1110,8 +1114,9 @@ namespace HW4
                 }
             }
             int PhoneId = 0;
+            int manufacturerID = 0;
             string sql2 = """
-                    SELECT DISCOUNTS, PROMO_PHONE_ID
+                    SELECT DISCOUNTS, PROMO_PHONE_ID, PROMO_MANUFACTURER_ID
                     FROM PROMOTIONS
                     WHERE PROMO_ID = @id
                     """;
@@ -1127,6 +1132,7 @@ namespace HW4
                     {
                         discounts = (double)reader["DISCOUNTS"];
                         PhoneId = (int)reader["PROMO_PHONE_ID"];
+                        manufacturerID = (int)reader["PROMO_MANUFACTURER_ID"];
                     }
                     reader.Close();
                 }
@@ -1137,10 +1143,11 @@ namespace HW4
                 }
             }
             string getSQL = """
-                    UPDATE ORDERS_PHONE
+                    UPDATE op
                     SET TOTAL = TOTAL * (1 + @discounts / 100)
                     OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
-                    WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
+                    FROM ORDERS_PHONE op JOIN PHONE p ON op.PHONE_ID = p.ID
+                    WHERE op.ORDER_ID = @OrderID AND (p.ID = @PhoneID OR p.MANUFACTURER = @ManufacturerID)
                     """;
             double oldPrice = 0;
             double newPrice = 0;
@@ -1149,6 +1156,7 @@ namespace HW4
                 updatePrice.Parameters.Add("@discounts", SqlDbType.Float).Value = discounts;
                 updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
                 updatePrice.Parameters.Add("@PhoneID", SqlDbType.Int).Value = PhoneId;
+                updatePrice.Parameters.Add("@ManufacturerID", SqlDbType.Int).Value = manufacturerID;
                 try
                 {
                     var reader = updatePrice.ExecuteReader();
