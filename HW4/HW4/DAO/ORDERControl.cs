@@ -27,7 +27,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                               select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems  
@@ -95,7 +95,7 @@ namespace HW4
             }
 
             connection.Close();
-            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages);
+            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages - 1);
             return result;
         }
         static public Tuple<BindingList<ORDER>, int, int> GetAllTodayPaging(SqlConnection connection, int page, int rowsPerPage)
@@ -103,7 +103,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                               select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
@@ -171,7 +171,7 @@ namespace HW4
             }
 
             connection.Close();
-            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages);
+            var result = new Tuple<BindingList<ORDER>, int, int>(orders, totalItems, totalPages - 1);
             return result;
         }
         static public Tuple<BindingList<ORDER>, int, int> GetAllThisWeekPaging(SqlConnection connection, int page, int rowsPerPage)
@@ -179,7 +179,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                               select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
@@ -257,7 +257,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                               select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
@@ -334,7 +334,7 @@ namespace HW4
             int totalItems = -1;
             int totalPages = -1;
             var orders = new BindingList<ORDER>();
-            int skip = (page - 1) * 10;
+            int skip = (page - 1) * rowsPerPage;
             int take = rowsPerPage;
             string sql = """
                               select ORDERS.ORDER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, ORDERS.CREATED_DATE, ORDERS.TOTAL, ORDERS.STATUS, count(*) over() as TotalItems 
@@ -1002,13 +1002,13 @@ namespace HW4
                     return false;
                 }
             }
-
+            int phoneID = 0;
             string sql2 = """
-                    SELECT PROMOTIONS.DISCOUNTS
+                    SELECT DISCOUNTS, PROMO_PHONE_ID
                     FROM PROMOTIONS
                     WHERE PROMO_ID = @id
                     """;
-            double discounts;
+            double discounts = 0;
 
             using (var getPromo = new SqlCommand(sql2, connection))
             {
@@ -1019,6 +1019,7 @@ namespace HW4
                     while (reader.Read())
                     {
                         discounts = (double)reader["DISCOUNTS"];
+                        phoneID = (int)reader["PROMO_PHONE_ID"];
                     }
                     reader.Close();
                 }
@@ -1032,7 +1033,7 @@ namespace HW4
                 UPDATE ORDERS_PHONE
                 SET TOTAL = TOTAL * (1 - (@discounts / 100))
                 OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
-                WHERE ORDERS_PHONE.ORDER_ID = @OrderID
+                WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
                 """;
             double oldPrice = 0;
             double newPrice = 0;
@@ -1040,14 +1041,15 @@ namespace HW4
             {
 
                 updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
-
+                updatePrice.Parameters.Add("@PhoneID", SqlDbType.Int).Value = phoneID;
+                updatePrice.Parameters.Add("@discounts", SqlDbType.Float).Value = discounts;
                 try
                 {
                     var reader = updatePrice.ExecuteReader();
                     while (reader.Read())
                     {
-                        oldPrice = (float)reader["OldPrice"];
-                        newPrice = (float)reader["NewPrice"];
+                        oldPrice = (double)reader["OldPrice"];
+                        newPrice = (double)reader["NewPrice"];
                     }
                     reader.Close();
                 }
@@ -1057,7 +1059,6 @@ namespace HW4
                     return false;
                 }
             }
-4
             string updateOrder = """
                 UPDATE ORDERS
                 SET TOTAL = TOTAL - @OldPrice + @NewPrice
@@ -1096,7 +1097,7 @@ namespace HW4
 
             using (var deletePromo = new SqlCommand(sql, connection)) 
             { 
-                deletePromo.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
+                deletePromo.Parameters.Add("@promoID", SqlDbType.Int).Value = promoID;
                 deletePromo.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
                 try
                 {
@@ -1108,26 +1109,53 @@ namespace HW4
                     return false;
                 }
             }
+            int PhoneId = 0;
+            string sql2 = """
+                    SELECT DISCOUNTS, PROMO_PHONE_ID
+                    FROM PROMOTIONS
+                    WHERE PROMO_ID = @id
+                    """;
+            double discounts = 0;
+
+            using (var getPromo = new SqlCommand(sql2, connection))
+            {
+                getPromo.Parameters.Add("@id", SqlDbType.Int).Value = promoID;
+                try
+                {
+                    var reader = getPromo.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        discounts = (double)reader["DISCOUNTS"];
+                        PhoneId = (int)reader["PROMO_PHONE_ID"];
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    connection.Close();
+                    return false;
+                }
+            }
             string getSQL = """
                     UPDATE ORDERS_PHONE
-                    SET TOTAL = TOTAL * (1 + PROMOTION.DISCOUNT / 100)
+                    SET TOTAL = TOTAL * (1 + @discounts / 100)
                     OUTPUT deleted.TOTAL as OldPrice, inserted.TOTAL as NewPrice
-                    FROM ORDERS_PHONE, PROMOTIONS
-                    WHERE ORDERS_PHONE.PHONE_ID = PROMOTIONS.PROMO_PHONE_ID AND PROMOTIONS.PROMO_ID = @promoID AND ORDERS_PHONE.ORDER_ID = @OrderID
+                    WHERE ORDER_ID = @OrderID AND PHONE_ID = @PhoneID
                     """;
-            float oldPrice = 0;
-            float newPrice = 0;
+            double oldPrice = 0;
+            double newPrice = 0;
             using (var updatePrice = new SqlCommand(getSQL, connection))
             {
-                updatePrice.Parameters.Add("promoID", SqlDbType.Int).Value = promoID;
+                updatePrice.Parameters.Add("@discounts", SqlDbType.Float).Value = discounts;
                 updatePrice.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
+                updatePrice.Parameters.Add("@PhoneID", SqlDbType.Int).Value = PhoneId;
                 try
                 {
                     var reader = updatePrice.ExecuteReader();
                     while (reader.Read())
                     {
-                        oldPrice = (float)reader["OldPrice"];
-                        newPrice = (float)reader["NewPrice"];
+                        oldPrice = (double)reader["OldPrice"];
+                        newPrice = (double)reader["NewPrice"];
                     }
                     reader.Close();
                 }
@@ -1147,6 +1175,7 @@ namespace HW4
             {
                 orderCommand.Parameters.Add("@OldPrice", SqlDbType.Float).Value = oldPrice;
                 orderCommand.Parameters.Add("@NewPrice", SqlDbType.Float).Value = newPrice;
+                orderCommand.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderID;
                 try
                 {
                     orderCommand.ExecuteNonQuery();

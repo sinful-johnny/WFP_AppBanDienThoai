@@ -191,22 +191,6 @@ namespace HW4
             DeleteOrderHandler();
         }
 
-        private void Page(object sender, RoutedEventArgs e)
-        {
-            string index = (string)(sender as Button).Content;
-            if (index == "Next")
-            {
-                _currentPage += 1;
-            }
-
-            else
-            {
-                _currentPage -= 1;
-            }
-
-            LoadData();
-        }
-
         private void SearchDateRange(object sender, RoutedEventArgs e)
         {       
             if (startDatePicker.SelectedDate != null)
@@ -241,15 +225,18 @@ namespace HW4
 
         private void RefreshOrder(object sender, RoutedEventArgs e)
         {
-            current = "All time";
+            current = "All Time";
 
-            DateGet.SelectedIndex = 3;
+            DateGet.SelectedItem = current;
+            startDatePicker.SelectedDate = DateTime.Now;
+            endDatePicker.SelectedDate = DateTime.Now;
             LoadData();
         }
 
         private void DateGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             current = DateGet.SelectedItem.ToString();
+            _currentPage = 1;
             LoadData();
         }
 
@@ -260,7 +247,21 @@ namespace HW4
             {
                 var info = new OrderInfo(_connection, selected.OrderID);
                 info.ShowDialog();
+
+                LoadData();
             }
+        }
+
+        private void PagePrev(object sender, RoutedEventArgs e)
+        {
+            _currentPage -= 1;
+            LoadData();
+        }
+
+        private void PageNext(object sender, RoutedEventArgs e)
+        {
+            _currentPage += 1;
+            LoadData();
         }
     }
 }

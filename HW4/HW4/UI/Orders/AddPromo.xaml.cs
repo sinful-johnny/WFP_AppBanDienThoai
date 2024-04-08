@@ -42,6 +42,7 @@ namespace HW4
         {
             string sql = """
                 SELECT * FROM PROMOTIONS
+                WHERE PROMO_STATUS != 'Suspended'
                 """;
             if (conn.State == ConnectionState.Closed)
             {
