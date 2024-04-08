@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="Result" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
         <DataGrid x:Name="DataGridView" IsReadOnly="True">
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -15,5 +19,9 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
+
+        <StatusBar Grid.Row="1">
+            <TextBlock x:Name="InstructionTextBox" d:Text="Double click to grant"/>
+        </StatusBar>
     </Grid>
 </Window>
