@@ -36,10 +36,15 @@ namespace HW4.UI.Customers
         int totalItems = -1;
         BindingList<CUSTOMER> _customers;
         BindingList<Page> PageOptions = new BindingList<Page>();
+        List<int> ItemPerPageOptions = new List<int>()
+        {
+            4,16,32,64,128,512,1024
+        };
         public CustomerManagementUserControl(SqlConnection connection)
         {
             InitializeComponent();
             _con = connection;
+            ItemPerPageComboBox.ItemsSource = ItemPerPageOptions;
         }
         public enum CustomerManagementActions
         {
@@ -244,6 +249,11 @@ namespace HW4.UI.Customers
             {
                 MessageBox.Show("Choose an item to edit!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+        private void ItemPerPageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _rowPerPage = (int)ItemPerPageComboBox.SelectedItem;
+            LoadData();
         }
     }
     internal class Page

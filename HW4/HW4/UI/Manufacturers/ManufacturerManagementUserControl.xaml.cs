@@ -62,7 +62,7 @@ namespace HW4
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Task.Run(LoadManufacturers);
+            LoadManufacturers();
             dt = new DataTable();
             dt.Columns.Add("ID");
             dt.Columns.Add("NAME");

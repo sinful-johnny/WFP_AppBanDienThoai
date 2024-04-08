@@ -35,6 +35,10 @@ namespace HW4.UI.Customers
             this._mode = mode;
             this._CUS_ID = CUS_ID;
             LoadData();
+            if(mode == Mode.Promotions)
+            {
+                InstructionTextBox.Text = $"Right click on a Promotion to see options";
+            }
         }
 
         private void LoadData()

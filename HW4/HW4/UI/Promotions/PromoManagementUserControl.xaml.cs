@@ -36,10 +36,15 @@ namespace HW4
         int mode = Mode.Default;
         BindingList<Page> PageOptions = new BindingList<Page>();
         string _keyWord;
+        List<int> ItemPerPageOptions = new List<int>()
+        {
+            4,16,32,64,128,512,1024
+        };
         public PromoManagementUserControl(SqlConnection connection)
         {
             InitializeComponent();
             _con = connection;
+            ItemPerPageComboBox.ItemsSource = ItemPerPageOptions;
         }
 
         public enum PromotionManagementActions
@@ -217,6 +222,11 @@ namespace HW4
         {
             _keyWord = SearchTextBox.Text;
             mode = Mode.KeyWord;
+            LoadData();
+        }
+        private void ItemPerPageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _rowPerPage = (int)ItemPerPageComboBox.SelectedItem;
             LoadData();
         }
     }
