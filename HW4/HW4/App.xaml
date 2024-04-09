@@ -15,8 +15,13 @@
                 <Setter Property="Padding" Value="20"/>
             </Style>
 
-            
-            
+            <Style x:Key="ButtonChoose" TargetType="Button">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="#fb7154"/>
+                <Setter Property="Foreground" Value="#fb6161"/>
+            </Style>
+
             <Style x:Key="titleText1" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontWeight" Value="Bold"/>

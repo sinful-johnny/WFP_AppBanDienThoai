@@ -19,13 +19,13 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.05*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <lvc:CartesianChart Name="chart" LegendLocation="Bottom" 
                             HorizontalAlignment ="Left" Grid.Row="1"
-                            Series="{Binding SeriesCollection}" Margin="0,10,0,38" 
-                            Loaded="chart_Loaded" Width="780" Grid.ColumnSpan="5">
+                            Series="{Binding SeriesCollection}" Margin="0,23,0,3" 
+                            Loaded="chart_Loaded" Width="790" Grid.ColumnSpan="5">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Labels="{Binding Labels}" ></lvc:Axis>
             </lvc:CartesianChart.AxisX>
@@ -40,32 +40,32 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Click="ChartWithDateButton_Click" Content="Ngày"
+            <Button Click="ChartWithDateButton_Click" Content="Ngày" FontSize="13"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="56"/>
         </StackPanel>
 
         <StackPanel Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Click="ChartWithMonthButton_Click" Content="Tháng" 
+            <Button Click="ChartWithMonthButton_Click" Content="Tháng" FontSize="13"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="56"/>
         </StackPanel>
 
         <StackPanel Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Click="ChartWithYearButton_Click" Content="Năm" 
+            <Button Click="ChartWithYearButton_Click" Content="Năm" FontSize="13"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="56"/>
         </StackPanel>
-        <StackPanel Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center">
-            <!--Title-->
-            <TextBlock Text="Sales Figure" Style="{StaticResource titleText1}"/>
-            <Button Click="ChartWithYearButton_Click" Content="Năm" 
-                    HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="56"/>
-            
+        <StackPanel Grid.Column="4" Grid.Row="0">
+            <Button Click="ChartWithYearButton_Click" Content="Doanh thu và lợi nhuận" 
+                    Height="25" Width="180" Margin="0 2 0 0" Style="{StaticResource ButtonChoose}"/>
+            <Button Click="ChartWithYearButton_Click" Content="Sản phẩm và số lượng" 
+                    Height="25" Width="180" Margin="0 4 0 0" Style="{StaticResource ButtonChoose}"/>
+
         </StackPanel>
         <!--Note-->
 
         <Grid VerticalAlignment="Bottom" Margin="10 -20" Grid.ColumnSpan="5" Grid.Row="2" HorizontalAlignment="Center">
             <Icon:PackIconMaterial Kind="Information" Foreground="#f96654"/>
             <TextBlock TextWrapping="Wrap" Margin="30 0 0 0" LineHeight="18" Foreground="#b7b7b7" 
-               Text="Net Sales, Found on the income statement are used to calculate this ration Return ..."/>
+               Text="{Binding LegendChart}"/>
         </Grid>
     </Grid>
 </UserControl>

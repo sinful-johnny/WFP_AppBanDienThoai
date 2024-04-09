@@ -10,7 +10,6 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
-using System.ComponentModel;
 
 namespace HW4
 {
@@ -19,9 +18,8 @@ namespace HW4
     /// </summary>
     public partial class ReportChart : UserControl
     {
-
+        string LegendChart;
         private SqlConnection _connection;
-        ObservableCollection<INCOMECHART> _IncomeChartList;
 
         //time handling
         string current = "All time";
@@ -72,6 +70,38 @@ namespace HW4
             end = (DateTime)endDatePicker.SelectedDate;
             return true;
         }
+
+        private DateTime TakeMinMaxOrderDate(SqlConnection connection)
+        {
+            DateTime newestOrderedDate = new DateTime();
+
+            string sql = """
+                              select MAX(CREATED_DATE) AS 'NEWESTORDEREDDATE'
+                              from ORDERS
+                         """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            using (var command = new SqlCommand(sql, connection))
+            {
+                //_connection.Open();
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    newestOrderedDate = (DateTime)reader["NEWESTORDEREDDATE"];
+                }
+                reader.Close();
+            }
+            connection.Close();
+
+            var res = newestOrderedDate;
+
+            return res;
+        }
+
 
         private ObservableCollection<INCOMECHART> ImcomeHandling(SqlConnection connection, DateTime begin, DateTime end)
         {
@@ -142,12 +172,19 @@ namespace HW4
                     StrokeDashArray = new DoubleCollection{1}
                 }
             };
+            chart.AxisX.Add(new Axis()
+            {
+                Title = _timeType,
+                Labels = new List<string>()
+            });
         }
 
         private void chart_Loaded(object sender, RoutedEventArgs e)
         {
-            var beginDate = new DateTime(2024, 4, 1);
-            var endDate = end;
+            var newestOderedDate = TakeMinMaxOrderDate(_connection);
+
+            var beginDate = newestOderedDate.AddDays(-30);
+            var endDate = newestOderedDate;
             List<double> profits;
             ObservableCollection<INCOMECHART> incomechartlists = new ObservableCollection<INCOMECHART>();
             incomechartlists = ImcomeHandling(_connection, beginDate, endDate);
@@ -166,10 +203,10 @@ namespace HW4
                 //    int Day = rangeTime.Days;
                 //    incomeEachDay[Day] += incomechartlist.TotalPrice;
                 //}
-                //TimeSpan rangeTime = incomechartlist.OrderDate.Subtract(beginDate);
-                //int Day = rangeTime.Days;
-                //incomeEachDay[Day] += incomechartlist.TotalPrice;
-                //profitEachDay[Day] += incomechartlist.Profit;
+                TimeSpan rangeTime = incomechartlist.OrderDate.Subtract(beginDate);
+                int Day = rangeTime.Days;
+                incomeEachDay[Day] += incomechartlist.TotalPrice;
+                profitEachDay[Day] += incomechartlist.Profit;
             }
 
             declareChartSeries();
@@ -180,12 +217,6 @@ namespace HW4
                 chart.Series[1].Values.Add(profitEachDay[Day]);
             }
 
-            chart.AxisX.Add(new Axis()
-            {
-                Title = _timeType,
-                Labels = new List<string>()
-            });
-
             //Store a DateTimes String 
             var datetimeString = new List<string>();
             for (int Day = 0; Day < DaysSpan; Day++)
@@ -195,6 +226,7 @@ namespace HW4
                 beginDate = beginDate.AddDays(1);
             }
             chart.AxisX[0].Labels = datetimeString;
+            LegendChart = "Đây là bảng báo cáo về thu nhập và lợi nhuận của cửa hàng trong 30 ngày gần đây";
         }
 
         private void ChartWithDateButton_Click(object sender, RoutedEventArgs e)
@@ -238,11 +270,6 @@ namespace HW4
                 chart.Series[1].Values.Add(profitEachDay[Day]);
             }
 
-            chart.AxisX.Add(new Axis()
-            {
-                Title = _timeType,
-                Labels = new List<string>()
-            });
 
             //Store a DateTimes String 
             var datetimeString = new List<string>();
@@ -295,11 +322,6 @@ namespace HW4
                 chart.Series[1].Values.Add(profitEachDay[Month]);
             }
 
-            chart.AxisX.Add(new Axis()
-            {
-                Title = _timeType,
-                Labels = new List<string>()
-            });
 
             //Store a DateTimes String 
             var datetimeMonthString = new List<string>();

@@ -124,7 +124,7 @@
             <Border Grid.Column="1" Grid.Row="2" Style="{StaticResource whiteBorder}" Margin="20,5,20,0">
                 <Grid Margin="15 5">
                     <!--Chart-->
-                    <uc:ReportChart x:Name="Chart" HorizontalAlignment="Center" Width="745" Margin="0,-24,0,0" Height="389" VerticalAlignment="Top"/>
+                    <uc:ReportChart x:Name="Chart" HorizontalAlignment="Center" Width="745" Margin="0,0,0,21"/>
                 </Grid>
             </Border>
 
