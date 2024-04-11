@@ -7,8 +7,7 @@
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:local="clr-namespace:HW4"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Name ="Chart">
+             d:DesignHeight="450" d:DesignWidth="800" Name ="Chart">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2.5*"/>
@@ -22,14 +21,33 @@
             <RowDefinition Height="1.05*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <lvc:CartesianChart Name="chart" LegendLocation="Bottom" 
-                            HorizontalAlignment ="Left" Grid.Row="1"
-                            Series="{Binding SeriesCollection}" Margin="0,23,0,3" 
-                            Loaded="chart_Loaded" Width="790" Grid.ColumnSpan="5">
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis Labels="{Binding Labels}" ></lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-        </lvc:CartesianChart>
+        <DockPanel LastChildFill="False" Grid.ColumnSpan="5" 
+                   Grid.Row="1" Margin="0,23,0,3" Width="790">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" 
+                          HorizontalScrollBarVisibility="Visible" Width="739">
+                <StackPanel>
+                    <lvc:CartesianChart Name="Incomechart" LegendLocation="Bottom"
+                                        Series="{Binding SeriesCollection}"
+                                        Loaded="chart_LoadedDoanhThuLoiNhuan" Width="756" Height="384">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Biểu đồ báo cáo doanh thu và lợi nhuận của cửa hàng"/>
+                            <lvc:Axis Labels="{Binding Labels}"/>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                    
+                    <lvc:CartesianChart Name="QuantitySoldchart" LegendLocation="Bottom"
+                                        Series="{Binding SeriesCollection}"
+                                        Loaded="chart_LoadedSanPhamSoLuong" Width="756" Height="384">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Biểu đồ báo cáo doanh thu và lợi nhuận của cửa hàng"/>
+                            <lvc:Axis Labels="{Binding Labels}"/>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                </StackPanel>
+
+
+            </ScrollViewer>
+        </DockPanel>
 
         <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Choose Date " Margin="0,0,0,5" Width="220" TextAlignment="Center"/>
@@ -53,19 +71,8 @@
             <Button Click="ChartWithYearButton_Click" Content="Năm" FontSize="13"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="56"/>
         </StackPanel>
-        <StackPanel Grid.Column="4" Grid.Row="0">
-            <Button Click="ChartWithYearButton_Click" Content="Doanh thu và lợi nhuận" 
-                    Height="25" Width="180" Margin="0 2 0 0" Style="{StaticResource ButtonChoose}"/>
-            <Button Click="ChartWithYearButton_Click" Content="Sản phẩm và số lượng" 
-                    Height="25" Width="180" Margin="0 4 0 0" Style="{StaticResource ButtonChoose}"/>
-
+        <StackPanel Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center">
+            <TextBlock Text="Sales Figures" Style="{StaticResource titleText1}"/>
         </StackPanel>
-        <!--Note-->
-
-        <Grid VerticalAlignment="Bottom" Margin="10 -20" Grid.ColumnSpan="5" Grid.Row="2" HorizontalAlignment="Center">
-            <Icon:PackIconMaterial Kind="Information" Foreground="#f96654"/>
-            <TextBlock TextWrapping="Wrap" Margin="30 0 0 0" LineHeight="18" Foreground="#b7b7b7" 
-               Text="{Binding LegendChart}"/>
-        </Grid>
     </Grid>
 </UserControl>

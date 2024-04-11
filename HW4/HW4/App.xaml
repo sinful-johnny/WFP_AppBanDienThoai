@@ -8,7 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <Style x:Key="whiteBorder" TargetType="Border">
                 <Setter Property="Background" Value="#ffffff"/>
                 <Setter Property="CornerRadius" Value="15"/>
