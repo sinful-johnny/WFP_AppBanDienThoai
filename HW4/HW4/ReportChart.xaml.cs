@@ -18,7 +18,6 @@ namespace HW4
     /// </summary>
     public partial class ReportChart : UserControl
     {
-        string LegendChart;
         private SqlConnection _connection;
 
         //time handling
@@ -100,20 +99,18 @@ namespace HW4
 
             return res;
         }
-        private Tuple<ObservableCollection<INCOMECHART>, ObservableCollection<QUANTITYSOLDCHART>> ChartDataHandling(SqlConnection connection, DateTime begin, DateTime end)
+        private Tuple<ObservableCollection<INCOMECHART>, ObservableCollection<QUANTITYSOLDCHART>, int> ChartDataHandling(SqlConnection connection, DateTime begin, DateTime end)
         {
             var incomechartlist = new ObservableCollection<INCOMECHART>();
             var quantitysoldchartlist = new ObservableCollection<QUANTITYSOLDCHART>();
 
             string sql = """
                               select O.ORDER_ID, O.CREATED_DATE, O.TOTAL, 
-                                     (O.TOTAL - P.ORIGINALPRICE*OP.PHONE_COUNT) AS 'PROFIT',
-                                     P.NAME, OP.PHONE_COUNT
+                                     (O.TOTAL - P.ORIGINALPRICE*OP.PHONE_COUNT) AS 'PROFIT'
                               from ORDERS O, ORDERS_PHONE OP, PHONE P
                               where OP.PHONE_ID = P.ID
                          	    and OP.ORDER_ID = O.ORDER_ID
                                 and CREATED_DATE BETWEEN @StartDate AND @EndDate
-                                and P.ID = OP.PHONE_ID
                          """;
             if (connection.State == ConnectionState.Closed)
             {
@@ -135,15 +132,11 @@ namespace HW4
                     DateTime OrderDate = (DateTime)reader["CREATED_DATE"];
                     double TotalPrice = 0;
                     double ProfitAll = 0;
-                    string PhoneName;
-                    int QuantitySold = (int)reader["PHONE_COUNT"];
 
                     if (reader["TOTAL"].GetType() != typeof(DBNull))
                         TotalPrice = (double)reader["TOTAL"];
                     if (reader["PROFIT"].GetType() != typeof(DBNull))
                         ProfitAll = (double)reader["PROFIT"];
-
-                    PhoneName = (string)reader["NAME"];
 
                     incomechartlist.Add(new INCOMECHART()
                     {
@@ -151,33 +144,67 @@ namespace HW4
                         TotalPrice = TotalPrice,
                         Profit = ProfitAll
                     });
+                }
+                reader.Close();
+            }
+
+            string sql2 = """
+                             select distinct P.NAME, SUM(OP.PHONE_COUNT) AS 'QUANTITY_SOLD'
+                             from ORDERS O, ORDERS_PHONE OP, PHONE P
+                             where P.ID = OP.PHONE_ID
+                                 and OP.ORDER_ID = O.ORDER_ID
+                                 and O.CREATED_DATE BETWEEN @StartDate AND @EndDate
+                             group by P.NAME
+                             order by 'QUANTITY_SOLD'
+                          """;
+
+            int numberOfPhone = 0;
+
+            using (var command2 = new SqlCommand(sql2, connection))
+            {
+                //_connection.Open();
+                command2.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = begin;
+                command2.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = end;
+
+                //_connection.Open();
+                var reader2 = command2.ExecuteReader();
+
+                while (reader2.Read())
+                {
+                    string PhoneName = (string)reader2["NAME"];
+
+                    int QuantitySold = (int)reader2["QUANTITY_SOLD"];
 
                     quantitysoldchartlist.Add(new QUANTITYSOLDCHART()
                     {
                         PhoneName = PhoneName,
                         QuantitySold = QuantitySold
                     });
+                    numberOfPhone++;
                 }
+                reader2.Close();
             }
             connection.Close();
 
             var res = new Tuple<ObservableCollection<INCOMECHART>, 
-                                ObservableCollection<QUANTITYSOLDCHART>>
-                                (incomechartlist, quantitysoldchartlist);
+                                ObservableCollection<QUANTITYSOLDCHART>, int>
+                                (incomechartlist, quantitysoldchartlist, numberOfPhone);
 
             return res;
         }
 
         private ObservableCollection<INCOMECHART> ImcomeHandling(SqlConnection connection, DateTime begin, DateTime end)
         {
-            var res = ChartDataHandling(connection, begin, end);
-            return res.Item1;
+            var selected = ChartDataHandling(connection, begin, end);
+            return selected.Item1;
         }
 
-        private ObservableCollection<QUANTITYSOLDCHART> QuantitySoldHandling(SqlConnection connection, DateTime begin, DateTime end)
+        private Tuple<ObservableCollection<QUANTITYSOLDCHART>, int> QuantitySoldHandling(SqlConnection connection, DateTime begin, DateTime end)
         {
-            var res = ChartDataHandling(connection, begin, end);
-            return res.Item2;
+            var selected = ChartDataHandling(connection, begin, end);
+            var res = new Tuple<ObservableCollection<QUANTITYSOLDCHART>, int>
+                                (selected.Item2, selected.Item3);
+            return res;
         }
 
         private void declareIncomeChartSeries()
@@ -219,7 +246,7 @@ namespace HW4
                     Fill = Brushes.OrangeRed
                 }
             };
-            Incomechart.AxisX.Add(new Axis()
+            QuantitySoldchart.AxisX.Add(new Axis()
             {
                 Labels = new List<string>()
             });
@@ -274,7 +301,7 @@ namespace HW4
             Incomechart.AxisX[0].Labels = datetimeString;
         }
 
-        private void ChartWithDateButton_Click(object sender, RoutedEventArgs e)
+        private void chartDoanhThuLoiNhuanTheoNgay()
         {
             if (ShowDateRange() == false) return;
 
@@ -326,7 +353,47 @@ namespace HW4
             Incomechart.AxisX[0].Labels = datetimeString;
         }
 
-        private void ChartWithMonthButton_Click(object sender, RoutedEventArgs e)
+        private void chartSanPhamSoLuongTheoNgay()
+        {
+            if (ShowDateRange() == false) return;
+
+            var beginDate = start;
+            var endDate = end;
+
+            var newestOderedDate = TakeMinMaxOrderDate(_connection);
+
+            var selected = QuantitySoldHandling(_connection, beginDate, endDate);
+
+            var quantitysoldchartlists = new ObservableCollection
+                                            <QUANTITYSOLDCHART>();
+
+            quantitysoldchartlists = selected.Item1;
+            int numberOfPhone = selected.Item2;
+
+            int[] quantitysold = new int[numberOfPhone];
+
+
+
+            declareQuantitySoldChartSeries();
+
+            var phoneName = new List<string>();
+
+            for (int i = 0; i < numberOfPhone; i++)
+            {
+                QuantitySoldchart.Series[0].Values.Add(quantitysoldchartlists[i].QuantitySold);
+                phoneName.Add(quantitysoldchartlists[i].PhoneName);
+            }
+
+            QuantitySoldchart.AxisX[0].Labels = phoneName;
+        }
+
+        private void ChartWithDateButton_Click(object sender, RoutedEventArgs e)
+        {
+            chartDoanhThuLoiNhuanTheoNgay();
+            chartSanPhamSoLuongTheoNgay();
+        }
+
+        private void chartDoanhThuLoiNhuanTheoThang()
         {
             if (ShowDateRange() == false) return;
 
@@ -337,7 +404,7 @@ namespace HW4
             ObservableCollection<INCOMECHART> incomechartlists = new ObservableCollection<INCOMECHART>();
             incomechartlists = ImcomeHandling(_connection, beginDate, endDate);
 
-            int rangeMonthSpan = (endDate.Month - beginDate.Month) 
+            int rangeMonthSpan = (endDate.Month - beginDate.Month)
                                  + 12 * (endDate.Year - beginDate.Year) + 1;
             double[] incomeEachDay = new double[rangeMonthSpan];
             double[] profitEachDay = new double[rangeMonthSpan];
@@ -377,7 +444,13 @@ namespace HW4
             Incomechart.AxisX[0].Labels = datetimeMonthString;
         }
 
-        private void ChartWithYearButton_Click(object sender, RoutedEventArgs e)
+        private void ChartWithMonthButton_Click(object sender, RoutedEventArgs e)
+        {
+            chartDoanhThuLoiNhuanTheoThang();
+            chartSanPhamSoLuongTheoNgay();
+        }
+
+        private void chartDoanhThuLoiNhuanTheoNam()
         {
             if (ShowDateRange() == false) return;
 
@@ -425,44 +498,39 @@ namespace HW4
             Incomechart.AxisX[0].Labels = datetimeYearString;
         }
 
+        private void ChartWithYearButton_Click(object sender, RoutedEventArgs e)
+        {
+            chartDoanhThuLoiNhuanTheoNam();
+            chartSanPhamSoLuongTheoNgay();
+        }
+
         private void chart_LoadedSanPhamSoLuong(object sender, RoutedEventArgs e)
         {
             var newestOderedDate = TakeMinMaxOrderDate(_connection);
 
             var beginDate = newestOderedDate.AddDays(-30);
             var endDate = newestOderedDate;
-            var quantitysoldchartlists = new ObservableCollection<QUANTITYSOLDCHART>();
-            quantitysoldchartlists = QuantitySoldHandling(_connection, beginDate, endDate);
 
-            TimeSpan rangeTimeSpan = endDate.Subtract(beginDate); //declared prior as TimeSpan object
-            int DaysSpan = rangeTimeSpan.Days + 1;
-            //double[] quantitysoldEachDay = new int[DaysSpan];
+            var selected = QuantitySoldHandling(_connection, beginDate, endDate);
 
-            //foreach (var quantitysoldchartlist in quantitysoldchartlists)
-            //{
-            //    TimeSpan rangeTime = incomechartlist.OrderDate.Subtract(beginDate);
-            //    int Day = rangeTime.Days;
-            //    incomeEachDay[Day] += incomechartlist.TotalPrice;
-            //    profitEachDay[Day] += incomechartlist.Profit;
-            //}
+            var quantitysoldchartlists = new ObservableCollection
+                                            <QUANTITYSOLDCHART>();
+            
+            quantitysoldchartlists = selected.Item1;
+            int numberOfPhone = selected.Item2;
 
-            //declareQuantitySoldChartSeries();
+            int[] quantitysold = new int[numberOfPhone];
 
-            //for (int Day = 0; Day < DaysSpan; Day++)
-            //{
-            //    Incomechart.Series[0].Values.Add(incomeEachDay[Day]);
-            //    Incomechart.Series[1].Values.Add(profitEachDay[Day]);
-            //}
+            declareQuantitySoldChartSeries();
 
-            ////Store a DateTimes String 
-            //var datetimeString = new List<string>();
-            //for (int Day = 0; Day < DaysSpan; Day++)
-            //{
-            //    timeRange[Day] = beginDate;
-            //    datetimeString.Add(timeRange[Day].ToString("dd/MM/yyyy"));
-            //    beginDate = beginDate.AddDays(1);
-            //}
-            //Incomechart.AxisX[0].Labels = datetimeString;
+            var phoneName = new List<string>();
+
+            for (int i = 0; i < numberOfPhone; i++)
+            {
+                QuantitySoldchart.Series[0].Values.Add(quantitysoldchartlists[i].QuantitySold);
+                phoneName.Add(quantitysoldchartlists[i].PhoneName);
+            }
+            QuantitySoldchart.AxisX[0].Labels = phoneName;
         }
     }
 }

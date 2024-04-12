@@ -4,7 +4,7 @@
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              
         xmlns:uc="clr-namespace:HW4"
-             
+        xmlns:converter="clr-namespace:HW4.UI.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW4"
@@ -13,6 +13,8 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisConv"/>
+        <converter:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
+        <converter:PlainDollarToVNDConverter x:Key="USDtoVNDConverter"/>
     </UserControl.Resources>
 
     <Border CornerRadius="25" Padding="20" Background="#f7f6f4" 
@@ -115,9 +117,17 @@
                 </Grid.ColumnDefinitions>
 
                 <!--Card-->
-                <uc:InfoCard Grid.Column="0" Title="Sales" SubTitle="Compared to..." Amount="3" Image="/Images/plus.png"/>
-                <uc:InfoCard Grid.Column="1" Title="Purchase" SubTitle="Compared to..." Amount="3" Image="/Images/plus.png"/>
-                <uc:InfoCard Grid.Column="2" Title="Return" SubTitle="Compared to..." Amount="3" Image="/Images/plus.png"/>
+                <StackPanel Grid.Column="0" Name="SalesInfor">
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/plus.png" Height="115"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Name="PurchasinginWeekInfor">
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/plus.png" Height="115"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Name="PurchasinginMonthInfor">
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/plus.png" Height="115"/>
+                </StackPanel>
             </Grid>
 
             <!--Main Chart Section-->

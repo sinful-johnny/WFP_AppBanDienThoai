@@ -58,7 +58,7 @@ namespace HW4
             this.Show();
             var screens = new ObservableCollection<TabItem>()
                 {
-                    new TabItem() { Content = new DashboardScreen(), Header= "Dashboard"},
+                    new TabItem() { Content = new DashboardScreen(_connection), Header= "Dashboard"},
                     new TabItem() { Content = new ProductManagementScreen(_connection), Header= "Products"},
                     new TabItem() {Content = new ManufacturerManagementUserControl(_connection), Header = "Manufacturer"},
                     new TabItem() {Content = new PhoneOrder(_connection), Header = "Order"} ,

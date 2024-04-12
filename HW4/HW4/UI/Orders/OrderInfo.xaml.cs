@@ -46,6 +46,7 @@ namespace HW4
                 CustomerName = Order.CustomerName,
                 OrderDate = Order.OrderDate.ToShortDateString(),
             };
+
             OrderInfoBasic.DataContext = info;
             LoadData();
         }
