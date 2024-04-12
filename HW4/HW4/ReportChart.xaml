@@ -49,7 +49,7 @@
             </ScrollViewer>
         </DockPanel>
 
-        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"  HorizontalAlignment="Center">
             <TextBlock Text="Choose Date " Margin="0,0,0,5" Width="220" TextAlignment="Center"/>
             <StackPanel Orientation="Horizontal">
                 <DatePicker Name="startDatePicker" />

@@ -106,4 +106,9 @@
     <Folder Include="UI\Dashboard\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Incomechart\Incomechart.csproj" />
+    <ProjectReference Include="..\QuantitySoldchart\QuantitySoldchart.csproj" />
+  </ItemGroup>
+
 </Project>

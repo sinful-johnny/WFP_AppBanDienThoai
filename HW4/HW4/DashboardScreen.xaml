@@ -62,8 +62,8 @@
                         </Grid>
 
                         <!--Title Text-->
-                        <TextBlock Text="Data" Foreground="#ffffff"
-                                   FontSize="30" Margin="10 0 0 3">
+                        <TextBlock Text="SHOP" Foreground="#ffffff"
+                                   FontSize="27" Margin="10 0 0 3" FontWeight="Bold">
                             <TextBlock.Effect>
                                 <DropShadowEffect BlurRadius="10" Opacity="0.3"/>
                             </TextBlock.Effect>
@@ -118,15 +118,15 @@
 
                 <!--Card-->
                 <StackPanel Grid.Column="0" Name="SalesInfor">
-                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/plus.png" Height="115"/>
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/Plus.png" Height="115"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Name="PurchasinginWeekInfor">
-                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/plus.png" Height="115"/>
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/Plus.png" Height="115"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Name="PurchasinginMonthInfor">
-                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/plus.png" Height="115"/>
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/Plus.png" Height="115"/>
                 </StackPanel>
             </Grid>
 

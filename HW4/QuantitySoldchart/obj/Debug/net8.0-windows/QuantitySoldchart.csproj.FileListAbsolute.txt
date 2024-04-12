@@ -1,0 +1,16 @@
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\bin\Debug\net8.0-windows\QuantitySoldchart.deps.json
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\bin\Debug\net8.0-windows\QuantitySoldchart.dll
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\bin\Debug\net8.0-windows\QuantitySoldchart.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\bin\Debug\net8.0-windows\ChartPlugin.dll
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\bin\Debug\net8.0-windows\ChartPlugin.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.csproj.AssemblyReference.cache
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.GeneratedMSBuildEditorConfig.editorconfig
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.AssemblyInfoInputs.cache
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.AssemblyInfo.cs
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.csproj.CoreCompileInputs.cache
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.sourcelink.json
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.csproj.CopyComplete
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.dll
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\refint\QuantitySoldchart.dll
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\QuantitySoldchart.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\QuantitySoldchart\obj\Debug\net8.0-windows\ref\QuantitySoldchart.dll

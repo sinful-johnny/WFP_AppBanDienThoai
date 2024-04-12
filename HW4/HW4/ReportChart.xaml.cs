@@ -1,8 +1,5 @@
-﻿using LiveCharts.Wpf;
-using LiveCharts;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using HW4.DTO;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -10,6 +7,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
+using Incomechart;
+using QuantitySoldchart;
 
 namespace HW4
 {
@@ -209,47 +208,16 @@ namespace HW4
 
         private void declareIncomeChartSeries()
         {
-            Incomechart.Series = new SeriesCollection()
-            {
-                new ColumnSeries()
-                {
-                    Title = "Doanh thu của cửa hàng",
-                    Values = new ChartValues<double>(),
-                    Stroke = Brushes.OrangeRed,
-                    StrokeThickness = 2,
-                    Fill = Brushes.OrangeRed
-                },
-                new LineSeries()
-                {
-                    Title = "Lợi nhuận của cửa hàng",
-                    Values = new ChartValues<double>(),
-                    Stroke = Brushes.DarkRed,
-                    StrokeDashArray = new DoubleCollection{1}
-                }
-            };
-            Incomechart.AxisX.Add(new Axis()
-            {
-                Labels = new List<string>()
-            });
+            var incomeChart = new IncomeChart();
+            Incomechart.Series = incomeChart.declareChartSeries().Item1;
+            Incomechart.AxisX.Add(incomeChart.declareChartSeries().Item2);
         }
 
         private void declareQuantitySoldChartSeries()
         {
-            QuantitySoldchart.Series = new SeriesCollection()
-            {
-                new ColumnSeries()
-                {
-                    Title = "Số lượng các sản phẩm được bán",
-                    Values = new ChartValues<int>(),
-                    Stroke = Brushes.OrangeRed,
-                    StrokeThickness = 2,
-                    Fill = Brushes.OrangeRed
-                }
-            };
-            QuantitySoldchart.AxisX.Add(new Axis()
-            {
-                Labels = new List<string>()
-            });
+            var quantitysoldChart = new QuantitySoldChart();
+            QuantitySoldchart.Series = quantitysoldChart.declareChartSeries().Item1;
+            QuantitySoldchart.AxisX.Add(quantitysoldChart.declareChartSeries().Item2);
         }
 
         private void chart_LoadedDoanhThuLoiNhuan(object sender, RoutedEventArgs e)

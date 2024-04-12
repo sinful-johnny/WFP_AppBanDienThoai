@@ -1,0 +1,16 @@
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\bin\Debug\net8.0-windows\Incomechart.deps.json
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\bin\Debug\net8.0-windows\Incomechart.dll
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\bin\Debug\net8.0-windows\Incomechart.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\bin\Debug\net8.0-windows\ChartPlugin.dll
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\bin\Debug\net8.0-windows\ChartPlugin.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.csproj.AssemblyReference.cache
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.GeneratedMSBuildEditorConfig.editorconfig
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.AssemblyInfoInputs.cache
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.AssemblyInfo.cs
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.csproj.CoreCompileInputs.cache
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.sourcelink.json
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.csproj.CopyComplete
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.dll
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\refint\Incomechart.dll
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\Incomechart.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\Incomechart\obj\Debug\net8.0-windows\ref\Incomechart.dll

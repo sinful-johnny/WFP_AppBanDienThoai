@@ -1,0 +1,13 @@
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\bin\Debug\net8.0-windows\ChartPlugin.deps.json
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\bin\Debug\net8.0-windows\ChartPlugin.dll
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\bin\Debug\net8.0-windows\ChartPlugin.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.csproj.AssemblyReference.cache
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.GeneratedMSBuildEditorConfig.editorconfig
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.AssemblyInfoInputs.cache
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.AssemblyInfo.cs
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.csproj.CoreCompileInputs.cache
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.sourcelink.json
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.dll
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\refint\ChartPlugin.dll
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ChartPlugin.pdb
+E:\Github\WFP_AppBanDienThoai\HW4\ChartPlugin\obj\Debug\net8.0-windows\ref\ChartPlugin.dll
