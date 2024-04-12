@@ -71,6 +71,68 @@ namespace HW4.DAO
             var result = new Tuple<BindingList<CUSTOMER>, int, int>(list, totalItems, totalPages);
             return result;
         }
+
+        static public Tuple<BindingList<CUSTOMER>, int, int> GetAllPagingWithKeyWord(SqlConnection connection, int page, int rowsPerPage, string keyword)
+        {
+            int totalItems = -1;
+            int totalPages = -1;
+            //var phones = new BindingList<PHONE>();
+            int skip = (page - 1) * rowsPerPage;
+            int take = rowsPerPage;
+            string sql = """
+                             select C.CUS_ID,C.FIRSTNAME,C.LASTNAME,C.GENDER,C.PHONENUM,C.CUS_ADDRESS, C.DOB,C.CUS_IMAGE, count(*) over() as TotalItems 
+                             from CUSTOMER as C 
+                             where CONTAINS (C.FIRSTNAME,@Keyword) or CONTAINS (C.LASTNAME,@Keyword)
+                             order by C.CUS_ID
+                             offset @Skip rows 
+                             fetch next @Take rows only
+                             """;
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            //DataTable dataTable = new DataTable();
+            BindingList<CUSTOMER> list = new BindingList<CUSTOMER>();
+            using (var command = new SqlCommand(sql, connection))
+            {
+                //_connection.Open();
+
+                command.Parameters.Add("@Skip", SqlDbType.Int).Value = skip;
+                command.Parameters.Add("@Take", SqlDbType.Int).Value = take;
+                command.Parameters.Add("@Keyword", SqlDbType.VarChar).Value = keyword;
+                var reader = command.ExecuteReader();
+
+                int TotalItems = 0;
+                //dataTable.Load(reader);
+                while (reader.Read())
+                {
+                    TotalItems = (int)reader[8];
+                    list.Add(new CUSTOMER()
+                    {
+                        Cus_ID = (int)reader[0],
+                        FirstName = (string)reader[1],
+                        LastName = (string)reader[2],
+                        Gender = (string)reader[3],
+                        PhoneNum = (string)reader[4],
+                        Address = (string)reader[5],
+                        DOB = (DateTime)reader[6],
+                        Pfp = (string)reader[7]
+                    });
+                }
+
+                if (totalItems == -1 && list.Count > 0)
+                {
+                    totalItems = TotalItems;
+                    totalPages = (totalItems / rowsPerPage);
+                    if (totalItems % rowsPerPage == 0) totalPages = (totalItems / rowsPerPage);
+                    else totalPages = (int)(totalItems / rowsPerPage) + 1;
+                }
+                reader.Close();
+            }
+            var result = new Tuple<BindingList<CUSTOMER>, int, int>(list, totalItems, totalPages);
+            return result;
+        }
         static public bool Update(SqlConnection connection, CUSTOMER info)
         {
             string query = """

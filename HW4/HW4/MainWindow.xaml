@@ -6,13 +6,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW4"
         mc:Ignorable="d"
-        Title="Phone Shop" Height="720" Width="1280" Loaded="RibbonWindow_Loaded">
+        Title="Phone Shop" Height="720" Width="1280" Loaded="RibbonWindow_Loaded" Closing="RibbonWindow_Closing">
     <DockPanel LastChildFill="True">
         <Fluent:Ribbon DockPanel.Dock="Top" x:Name="ribbon">
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage Header="Menu">
                     <Fluent:BackstageTabControl>
-                        <Fluent:BackstageTabItem Header="Item1"/>
+                        <Fluent:BackstageTabItem Header="Remember Last Accessed Tab Index">
+                            <TextBlock>
+                                Status: <Run Text="ON" x:Name="StatusTextRun"/>
+                            </TextBlock>
+                        </Fluent:BackstageTabItem>
+                        <Fluent:BackstageTabItem Header="Log out"/>
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>

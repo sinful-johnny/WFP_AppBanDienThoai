@@ -28,6 +28,7 @@ namespace HW4
             InitializeComponent();
         }
 
+        public int lastAccessedTabIndex = 0;
         public SqlConnection _connection;
         void Encrypt(string password, string username)
         {
@@ -54,8 +55,9 @@ namespace HW4
                 string username = UsernameTextBox.Text;
                 string server = ConfigurationManager.AppSettings["Server"];
                 string Database = ConfigurationManager.AppSettings["Database"];
+                lastAccessedTabIndex = int.Parse(ConfigurationManager.AppSettings["LastAccessedTabIndex"]);
 
-                string connectionString = $"""
+            string connectionString = $"""
                                               Server={server};
                                               Database={Database};
                                               User ID= {username};
