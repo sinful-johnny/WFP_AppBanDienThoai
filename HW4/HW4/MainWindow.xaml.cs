@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using HW4.UI.Customers;
+using System.Configuration;
 
 
 namespace HW4
@@ -46,6 +47,7 @@ namespace HW4
             this.Hide();
             LoginScreen loginScreen = new LoginScreen();
             var result = loginScreen.ShowDialog();
+            int lastAccessedTabIndex = loginScreen.lastAccessedTabIndex;
             if (result == true)
             {
                 _connection = loginScreen._connection;
@@ -66,6 +68,7 @@ namespace HW4
                     new TabItem() {Content = new PromoManagementUserControl(_connection), Header = "Promotions"}
                 };
             tabs.ItemsSource = screens;
+            tabs.SelectedIndex = lastAccessedTabIndex;
         }
 
         private void AddProductRibbonButton_Click(object sender, RoutedEventArgs e)
@@ -253,6 +256,13 @@ namespace HW4
             userControl.HandleParentsEvent(
                 PhoneOrder.OrderManagementAction.CancelOrder
             );
+        }
+
+        private void RibbonWindow_Closing(object sender, CancelEventArgs e)
+        {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["LastAccessedTabIndex"].Value = tabs.SelectedIndex.ToString();
+            config.Save(ConfigurationSaveMode.Minimal);
         }
     }
 }

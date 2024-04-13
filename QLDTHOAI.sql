@@ -7,12 +7,14 @@ use QLDTHOAI;
 
 --drop table PHONE
 create table PHONE(
-	ID int identity(1,1) PRIMARY KEY,
+	ID int identity(1,1),
 	NAME varchar(50),
 	MANUFACTURER_ID int,
 	THUMBNAIL varchar(1000),
 	PRICE FLOAT,
 	ORIGINALPRICE FLOAT
+
+	CONSTRAINT PK_PHONE PRIMARY KEY(ID)
 );
 
 create table MANUFACTURER(
@@ -21,14 +23,16 @@ create table MANUFACTURER(
 );
 
 create table CUSTOMER(
-	CUS_ID int identity(1,1) PRIMARY KEY,
+	CUS_ID int identity(1,1),
 	FIRSTNAME nvarchar(40),
 	LASTNAME nvarchar(40),
 	GENDER nvarchar(10),
 	PHONENUM nvarchar(12),
 	CUS_ADDRESS nvarchar(100),
 	DOB date,
-	CUS_IMAGE varchar(1000)
+	CUS_IMAGE varchar(1000),
+
+	CONSTRAINT PK_CUSTOMER PRIMARY KEY (CUS_ID)
 );
 
 create table ORDERS(
@@ -52,7 +56,7 @@ create table ORDERS_PHONE(
 );
 
 create table PROMOTIONS(
-	PROMO_ID int identity(1,1) PRIMARY KEY,
+	PROMO_ID int identity(1,1),
 	PROMO_NAME nvarchar(100),
 	STARTDATE datetime,
 	ENDDATE datetime,
@@ -61,6 +65,7 @@ create table PROMOTIONS(
 	DISCOUNTS FLOAT,
 	PROMO_STATUS varchar(15)
 
+	constraint PK_PROMOTIONS primary key (PROMO_ID)
 	constraint FK_PROMO_MANUFACTURER foreign key (PROMO_MANUFACTURER_ID) references MANUFACTURER(ID),
 	constraint FK_PROMO_PHONE foreign key (PROMO_PHONE_ID) references PHONE(ID),
 );
@@ -85,14 +90,20 @@ go
 
 CREATE FULLTEXT CATALOG Catalog1 AS DEFAULT;
 CREATE FULLTEXT INDEX ON dbo.PHONE(NAME)
-KEY INDEX PK__PHONE__3214EC2772725332
+KEY INDEX PK_PHONE
 ON Catalog1
 go
 
 CREATE FULLTEXT CATALOG Catalog2 AS DEFAULT;
 CREATE FULLTEXT INDEX ON dbo.PROMOTIONS(PROMO_NAME)
-KEY INDEX PK__PROMOTIO__9A7B5816D3C65FFA
+KEY INDEX PK_PROMOTIONS
 ON Catalog2
+go
+
+CREATE FULLTEXT CATALOG Catalog3 AS DEFAULT;
+CREATE FULLTEXT INDEX ON dbo.CUSTOMER(FIRSTNAME,LASTNAME)
+KEY INDEX PK_CUSTOMER
+ON Catalog3
 go
 
 --exec sp_help PROMOTIONS
