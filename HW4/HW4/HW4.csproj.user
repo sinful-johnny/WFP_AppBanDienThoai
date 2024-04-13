@@ -7,16 +7,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="DashboardScreen.xaml.cs">
+    <Compile Update="UI\DashBoard\DashboardScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ProductCards.xaml.cs">
+    <Compile Update="UI\Card\ProductCards.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ReportChart.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="TitleForChart.xaml.cs">
+    <Compile Update="UI\Card\TitleForChart.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Customers\CustomerInfoDialog.xaml.cs">
@@ -78,16 +75,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="DashboardScreen.xaml">
+    <Page Update="UI\DashBoard\DashboardScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ProductCards.xaml">
+    <Page Update="UI\Card\ProductCards.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ReportChart.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="TitleForChart.xaml">
+    <Page Update="UI\Card\TitleForChart.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Customers\CustomerInfoDialog.xaml">

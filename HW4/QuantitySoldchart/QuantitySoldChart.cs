@@ -1,4 +1,4 @@
-using LiveCharts.Wpf;
+﻿using LiveCharts.Wpf;
 using LiveCharts;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -16,7 +16,7 @@ namespace QuantitySoldchart
             {
                 new ColumnSeries()
                 {
-                    Title = "S? l??ng c�c s?n ph?m ???c b�n",
+                    Title = "Số lượng các sản phẩm đang bán",
                     Values = new ChartValues<int>(),
                     Stroke = Brushes.OrangeRed,
                     StrokeThickness = 2,
