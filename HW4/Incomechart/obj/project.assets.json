@@ -31,22 +31,6 @@
         "runtime": {
           "lib/netstandard2.0/System.Data.DataSetExtensions.dll": {}
         }
-      },
-      "ChartPlugin/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "LiveCharts.Wpf.NetCore3": "0.9.8"
-        },
-        "compile": {
-          "bin/placeholder/ChartPlugin.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/ChartPlugin.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
-        ]
       }
     }
   },
@@ -95,16 +79,10 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
-    },
-    "ChartPlugin/1.0.0": {
-      "type": "project",
-      "path": "../ChartPlugin/ChartPlugin.csproj",
-      "msbuildProject": "../ChartPlugin/ChartPlugin.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
-      "ChartPlugin >= 1.0.0",
       "LiveCharts.Wpf.NetCore3 >= 0.9.8"
     ]
   },
@@ -140,11 +118,7 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
-          "projectReferences": {
-            "E:\\Github\\WFP_AppBanDienThoai\\HW4\\ChartPlugin\\ChartPlugin.csproj": {
-              "projectPath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\ChartPlugin\\ChartPlugin.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

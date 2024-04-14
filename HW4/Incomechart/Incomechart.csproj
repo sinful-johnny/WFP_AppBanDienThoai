@@ -11,8 +11,4 @@
     <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.8" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ChartPlugin\ChartPlugin.csproj" />
-  </ItemGroup>
-
 </Project>

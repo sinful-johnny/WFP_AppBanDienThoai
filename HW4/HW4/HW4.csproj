@@ -105,9 +105,4 @@
     <Folder Include="Images\CUSTOMER_PIC\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Incomechart\Incomechart.csproj" />
-    <ProjectReference Include="..\QuantitySoldchart\QuantitySoldchart.csproj" />
-  </ItemGroup>
-
 </Project>

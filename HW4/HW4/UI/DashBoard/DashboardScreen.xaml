@@ -150,6 +150,7 @@
                         <ScrollViewer VerticalScrollBarVisibility="Visible" 
                                       HorizontalScrollBarVisibility="Visible" Width="739">
                             <StackPanel>
+                                
                                 <lvc:CartesianChart Name="Incomechart" LegendLocation="Bottom"
                                                     Series="{Binding SeriesCollection}"
                                                     Loaded="chart_LoadedDoanhThuLoiNhuan" Width="756" Height="384">
