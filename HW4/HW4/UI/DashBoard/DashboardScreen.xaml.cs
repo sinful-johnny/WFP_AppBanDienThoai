@@ -1,6 +1,4 @@
-﻿using Incomechart;
-using QuantitySoldchart;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Data.SqlClient;
@@ -23,6 +21,8 @@ namespace HW4
         SqlConnection _connection;
         DateTime start = DateTime.Now;
         DateTime end = DateTime.Now;
+
+        string _queryNewestDatestring;
         private class InfoCard : INotifyPropertyChanged
         {
             public string Title { get; set; }
@@ -35,6 +35,17 @@ namespace HW4
         {
             InitializeComponent();
             this._connection = conn;
+
+            _queryNewestDatetring = """
+                                        select MAX(CREATED_DATE) AS 'NEWESTORDEREDDATE'
+                                        from ORDERS
+                                     """;
+
+            _queryAmountProductsString = """
+                              select ORDER_ID
+                              from ORDERS
+                              where CREATED_DATE BETWEEN @StartDate AND @EndDate
+                         """;
         }
 
         private bool ShowDateRange()
@@ -85,7 +96,7 @@ namespace HW4
             //    }
             //}
 
-            var newestOderedDate = BUS_Chart.NewestOrderDate(_connection);
+            var newestOderedDate = BUS_Chart.NewestOrderDate(_connection, _queryNewestDatestring);
 
             // Amount of products on sales
             int amountonsales = BUS_Chart.AmountOnSales(_connection);
@@ -201,7 +212,7 @@ namespace HW4
 
         private void chart_LoadedSanPhamSoLuong(object sender, RoutedEventArgs e)
         {
-            var newestOderedDate = BUS_Chart.NewestOrderDate(_connection);
+            var newestOderedDate = BUS_Chart.NewestOrderDate(_connection, querystring);
 
             var beginDate = newestOderedDate.AddDays(-30);
             var endDate = newestOderedDate;
