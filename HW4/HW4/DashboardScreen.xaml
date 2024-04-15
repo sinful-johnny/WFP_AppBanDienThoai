@@ -116,15 +116,15 @@
 
                 <!--Card-->
                 <StackPanel Grid.Column="0" Name="SalesInfor">
-                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/Plus.png" Height="115"/>
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/SalesIcon.png" RenderOptions.BitmapScalingMode="HighQuality" Height="115"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Name="PurchasinginWeekInfor">
-                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/Plus.png" Height="115"/>
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/PurchaseIcon.png" RenderOptions.BitmapScalingMode="HighQuality" Height="115"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Name="PurchasinginMonthInfor">
-                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/Plus.png" Height="115"/>
+                    <uc:InfoCard Title="{Binding Title}" SubTitle="{Binding SubTitle}" Image="/Images/PurchaseIcon.png" RenderOptions.BitmapScalingMode="HighQuality" Height="115"/>
                 </StackPanel>
             </Grid>
 

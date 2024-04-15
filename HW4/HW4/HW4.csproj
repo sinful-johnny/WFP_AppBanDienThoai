@@ -16,6 +16,8 @@
     <None Remove="Images\pencil.png" />
     <None Remove="Images\plus.png" />
     <None Remove="Images\plus_blue.png" />
+    <None Remove="Images\PurchaseIcon.png" />
+    <None Remove="Images\SalesIcon.png" />
     <None Remove="Images\search.png" />
   </ItemGroup>
 
@@ -56,6 +58,8 @@
     <Resource Include="Images\plus_blue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\PurchaseIcon.png" />
+    <Resource Include="Images\SalesIcon.png" />
     <Resource Include="Images\search.png" />
   </ItemGroup>
 
