@@ -103,6 +103,7 @@
 
   <ItemGroup>
     <Folder Include="Images\CUSTOMER_PIC\" />
+    <Folder Include="UI\Dashboard\" />
   </ItemGroup>
 
   <ItemGroup>

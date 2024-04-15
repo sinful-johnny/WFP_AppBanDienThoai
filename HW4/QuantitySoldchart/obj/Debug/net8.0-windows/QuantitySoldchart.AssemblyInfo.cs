@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuantitySoldchart")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a4c1e9ba65e391b5ae280494733820b9bfc6717")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78fbabe9814a9629b02d3498f9ff24fa09a0ee27")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuantitySoldchart")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuantitySoldchart")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

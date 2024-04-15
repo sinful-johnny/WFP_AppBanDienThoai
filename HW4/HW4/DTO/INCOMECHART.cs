@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HW4.DTO
 {
-    public class INCOMECHART : INotifyPropertyChanged, ICloneable
+    internal class INCOMECHART
     {
         public DateTime OrderDate { get; set; }
         public double TotalPrice { get; set; }
