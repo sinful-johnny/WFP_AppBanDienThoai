@@ -30,7 +30,7 @@ namespace HW4
 
         public int lastAccessedTabIndex = 0;
         public SqlConnection _connection;
-        void Encrypt(string password, string username)
+        void Encrypt(string password, string username,string server, string database)
         {
             var passwordInBytes = Encoding.UTF8.GetBytes(password);
             var entropy = new byte[20];
@@ -41,6 +41,8 @@ namespace HW4
             var cypherText = ProtectedData.Protect(passwordInBytes, entropy, DataProtectionScope.CurrentUser);
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["username"].Value = username;
+            config.AppSettings.Settings["Server"].Value = server;
+            config.AppSettings.Settings["Database"].Value = database;
             config.AppSettings.Settings["password"].Value = Convert.ToBase64String(cypherText);
             config.AppSettings.Settings["entropy"].Value = Convert.ToBase64String(entropy);
             config.AppSettings.Settings["isPasswordRemmembered"].Value = "1";
@@ -80,7 +82,7 @@ namespace HW4
                 MessageBox.Show("Good!", "Logged in successfully", MessageBoxButton.OK);
                 if (RemembermeCheckBox.IsChecked == true)
                 {
-                    Encrypt(password, username);
+                    Encrypt(password, username,server,Database);
                 }
                 else
                 {
@@ -105,6 +107,8 @@ namespace HW4
             if (config.AppSettings.Settings["isPasswordRemmembered"].Value == "1")
             {
                 UsernameTextBox.Text = config.AppSettings.Settings["username"].Value;
+                ServerNameTextBox.Text = config.AppSettings.Settings["Server"].Value;
+                DatabaseNameTextBox.Text = config.AppSettings.Settings["Database"].Value;
                 var cypherText = Convert.FromBase64String(ConfigurationManager.AppSettings["password"]);
                 var entropy = Convert.FromBase64String(ConfigurationManager.AppSettings["entropy"]);
                 var decryptedPassword = ProtectedData.Unprotect(cypherText, entropy, DataProtectionScope.CurrentUser);

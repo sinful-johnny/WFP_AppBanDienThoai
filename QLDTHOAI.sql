@@ -1,5 +1,4 @@
-﻿﻿use master
---drop database QLDTHOAI;
+﻿--drop database QLDTHOAI;
 create database QLDTHOAI
 go
 
@@ -18,8 +17,10 @@ create table PHONE(
 );
 
 create table MANUFACTURER(
-	ID int identity(1,1) PRIMARY KEY,
+	ID int identity(1,1),
 	NAME varchar(50)
+
+	CONSTRAINT PK_MANUFACTURER PRIMARY KEY(ID)
 );
 
 create table CUSTOMER(
@@ -104,6 +105,12 @@ CREATE FULLTEXT CATALOG Catalog3 AS DEFAULT;
 CREATE FULLTEXT INDEX ON dbo.CUSTOMER(FIRSTNAME,LASTNAME)
 KEY INDEX PK_CUSTOMER
 ON Catalog3
+go
+
+CREATE FULLTEXT CATALOG Catalog4 AS DEFAULT;
+CREATE FULLTEXT INDEX ON dbo.MANUFACTURER(NAME)
+KEY INDEX PK_MANUFACTURER
+ON Catalog4
 go
 
 --exec sp_help PROMOTIONS

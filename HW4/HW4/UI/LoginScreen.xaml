@@ -17,7 +17,9 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Login" FontSize="42" FontWeight="Bold" />
@@ -28,7 +30,13 @@
             <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Password" FontSize="18"/>
             </StackPanel>
-            <TextBox x:Name="UsernameTextBox"  d:Text="UsernameTextBox"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontSize="17">
+        <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Server Name" FontSize="18"/>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Database Name" FontSize="18"/>
+        </StackPanel>
+        <TextBox x:Name="UsernameTextBox"  d:Text="UsernameTextBox"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontSize="17">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Background" Value="White"/>
@@ -52,10 +60,34 @@
                     </Style>
                 </PasswordBox.Style>
             </PasswordBox>
-            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBox x:Name="ServerNameTextBox"  d:Text="ServerNameTextBox"  Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" FontSize="17">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="LightGreen"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox x:Name="DatabaseNameTextBox"  d:Text="DatabaseNameTextBox"  Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" FontSize="17">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="LightGreen"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <CheckBox x:Name="RemembermeCheckBox" Content="Remeber me" FontSize="18"/>
             </StackPanel>
-            <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button x:Name="LoginButton" Content="Login" FontSize="23" Click="LoginButton_Click">
                     <Button.Style>
                         <Style TargetType="Button">

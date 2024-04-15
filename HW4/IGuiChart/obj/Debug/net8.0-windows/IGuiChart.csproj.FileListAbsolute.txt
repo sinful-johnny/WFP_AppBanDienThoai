@@ -10,15 +10,3 @@ E:\Github\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.d
 E:\Github\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\refint\IGuiChart.dll
 E:\Github\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.pdb
 E:\Github\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\ref\IGuiChart.dll
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\bin\Debug\net8.0-windows\IGuiChart.deps.json
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\bin\Debug\net8.0-windows\IGuiChart.dll
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\bin\Debug\net8.0-windows\IGuiChart.pdb
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.AssemblyInfoInputs.cache
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.AssemblyInfo.cs
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.csproj.CoreCompileInputs.cache
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.sourcelink.json
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.dll
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\refint\IGuiChart.dll
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\IGuiChart.pdb
-C:\Users\Lenovo\OneDrive\Documents\GitHub\WFP_AppBanDienThoai\HW4\IGuiChart\obj\Debug\net8.0-windows\ref\IGuiChart.dll
