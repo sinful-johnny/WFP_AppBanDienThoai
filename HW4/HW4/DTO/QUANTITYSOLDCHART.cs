@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HW4.DTO
 {
-    public class QUANTITYSOLDCHART
+    internal class QUANTITYSOLDCHART
     {
         public string PhoneName { get; set; }
         public int QuantitySold { get; set; }
