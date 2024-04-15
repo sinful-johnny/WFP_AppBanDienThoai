@@ -34,7 +34,9 @@ namespace HW4.UI.Customers
         int _pageSize = 10;
         int totalPages = -1;
         int totalItems = -1;
+        string _keyword;
         BindingList<CUSTOMER> _customers;
+        int _mode = QueryMode.Default;
         BindingList<Page> PageOptions = new BindingList<Page>();
         List<int> ItemPerPageOptions = new List<int>()
         {
@@ -45,6 +47,7 @@ namespace HW4.UI.Customers
             InitializeComponent();
             _con = connection;
             ItemPerPageComboBox.ItemsSource = ItemPerPageOptions;
+            
         }
         public enum CustomerManagementActions
         {
@@ -86,7 +89,8 @@ namespace HW4.UI.Customers
             try
             {
                 int oldTotalPages = totalPages;
-                (_customers, totalItems, totalPages) = BUS_Customer.GetCustomerByPaging(_con,_currentPage,_rowPerPage);
+                (_customers, totalItems, totalPages) = BUS_Customer.GetCustomerByPaging(_con, _currentPage, _rowPerPage,_mode,_keyword);
+                
                 CustomerDataGrid.ItemsSource = _customers;
                 if (oldTotalPages != totalPages)
                 {
@@ -129,8 +133,9 @@ namespace HW4.UI.Customers
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             LoadData();
-
+            
             PageSelectComboBox.SelectedIndex = 0;
+            
         }
         private void PageSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -255,6 +260,25 @@ namespace HW4.UI.Customers
             _rowPerPage = (int)ItemPerPageComboBox.SelectedItem;
             LoadData();
         }
+
+        private void SeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            _keyword = SearchTextBox.Text;
+            if(_keyword != null && _keyword != "" && _keyword != " ")
+            {
+                _mode = QueryMode.Keyword;
+            }
+            else
+            {
+                _mode = QueryMode.Default;
+            }
+            LoadData();
+        }
+    }
+    internal class QueryMode
+    {
+        static public int Default { get { return 1; } }
+        static public int Keyword { get { return 2; } }
     }
     internal class Page
     {

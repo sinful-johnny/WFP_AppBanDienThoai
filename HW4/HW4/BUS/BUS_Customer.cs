@@ -12,9 +12,14 @@ namespace HW4.BUS
 {
     internal class BUS_Customer
     {
-        static public Tuple<BindingList<CUSTOMER>, int, int> GetCustomerByPaging(SqlConnection connection, int page, int rowsPerPage)
-        {
+        static public Tuple<BindingList<CUSTOMER>, int, int> GetCustomerByPaging(SqlConnection connection, int page, int rowsPerPage, int mode, string keyword)
+        {   
+            if (mode == 2)
+            {
+                return CUSTOMERControl.GetAllPagingWithKeyWord(connection, page, rowsPerPage,keyword);
+            }
             return CUSTOMERControl.GetAllPaging(connection, page, rowsPerPage);
+
         }
         static public bool Update(SqlConnection connection, CUSTOMER info)
         {
