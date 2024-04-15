@@ -87,7 +87,7 @@ namespace HW4
             connection = conn;
             ProductGrid.ItemsSource = cart;
             LoadCustomer();
-             LoadPhone();
+            LoadPhone();
         }
 
         private void AddToCart(object sender, RoutedEventArgs e)

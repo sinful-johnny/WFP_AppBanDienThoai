@@ -71,10 +71,10 @@
             </Border>
 
             <!--Search Section-->
-            <Border Grid.Column="1" Margin="20 0 20 20" Style="{StaticResource whiteBorder}">
+            <Border Grid.Column="1" Margin="875,0,7,20" Style="{StaticResource whiteBorder}" Grid.ColumnSpan="2">
                 <Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Border Width="50" Height="50" CornerRadius="10" Margin="5 0 20 0">
+                        <Border Width="30" Height="30" CornerRadius="10" Margin="-5 0 20 0">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                     <GradientStop Color="#fb7456" Offset="0"/>
@@ -82,32 +82,26 @@
                                 </LinearGradientBrush>
                             </Border.Background>
 
-                            <Image Width="40" Height="40" Source="/Images/Search.png"/>
+                            <Image Margin="0,5,-2,-1"/>
                         </Border>
 
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Hello, Team" FontSize="26" FontWeight="Bold" Style="{StaticResource titleText1}"/>
+                            <TextBlock Text="Hello, Team" FontSize="18" FontWeight="Bold" Style="{StaticResource titleText1}"/>
                             <TextBlock Text="Have a good day!!!" Foreground="#6c879a" Margin="0 3 0 0"/>
                         </StackPanel>
                     </StackPanel>
 
                     <!--Search TextBox-->
-                    <Grid Width="300" HorizontalAlignment="Right">
+                    <Grid Width="176" HorizontalAlignment="Left" Margin="-14,0,0,0">
                         <TextBlock Margin="15 0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1"
-                                   Text="Search here ..." IsHitTestVisible="False"
                                    Visibility="{Binding ElementName=textBoxSearch,
                                                         Converter={StaticResource boolToVisConv}}"/>
-                        <TextBox x:Name="textBoxSearch" Style="{StaticResource searchTextBox}"/>
-
-                        <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" Foreground="#ff6d46"
-                                               Margin="0 0 15 0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-
                     </Grid>
                 </Grid>
             </Border>
 
             <!--Infor Card-->
-            <Grid Grid.Column="1" Grid.Row="1" Margin="10 0">
+            <Grid Grid.Column="1" Grid.Row="0" Margin="10 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -129,7 +123,7 @@
             </Grid>
 
             <!--Main Chart Section-->
-            <Border Grid.Column="1" Grid.Row="2" Style="{StaticResource whiteBorder}" Margin="20,5,20,0">
+            <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource whiteBorder}" Margin="20,5,20,0" Grid.RowSpan="2">
                 <Grid Margin="1 5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.5*"/>
@@ -144,15 +138,15 @@
                         <RowDefinition Height="5*"/>
                     </Grid.RowDefinitions>
                     <!--Chart-->
-                    
+
                     <DockPanel LastChildFill="False" Grid.ColumnSpan="5"
-                               Grid.Row="1" Margin="0,23,0,3" Width="790">
+                               Grid.Row="1" Margin="2,0,0,3">
                         <ScrollViewer VerticalScrollBarVisibility="Visible" 
                                       HorizontalScrollBarVisibility="Visible" Width="739">
                             <StackPanel Name ="StackPanelChart" Loaded="chart_Loaded"/>
                         </ScrollViewer>
                     </DockPanel>
-                    <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"  HorizontalAlignment="Center">
+                    <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"  HorizontalAlignment="Center">
                         <TextBlock Text="Choose Date " Margin="0,0,0,5" Width="220" TextAlignment="Center"/>
                         <StackPanel Orientation="Horizontal">
                             <DatePicker Name="startDatePicker" />
@@ -174,30 +168,31 @@
                         <Button Click="ChartWithYearButton_Click" Content="Năm" FontSize="13"
                                 HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="56"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center">
-                        <TextBlock Text="Sales Figures" Style="{StaticResource titleText1}"/>
+                    <StackPanel Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Report Chart" FontSize="25"  Style="{StaticResource titleText1}"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <!--Right Section-->
-            <Grid Grid.Column="2" Grid.RowSpan="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <!--Sales List-->
+            <Border Style="{StaticResource whiteBorder}" Margin="875,0,0,0" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <StackPanel>
+                    <TextBlock Text="Top sales List" Style="{StaticResource titleText1}"/>
+                    <TextBlock Style="{StaticResource titleText2}" TextWrapping="Wrap" Margin="0 10"  
+                                   Text="This is the sales data top 10 with the most revenue for this month"/>
+                    <DataGrid Name="ProductGrid" AutoGenerateColumns="False" Grid.Row="1" Height="236" Width="167" Margin="0 20 0 0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Product" Binding="{Binding PhoneName}" Width="*" IsReadOnly="True"/>
 
-                <!--Sales List-->
-                <Border Style="{StaticResource whiteBorder}">
-                    <StackPanel>
-                        <TextBlock Text="Sales List" Style="{StaticResource titleText1}"/>
-                        <TextBlock Style="{StaticResource titleText2}" TextWrapping="Wrap" Margin="0 10"  
-                                   Text="This is the sales data with the most revenue for this month"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price, Converter={StaticResource USDtoVNDConverter}}" Width="*" IsReadOnly="True"/>
 
-                        <!--Infors-->
-                    </StackPanel>
-                </Border>
-            </Grid>
+                            <DataGridTextColumn Header="Sold" Binding="{Binding quantity, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!--Infors-->
+                </StackPanel>
+            </Border>
         </Grid>
     </Border>
 </UserControl>
