@@ -188,7 +188,7 @@ namespace HW4
 
                 cart.Add(newPhone);
             }
-            ProductGrid.ItemsSource = cart;
+            ProductPanel.ItemsSource = cart;
         }
 
         private void ChartWithDateButton_Click(object sender, RoutedEventArgs e)
@@ -226,7 +226,7 @@ namespace HW4
 
                 cart.Add(newPhone);
             }
-            ProductGrid.ItemsSource = cart;
+            ProductPanel.ItemsSource = cart;
         }
 
         private void ChartWithMonthButton_Click(object sender, RoutedEventArgs e)
@@ -264,7 +264,7 @@ namespace HW4
 
                 cart.Add(newPhone);
             }
-            ProductGrid.ItemsSource = cart;
+            ProductPanel.ItemsSource = cart;
         }
 
         private void ChartWithYearButton_Click(object sender, RoutedEventArgs e)
@@ -301,7 +301,7 @@ namespace HW4
 
                 cart.Add(newPhone);
             }
-            ProductGrid.ItemsSource = cart;
+            ProductPanel.ItemsSource = cart;
         }
 
     }

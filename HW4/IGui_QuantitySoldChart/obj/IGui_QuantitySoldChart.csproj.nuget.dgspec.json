@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj": {}
+    "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj": {
+    "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj",
+        "projectUniqueName": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj",
         "projectName": "IGuiChart",
-        "projectPath": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\obj\\",
+        "projectPath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,24 +63,24 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.104/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj": {
+    "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj",
+        "projectUniqueName": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj",
         "projectName": "IGui_QuantitySoldChart",
-        "projectPath": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\obj\\",
+        "projectPath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -88,14 +89,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj": {
-                "projectPath": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj"
+              "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj": {
+                "projectPath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGuiChart\\IGuiChart.csproj"
               }
             }
           }
@@ -134,7 +136,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.104/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

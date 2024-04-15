@@ -72,7 +72,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="DashboardScreen.xaml">
+    <Page Update="UI\DashBoard\DashboardScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ProductCards.xaml">
