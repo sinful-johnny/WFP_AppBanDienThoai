@@ -7,13 +7,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="DashboardScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="ProductCards.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="ReportChart.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TitleForChart.xaml.cs">
@@ -82,9 +76,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ProductCards.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ReportChart.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TitleForChart.xaml">

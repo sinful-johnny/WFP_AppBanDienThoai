@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "gJbKtPsNczzPUI/fdfCs6gCuX4tuDiXp+L06Q9blWehdgnidrZjRexxR2BB1jEcOj7J0/pRWDK0Ew4NIECOUhA==",
+  "dgSpecHash": "t8XDgLsZ1oS0g6Nc0P3XS7dNfT2zAJOrL/K917E9ymmnvGTLulYMjYRmwXr2EXbA/+u8UkgZFsJGSMxRmybbmg==",
   "success": true,
-  "projectFilePath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj",
+  "projectFilePath": "C:\\Users\\Lenovo\\OneDrive\\Documents\\GitHub\\WFP_AppBanDienThoai\\HW4\\IGui_QuantitySoldChart\\IGui_QuantitySoldChart.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\admin\\.nuget\\packages\\livecharts.wpf.netcore3\\0.9.8\\livecharts.wpf.netcore3.0.9.8.nupkg.sha512",
-    "C:\\Users\\admin\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512"
+    "C:\\Users\\Lenovo\\.nuget\\packages\\livecharts.wpf.netcore3\\0.9.8\\livecharts.wpf.netcore3.0.9.8.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }
