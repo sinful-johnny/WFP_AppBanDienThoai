@@ -5,11 +5,13 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HW4", "HW4\HW4.csproj", "{11A7A3E0-C869-4312-9923-8960CABD4DEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartPlugin", "ChartPlugin\ChartPlugin.csproj", "{C7460763-2F8D-4330-B0C8-6B4D0696FD4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGuiChart", "IGuiChart\IGuiChart.csproj", "{2CD2414A-928A-42C7-A52F-5FB3DDF6B25C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incomechart", "Incomechart\Incomechart.csproj", "{562AA897-BC79-42A1-AA0B-E275440C988B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGui_IncomeChart", "IGui_IncomeChart\IGui_IncomeChart.csproj", "{8EA97599-3601-4A07-A592-A86D369F6508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantitySoldchart", "QuantitySoldchart\QuantitySoldchart.csproj", "{810EBA92-7A77-4A15-A64C-BA850BCBF416}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGui_QuantitySoldChart", "IGui_QuantitySoldChart\IGui_QuantitySoldChart.csproj", "{421997EF-341C-4157-972E-04257BAA7B63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGui_OrderCustomer", "IGui_OrderCustomer\IGui_OrderCustomer.csproj", "{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +23,22 @@ Global
 		{11A7A3E0-C869-4312-9923-8960CABD4DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11A7A3E0-C869-4312-9923-8960CABD4DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11A7A3E0-C869-4312-9923-8960CABD4DEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7460763-2F8D-4330-B0C8-6B4D0696FD4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7460763-2F8D-4330-B0C8-6B4D0696FD4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7460763-2F8D-4330-B0C8-6B4D0696FD4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7460763-2F8D-4330-B0C8-6B4D0696FD4C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{562AA897-BC79-42A1-AA0B-E275440C988B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{562AA897-BC79-42A1-AA0B-E275440C988B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{562AA897-BC79-42A1-AA0B-E275440C988B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{562AA897-BC79-42A1-AA0B-E275440C988B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{810EBA92-7A77-4A15-A64C-BA850BCBF416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{810EBA92-7A77-4A15-A64C-BA850BCBF416}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{810EBA92-7A77-4A15-A64C-BA850BCBF416}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{810EBA92-7A77-4A15-A64C-BA850BCBF416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CD2414A-928A-42C7-A52F-5FB3DDF6B25C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CD2414A-928A-42C7-A52F-5FB3DDF6B25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CD2414A-928A-42C7-A52F-5FB3DDF6B25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CD2414A-928A-42C7-A52F-5FB3DDF6B25C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EA97599-3601-4A07-A592-A86D369F6508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EA97599-3601-4A07-A592-A86D369F6508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EA97599-3601-4A07-A592-A86D369F6508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EA97599-3601-4A07-A592-A86D369F6508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{421997EF-341C-4157-972E-04257BAA7B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{421997EF-341C-4157-972E-04257BAA7B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{421997EF-341C-4157-972E-04257BAA7B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{421997EF-341C-4157-972E-04257BAA7B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

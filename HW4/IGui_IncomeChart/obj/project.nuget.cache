@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "OvO/R8s7vPFptV70e042GlG9iembwUCU4rg/itzEFveDthlLYH/hLz0IWRkM9CWoWyFpYJmvDT4Mi5vWiTsJZw==",
+  "success": true,
+  "projectFilePath": "E:\\Github\\WFP_AppBanDienThoai\\HW4\\IGui_IncomeChart\\IGui_IncomeChart.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\admin\\.nuget\\packages\\livecharts.wpf.netcore3\\0.9.8\\livecharts.wpf.netcore3.0.9.8.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
