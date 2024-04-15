@@ -5,11 +5,13 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HW4", "HW4\HW4.csproj", "{11A7A3E0-C869-4312-9923-8960CABD4DEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGuiChart", "IGuiChart\IGuiChart.csproj", "{2CD2414A-928A-42C7-A52F-5FB3DDF6B25C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGuiChart", "IGuiChart\IGuiChart.csproj", "{2CD2414A-928A-42C7-A52F-5FB3DDF6B25C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGui_IncomeChart", "IGui_IncomeChart\IGui_IncomeChart.csproj", "{8EA97599-3601-4A07-A592-A86D369F6508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGui_IncomeChart", "IGui_IncomeChart\IGui_IncomeChart.csproj", "{8EA97599-3601-4A07-A592-A86D369F6508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGui_QuantitySoldChart", "IGui_QuantitySoldChart\IGui_QuantitySoldChart.csproj", "{421997EF-341C-4157-972E-04257BAA7B63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGui_QuantitySoldChart", "IGui_QuantitySoldChart\IGui_QuantitySoldChart.csproj", "{421997EF-341C-4157-972E-04257BAA7B63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGui_OrderCustomer", "IGui_OrderCustomer\IGui_OrderCustomer.csproj", "{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{421997EF-341C-4157-972E-04257BAA7B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{421997EF-341C-4157-972E-04257BAA7B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{421997EF-341C-4157-972E-04257BAA7B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164FF8C9-2BA7-4D5F-8FC1-C2B900F9C428}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

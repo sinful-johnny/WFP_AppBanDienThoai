@@ -106,8 +106,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Incomechart\Incomechart.csproj" />
-    <ProjectReference Include="..\QuantitySoldchart\QuantitySoldchart.csproj" />
+    <ProjectReference Include="..\IGuiChart\IGuiChart.csproj" />
   </ItemGroup>
 
 </Project>

@@ -95,7 +95,7 @@
                     <Grid Width="300" HorizontalAlignment="Right">
                         <TextBlock Margin="15 0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1"
                                    Text="Search here ..." IsHitTestVisible="False"
-                                   Visibility="{Binding ElementName=textBoxSearch, Path=Text.IsEmpty,
+                                   Visibility="{Binding ElementName=textBoxSearch,
                                                         Converter={StaticResource boolToVisConv}}"/>
                         <TextBox x:Name="textBoxSearch" Style="{StaticResource searchTextBox}"/>
 
@@ -145,29 +145,11 @@
                     </Grid.RowDefinitions>
                     <!--Chart-->
                     
-                    <DockPanel LastChildFill="False" Grid.ColumnSpan="5" 
+                    <DockPanel LastChildFill="False" Grid.ColumnSpan="5"
                                Grid.Row="1" Margin="0,23,0,3" Width="790">
                         <ScrollViewer VerticalScrollBarVisibility="Visible" 
                                       HorizontalScrollBarVisibility="Visible" Width="739">
-                            <StackPanel>
-                                <lvc:CartesianChart Name="Incomechart" LegendLocation="Bottom"
-                                                    Series="{Binding SeriesCollection}"
-                                                    Loaded="chart_LoadedDoanhThuLoiNhuan" Width="756" Height="384">
-                                    <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis Title="Biểu đồ báo cáo doanh thu và lợi nhuận của cửa hàng"/>
-                                        <lvc:Axis Labels="{Binding Labels}"/>
-                                    </lvc:CartesianChart.AxisX>
-                                </lvc:CartesianChart>
-
-                                <lvc:CartesianChart Name="QuantitySoldchart" LegendLocation="Bottom"
-                                                    Series="{Binding SeriesCollection}"
-                                                    Loaded="chart_LoadedSanPhamSoLuong" Width="756" Height="384">
-                                    <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis Title="Biểu đồ báo cáo doanh thu và lợi nhuận của cửa hàng"/>
-                                        <lvc:Axis Labels="{Binding Labels}"/>
-                                    </lvc:CartesianChart.AxisX>
-                                </lvc:CartesianChart>
-                            </StackPanel>
+                            <StackPanel Name ="StackPanelChart" Loaded="chart_Loaded"/>
                         </ScrollViewer>
                     </DockPanel>
                     <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"  HorizontalAlignment="Center">

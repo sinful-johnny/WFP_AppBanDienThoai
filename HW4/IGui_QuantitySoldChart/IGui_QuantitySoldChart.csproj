@@ -8,7 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.8" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IGuiChart\IGuiChart.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="UCQuantitySoldChart.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>
