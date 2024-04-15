@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>428616659_122126577296146332_1296182848202983308_n.ico</ApplicationIcon>
+    <ApplicationIcon>PurchaseIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="428616659_122126577296146332_1296182848202983308_n.ico" />
+    <Content Include="PurchaseIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

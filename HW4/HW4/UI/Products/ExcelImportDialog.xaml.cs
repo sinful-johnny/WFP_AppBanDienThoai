@@ -66,6 +66,9 @@ namespace HW4.UI.Products
                 Cell priceCell = cells.FirstOrDefault(
                                                         c => c?.CellReference == $"D{row}"
                                                     )!;
+                Cell originalPriceCell = cells.FirstOrDefault(
+                                                        c => c?.CellReference == $"E{row}"
+                                                    )!;
 
                 var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
 
@@ -73,12 +76,14 @@ namespace HW4.UI.Products
                 _data.Columns.Add(stringTable.SharedStringTable.ElementAt(int.Parse(manufacturerCell!.InnerText)).InnerText);
                 _data.Columns.Add(stringTable.SharedStringTable.ElementAt(int.Parse(thumbnailCell!.InnerText)).InnerText);
                 _data.Columns.Add(stringTable.SharedStringTable.ElementAt(int.Parse(priceCell!.InnerText)).InnerText);
+                _data.Columns.Add(stringTable.SharedStringTable.ElementAt(int.Parse(originalPriceCell!.InnerText)).InnerText);
 
                 row++;
                 nameCell = cells.FirstOrDefault(c => c?.CellReference == $"A{row}")!;
                 manufacturerCell = cells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
                 thumbnailCell = cells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
                 priceCell = cells.FirstOrDefault(c => c?.CellReference == $"D{row}")!;
+                originalPriceCell = cells.FirstOrDefault(c => c?.CellReference == $"E{row}")!;
 
                 while (nameCell != null)
                 {
@@ -86,14 +91,16 @@ namespace HW4.UI.Products
                     string manufacturer = manufacturerCell!.InnerText;
                     string thumbnail = stringTable.SharedStringTable.ElementAt(int.Parse(thumbnailCell!.InnerText)).InnerText;
                     string price = priceCell!.InnerText;
+                    string originalPrice = priceCell!.InnerText;
 
-                    _data.Rows.Add(name, manufacturer, thumbnail, price);
+                    _data.Rows.Add(name, manufacturer, thumbnail, price,originalPrice);
 
                     row++;
                     nameCell = cells.FirstOrDefault(c => c?.CellReference == $"A{row}")!;
                     manufacturerCell = cells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
                     thumbnailCell = cells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
                     priceCell = cells.FirstOrDefault(c => c?.CellReference == $"D{row}")!;
+                    originalPriceCell = cells.FirstOrDefault(c => c?.CellReference == $"E{row}")!;
                 }
                 FileContentDataGrid.ItemsSource = _data.DefaultView;
             }

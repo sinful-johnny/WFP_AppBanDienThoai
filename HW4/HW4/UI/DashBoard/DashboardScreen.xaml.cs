@@ -77,11 +77,11 @@ namespace HW4
                                         """;
 
             _queryGetTop10Products = """
-                                        select top 10 PHONE.NAME AS 'PHONE_NAME', PHONE.PRICE, SUM(ORDERS_PHONE.PHONE_COUNT) AS 'SOLD'
+                                        select top 10 PHONE.NAME AS 'PHONE_NAME', PHONE.THUMBNAIL, PHONE.PRICE, SUM(ORDERS_PHONE.PHONE_COUNT) AS 'SOLD'
                                         from ORDERS_PHONE JOIN PHONE ON  ORDERS_PHONE.PHONE_ID = PHONE.ID, ORDERS O
                                         where O.ORDER_ID = ORDERS_PHONE.ORDER_ID
                                             and O.CREATED_DATE BETWEEN @StartDate AND @EndDate
-                                        group by PHONE.NAME, PHONE.PRICE
+                                        group by PHONE.NAME, PHONE.PRICE,PHONE.THUMBNAIL
                                         order by SOLD desc
                                      """;
         }
@@ -183,12 +183,13 @@ namespace HW4
                 {
                     Price = (double)row["PRICE"],
                     PhoneName = (string)row["PHONE_NAME"],
-                    quantity = (int)row["SOLD"]
+                    quantity = (int)row["SOLD"],
+                    Thumbnail = (string)row["THUMBNAIL"]
                 };
 
                 cart.Add(newPhone);
             }
-            ProductPanel.ItemsSource = cart;
+            PhoneListView.ItemsSource = cart;
         }
 
         private void ChartWithDateButton_Click(object sender, RoutedEventArgs e)
@@ -221,12 +222,13 @@ namespace HW4
                 {
                     Price = (double)row["PRICE"],
                     PhoneName = (string)row["PHONE_NAME"],
-                    quantity = (int)row["SOLD"]
+                    quantity = (int)row["SOLD"],
+                    Thumbnail = (string)row["THUMBNAIL"]
                 };
 
                 cart.Add(newPhone);
             }
-            ProductPanel.ItemsSource = cart;
+            PhoneListView.ItemsSource = cart;
         }
 
         private void ChartWithMonthButton_Click(object sender, RoutedEventArgs e)
@@ -259,12 +261,13 @@ namespace HW4
                 {
                     Price = (double)row["PRICE"],
                     PhoneName = (string)row["PHONE_NAME"],
-                    quantity = (int)row["SOLD"]
+                    quantity = (int)row["SOLD"],
+                    Thumbnail = (string)row["THUMBNAIL"]
                 };
 
                 cart.Add(newPhone);
             }
-            ProductPanel.ItemsSource = cart;
+            PhoneListView.ItemsSource = cart;
         }
 
         private void ChartWithYearButton_Click(object sender, RoutedEventArgs e)
@@ -296,12 +299,13 @@ namespace HW4
                 {
                     Price = (double)row["PRICE"],
                     PhoneName = (string)row["PHONE_NAME"],
-                    quantity = (int)row["SOLD"]
+                    quantity = (int)row["SOLD"],
+                    Thumbnail = (string)row["THUMBNAIL"]
                 };
 
                 cart.Add(newPhone);
             }
-            ProductPanel.ItemsSource = cart;
+            PhoneListView.ItemsSource = cart;
         }
 
     }

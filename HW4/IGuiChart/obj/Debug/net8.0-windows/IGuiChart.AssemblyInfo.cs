@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IGuiChart")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43370b09d02ad8a906b0d24ac400ea51068bfcb9")]
 [assembly: System.Reflection.AssemblyProductAttribute("IGuiChart")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IGuiChart")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

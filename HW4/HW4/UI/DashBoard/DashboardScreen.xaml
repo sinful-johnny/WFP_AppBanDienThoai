@@ -183,21 +183,38 @@
                     <RowDefinition Height="197*"/>
                 </Grid.RowDefinitions>
                 <Border Style="{StaticResource whiteBorder}" Grid.RowSpan="2">
-                    <StackPanel>
-                        <TextBlock Text="Top sales List" Style="{StaticResource titleText1}"/>
-                        <TextBlock Style="{StaticResource titleText2}" TextWrapping="Wrap" Margin="0 10"  
-                       Text="This is the sales data top 10 with the most revenue for this month"/>
-                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <ItemsControl Name="ProductPanel">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding quantity, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </WrapPanel>
-                        <!--Infors-->
-                    </StackPanel>
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Text="Top sales List" Style="{StaticResource titleText1}"/>
+                            <TextBlock Style="{StaticResource titleText2}" TextWrapping="Wrap" Margin="0 10"  
+   Text="This is the sales data top 10 with the most revenue for this month"/>
+
+                            <!--Infors-->
+                        </StackPanel>
+                        <ListView Name="PhoneListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Image Name="Thumbnail" d:Source="../../Images/Phone00.jpg" Source="{Binding Thumbnail, Converter={StaticResource absoluteConverter}}" RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="40"/>
+                                        <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding PhoneName}" Width="150" TextWrapping="WrapWithOverflow"/>
+                                            <TextBlock Text="{Binding quantity}" Foreground="Red"/>
+                                        </StackPanel>
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>

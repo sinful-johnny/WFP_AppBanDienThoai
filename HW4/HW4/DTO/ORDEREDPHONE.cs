@@ -13,6 +13,8 @@ namespace HW4
         public string PhoneName {  get; set; }
         public double Price {  get; set; }
         public int quantity { get; set; }
+
+        public string Thumbnail { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

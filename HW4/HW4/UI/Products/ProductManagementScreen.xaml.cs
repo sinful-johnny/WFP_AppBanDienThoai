@@ -32,6 +32,7 @@ namespace HW4
         int totalItems = -1;
         string _keyword = "";
         string _manufacturerFilter = "";
+        BindingList<Page> PageOptions = new BindingList<Page>();
         private SqlConnection _connection;
         PriceRange _priceRange = new PriceRange() { 
             Min = 0,
@@ -87,7 +88,8 @@ namespace HW4
         {
             try
             {
-                if(filter == "Manufacturer_Keyword")
+                int oldTotalPages = totalPages;
+                if (filter == "Manufacturer_Keyword")
                 {
                     (_PhoneList, totalItems, totalPages) = BUS_Phone.GetPHONEs(_connection, _currentPage, _rowPerPage, _keyword, _manufacturerFilter);
                 }
@@ -97,6 +99,21 @@ namespace HW4
                 }
                 PhoneListView.ItemsSource = _PhoneList;
                 PhoneListView.SelectedIndex = 0;
+
+                if (oldTotalPages != totalPages)
+                {
+                    PageOptions.Clear();
+                    for (int i = 1; i <= totalPages; i++)
+                    {
+                        PageOptions.Add(new Page()
+                        {
+                            _pageNo = i,
+                            _totalPages = totalPages
+                        });
+                    }
+                    PageSelectComboBox.ItemsSource = PageOptions;
+                    PageSelectComboBox.SelectedIndex = 0;
+                }
             }
             catch (Exception ex)
             {
@@ -118,6 +135,15 @@ namespace HW4
             else
             {
                 PreviousPageButton.IsEnabled = true;
+            }
+        }
+
+        private void PageSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PageSelectComboBox.SelectedItem != null && _currentPage != ((Page)PageSelectComboBox.SelectedItem)._pageNo)
+            {
+                _currentPage = ((Page)PageSelectComboBox.SelectedItem)._pageNo;
+                LoadData();
             }
         }
 
@@ -205,20 +231,12 @@ namespace HW4
 
         private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentPage > 1)
-            {
-                _currentPage--;
-                LoadData();
-            }
+            PageSelectComboBox.SelectedItem = PageOptions.FirstOrDefault(x => x._pageNo == _currentPage - 1);
         }
 
         private void NextPageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentPage < totalPages)
-            {
-                _currentPage++;
-                LoadData();
-            }
+            PageSelectComboBox.SelectedItem = PageOptions.FirstOrDefault(x => x._pageNo == _currentPage + 1);
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)

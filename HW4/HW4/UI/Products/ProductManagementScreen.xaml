@@ -80,9 +80,15 @@
         </StatusBar>
         <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="PreviousPageButton" Content="Prev" Width="40" Height="20" Click="PreviousPageButton_Click"/>
-            <TextBlock x:Name="PageDisplayTextBlock" VerticalAlignment="Center">
-            <Run Text=" "/> - <Run Text=" "/>
-            </TextBlock>
+            <ComboBox x:Name="PageSelectComboBox" Width="100" Height="20" SelectionChanged="PageSelectComboBox_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Run Text="{Binding _pageNo}"/>/<Run Text="{Binding _totalPages}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Button x:Name="NextPageButton" Content="Next" Width="40" Height="20" Click="NextPageButton_Click"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right">

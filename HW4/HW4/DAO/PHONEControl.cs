@@ -357,7 +357,7 @@ namespace HW4
         {
             string query = """
                 Insert into PHONE(NAME,MANUFACTURER_ID,THUMBNAIL,PRICE, ORIGINALPRICE)
-                values(@NAME,@MANUFACTURER_ID,@THUMBNAIL,@PRICE, @ORIGINALPRICE)
+                values(@NAME,@MANUFACTURER_ID,@THUMBNAIL,@PRICE, @ORIGINALPRICE); SELECT SCOPE_IDENTITY()
                 """;
             int id;
             if (connection.State == ConnectionState.Closed)
