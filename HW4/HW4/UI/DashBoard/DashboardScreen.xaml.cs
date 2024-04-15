@@ -6,6 +6,7 @@ using HW4.BUS;
 using IGuiChart;
 using System.IO;
 using System.Reflection;
+using System.Data;
 
 namespace HW4
 {
@@ -24,8 +25,7 @@ namespace HW4
         string _queryNewestDateString;
         string _queryAmountProductsString;
         string _queryAmountOnSalesString;
-        string _queryincomeChartString;
-        string _queryquantitysoldChartString;
+        string _queryGetTop10Products;
 
         private class InfoCard : INotifyPropertyChanged
         {
@@ -75,6 +75,15 @@ namespace HW4
                                            select count(distinct PHONE_ID) AS 'NUMBER'
                                            from ORDERS_PHONE
                                         """;
+
+            _queryGetTop10Products = """
+                                        select top 10 PHONE.NAME AS 'PHONE_NAME', PHONE.PRICE, SUM(ORDERS_PHONE.PHONE_COUNT) AS 'SOLD'
+                                        from ORDERS_PHONE JOIN PHONE ON  ORDERS_PHONE.PHONE_ID = PHONE.ID, ORDERS O
+                                        where O.ORDER_ID = ORDERS_PHONE.ORDER_ID
+                                            and O.CREATED_DATE BETWEEN @StartDate AND @EndDate
+                                        group by PHONE.NAME, PHONE.PRICE
+                                        order by SOLD desc
+                                     """;
         }
 
         private bool ShowDateRange()
@@ -137,6 +146,7 @@ namespace HW4
                 Image = "/Images/plus.png"
             };
 
+
             SalesInfor.DataContext = salesInforCard;
             PurchasinginWeekInfor.DataContext = purchasinginWeekInforCard;
             PurchasinginMonthInfor.DataContext = purchasinginMonthInforCard;
@@ -161,6 +171,24 @@ namespace HW4
                 var myControl = IGuiChart.display;
                 StackPanelChart.Children.Add(myControl);
             }
+
+            //Display top 10 products on sales in 30days before
+            var top10Products = BUS_Chart.takeData(_connection, beginDate, endDate, _queryGetTop10Products);
+
+            var cart = new BindingList<ORDEREDPHONE>();
+
+            foreach (DataRow row in top10Products.Rows)
+            {
+                ORDEREDPHONE newPhone = new ORDEREDPHONE()
+                {
+                    Price = (double)row["PRICE"],
+                    PhoneName = (string)row["PHONE_NAME"],
+                    quantity = (int)row["SOLD"]
+                };
+
+                cart.Add(newPhone);
+            }
+            ProductGrid.ItemsSource = cart;
         }
 
         private void ChartWithDateButton_Click(object sender, RoutedEventArgs e)
@@ -181,6 +209,24 @@ namespace HW4
                 var myControl = IGuiChart.display;
                 StackPanelChart.Children.Add(myControl);
             }
+
+            //Display top 10 products on sales day by day
+            var top10Products = BUS_Chart.takeData(_connection, beginDate, endDate, _queryGetTop10Products);
+
+            var cart = new BindingList<ORDEREDPHONE>();
+
+            foreach (DataRow row in top10Products.Rows)
+            {
+                ORDEREDPHONE newPhone = new ORDEREDPHONE()
+                {
+                    Price = (double)row["PRICE"],
+                    PhoneName = (string)row["PHONE_NAME"],
+                    quantity = (int)row["SOLD"]
+                };
+
+                cart.Add(newPhone);
+            }
+            ProductGrid.ItemsSource = cart;
         }
 
         private void ChartWithMonthButton_Click(object sender, RoutedEventArgs e)
@@ -201,6 +247,24 @@ namespace HW4
                 var myControl = IGuiChart.display;
                 StackPanelChart.Children.Add(myControl);
             }
+
+            //Display top 10 products on sales month by month
+            var top10Products = BUS_Chart.takeData(_connection, beginDate, endDate, _queryGetTop10Products);
+
+            var cart = new BindingList<ORDEREDPHONE>();
+
+            foreach (DataRow row in top10Products.Rows)
+            {
+                ORDEREDPHONE newPhone = new ORDEREDPHONE()
+                {
+                    Price = (double)row["PRICE"],
+                    PhoneName = (string)row["PHONE_NAME"],
+                    quantity = (int)row["SOLD"]
+                };
+
+                cart.Add(newPhone);
+            }
+            ProductGrid.ItemsSource = cart;
         }
 
         private void ChartWithYearButton_Click(object sender, RoutedEventArgs e)
@@ -220,6 +284,24 @@ namespace HW4
                 var myControl = IGuiChart.display;
                 StackPanelChart.Children.Add(myControl);
             }
+
+            //Display top 10 products on sales year by year
+            var top10Products = BUS_Chart.takeData(_connection, beginDate, endDate, _queryGetTop10Products);
+
+            var cart = new BindingList<ORDEREDPHONE>();
+
+            foreach (DataRow row in top10Products.Rows)
+            {
+                ORDEREDPHONE newPhone = new ORDEREDPHONE()
+                {
+                    Price = (double)row["PRICE"],
+                    PhoneName = (string)row["PHONE_NAME"],
+                    quantity = (int)row["SOLD"]
+                };
+
+                cart.Add(newPhone);
+            }
+            ProductGrid.ItemsSource = cart;
         }
 
     }
