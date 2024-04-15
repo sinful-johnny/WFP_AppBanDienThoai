@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Incomechart")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78fbabe9814a9629b02d3498f9ff24fa09a0ee27")]
 [assembly: System.Reflection.AssemblyProductAttribute("Incomechart")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Incomechart")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

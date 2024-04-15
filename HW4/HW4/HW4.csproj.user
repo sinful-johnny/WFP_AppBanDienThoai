@@ -7,12 +7,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="UCIncomeChart.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="UCQuantitySoldChart.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="UI\DashBoard\DashboardScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -81,12 +75,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="UCIncomeChart.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="UCQuantitySoldChart.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="UI\DashBoard\DashboardScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
